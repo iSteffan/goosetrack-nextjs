@@ -1,38 +1,17 @@
-// import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-// export default function LocaleSwitcher() {
-//   return (
-//     <div>
-//       <Link href="/" locale="en">
-//         EN
-//       </Link>
-//       <Link href="/" locale="uk">
-//         UK
-//       </Link>
-//     </div>
-//   );
-// }
-
-'use client';
-
-import { useParams, useRouter } from 'next/navigation';
-
-export default function LocaleSwitcher() {
-  const { locale } = useParams();
-  const router = useRouter();
-
-  const changeLanguage = (lang: string) => {
-    router.push(`/${lang}`);
-  };
+export default function LanguageSwitcher() {
+  const { locale, pathname } = useRouter();
 
   return (
     <div>
-      <button onClick={() => changeLanguage('en')} disabled={locale === 'en'}>
-        🇬🇧 English
-      </button>
-      <button onClick={() => changeLanguage('uk')} disabled={locale === 'uk'}>
-        🇺🇦 Українська
-      </button>
+      <Link href={pathname} locale="en">
+        <button disabled={locale === 'en'}>English</button>
+      </Link>
+      <Link href={pathname} locale="uk">
+        <button disabled={locale === 'uk'}>Українська</button>
+      </Link>
     </div>
   );
 }

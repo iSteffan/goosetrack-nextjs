@@ -1,4 +1,7 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -16,11 +19,11 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
 
-  i18n: {
-    locales: ['en', 'uk'],
-    defaultLocale: 'en',
-    // localeDetection: false,
-  },
+  // i18n: {
+  //   locales: ['en', 'uk'],
+  //   defaultLocale: 'en',
+  //   // localeDetection: false,
+  // },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
