@@ -1,27 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 export function useTheme() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'light';
+    return document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light';
+  });
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)',
-    ).matches;
-    setTheme(
-      (storedTheme as 'light' | 'dark') || (prefersDark ? 'dark' : 'light'),
-    );
-  }, []);
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    Cookies.set('theme', theme, { expires: 365 }); // Зберігаємо у cookies
   }, [theme]);
 
   const toggleTheme = () => {
