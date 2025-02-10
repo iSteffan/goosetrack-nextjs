@@ -2,5 +2,9 @@
   "HomePage": {
     "title": "Hello world!",
     "account": "Go to the account page"
+  },
+  "AccountPage": {
+    "title": "Hello AccountPage!",
+    "home": "Go to the home page"
   }
 }
