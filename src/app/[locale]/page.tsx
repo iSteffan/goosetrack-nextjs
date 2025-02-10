@@ -7,6 +7,12 @@ export default function HomePage() {
     <div>
       <h1>{t('title')}</h1>
       <Link href="/account">{t('account')}</Link>
+      <Link href="/" locale="en">
+        Switch to English
+      </Link>
+      <Link href="/" locale="uk">
+        Switch to Ukrainian
+      </Link>
     </div>
   );
 }
