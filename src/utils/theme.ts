@@ -1,9 +1,9 @@
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 
-export async function getServerTheme(): Promise<'light' | 'dark'> {
-  const cookieStore = await cookies();
-  const theme = cookieStore.get('theme')?.value;
+// export async function getServerTheme(): Promise<'light' | 'dark'> {
+//   const cookieStore = await cookies();
+//   const theme = cookieStore.get('theme')?.value;
 
-  if (theme === 'dark' || theme === 'light') return theme;
-  return 'light';
-}
+//   if (theme === 'dark' || theme === 'light') return theme;
+//   return 'light';
+// }

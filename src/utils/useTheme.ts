@@ -1,24 +1,34 @@
-'use client';
+// 'use client';
 
-import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+// import { useEffect, useState } from 'react';
+// import Cookies from 'js-cookie';
 
-export function useTheme() {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window === 'undefined') return 'light';
-    return document.documentElement.classList.contains('dark')
-      ? 'dark'
-      : 'light';
-  });
+// export function useTheme() {
+//   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+//     if (typeof document !== 'undefined') {
+//       return document.documentElement.getAttribute('data-theme') as
+//         | 'light'
+//         | 'dark';
+//     }
+//     return 'light'; // Значення за замовчуванням
+//   });
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    Cookies.set('theme', theme, { expires: 365 }); // Зберігаємо у cookies
-  }, [theme]);
+//   const [hydrated, setHydrated] = useState(false);
 
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-  };
+//   useEffect(() => {
+//     setHydrated(true);
+//   }, []);
 
-  return { theme, toggleTheme };
-}
+//   useEffect(() => {
+//     if (hydrated) {
+//       document.documentElement.setAttribute('data-theme', theme);
+//       Cookies.set('theme', theme, { expires: 365 });
+//     }
+//   }, [theme, hydrated]);
+
+//   const toggleTheme = () => {
+//     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+//   };
+
+//   return { theme, toggleTheme, hydrated };
+// }

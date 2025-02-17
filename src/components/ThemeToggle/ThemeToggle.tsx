@@ -14,19 +14,24 @@
 //     </button>
 //   );
 // }
-'use client';
+// 'use client';
 
-import { useTheme } from '@/utils/useTheme';
+// import { useTheme } from '@/utils/useTheme';
 
-export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+// export function ThemeToggle() {
+//   const { theme, toggleTheme, hydrated } = useTheme();
 
-  return (
-    <button
-      onClick={toggleTheme}
-      className="rounded-md bg-gray-200 p-2 text-gray-900 dark:bg-gray-800 dark:text-gray-100"
-    >
-      {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
-    </button>
-  );
-}
+//   // Чекаємо поки React завершить гідратацію, щоб не було розбіжності з серверним рендерингом
+//   if (!hydrated) {
+//     return <div className="h-8 w-16 rounded-md bg-gray-200 dark:bg-gray-800" />;
+//   }
+
+//   return (
+//     <button
+//       onClick={toggleTheme}
+//       className="rounded-md bg-gray-200 p-2 text-gray-900 dark:bg-gray-800 dark:text-gray-100"
+//     >
+//       {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+//     </button>
+//   );
+// }

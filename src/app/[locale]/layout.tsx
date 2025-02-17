@@ -5,8 +5,8 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
-import { themeScript } from '@/utils/themeScript';
-import { getServerTheme } from '@/utils/theme';
+// import { themeScript } from '@/utils/themeScript';
+// import { getServerTheme } from '@/utils/theme';
 
 import './globals.css';
 
@@ -21,7 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const theme = getServerTheme();
+  // const theme = getServerTheme();
   const { locale } = await params;
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
@@ -35,10 +35,13 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={theme}>
-      <head>
+    <html
+      lang={locale}
+      // data-theme={theme}
+    >
+      {/* <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript() }} />
-      </head>
+      </head> */}
       <body>
         <NextIntlClientProvider messages={messages}>
           {children}
