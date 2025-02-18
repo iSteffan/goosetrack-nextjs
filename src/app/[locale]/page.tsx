@@ -1,11 +1,16 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+import {
+  AuthSection,
+  DescriptionSection,
+  ReviewsSection,
+} from '@/sections/MainPageSection';
 
 export default function HomePage() {
   const t = useTranslations('HomePage');
   return (
-    <div>
+    <>
       <h1>{t('title')}</h1>
       <Link href="/account">{t('account')}</Link>
       <div className="flex flex-col">
@@ -26,6 +31,10 @@ export default function HomePage() {
       </div>
 
       <ThemeToggle />
-    </div>
+
+      <AuthSection />
+      <DescriptionSection />
+      <ReviewsSection />
+    </>
   );
 }

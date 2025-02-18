@@ -16,9 +16,29 @@ export default {
     },
 
     extend: {
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: '20px',
+          sm: '20px',
+          md: '32px',
+          xl: '128px',
+        },
+      },
+      fontWeight: {
+        // '300': '300',
+        // '400': '400',
+        '500': '500',
+        '600': '600',
+        '700': '700',
+      },
+      lineHeight: {
+        normal: 'normal',
+      },
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        blueMain: '#3E85F3',
+        blueAccent: '#2B78EF',
+        blueLight: '#DCEBF7',
       },
     },
   },

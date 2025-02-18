@@ -1,13 +1,16 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
-
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
+import { Inter } from 'next/font/google';
+
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 
 import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -33,7 +36,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className={inter.className} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
