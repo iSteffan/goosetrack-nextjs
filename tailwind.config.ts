@@ -13,6 +13,8 @@ export default {
       sm: '375px',
       md: '768px',
       xl: '1440px',
+
+      smOnly: { max: '767.98px' },
     },
 
     extend: {
