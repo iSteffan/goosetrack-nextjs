@@ -19,13 +19,13 @@ export const AuthSection = () => {
 
         <div className="flex flex-col items-center gap-[16px] md:flex-row md:justify-center md:gap-[24px]">
           <Link
-            href="/en/register"
+            href="/en/login"
             className="scale flex w-[131px] justify-center gap-[6px] rounded-[16px] bg-white py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.028px] text-blueMain"
           >
             {logIn} <LogInIcon className="h-[18px] w-[18px]" />
           </Link>
           <Link
-            href="/en/login"
+            href="/en/register"
             className="scale text-[14px] font-600 leading-[1.28] text-white underline"
           >
             {signUp}

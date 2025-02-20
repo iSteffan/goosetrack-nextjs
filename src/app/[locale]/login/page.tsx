@@ -1,7 +1,11 @@
+import { AuthForm } from '@/components/AuthForm/AuthForm';
+
 export default function Page() {
   return (
-    <>
-      <div>login page</div>
-    </>
+    <section className="bg-blueLight py-[155px]">
+      <div className="container">
+        <AuthForm type="logIn" />
+      </div>
+    </section>
   );
 }

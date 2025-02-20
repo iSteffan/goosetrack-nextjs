@@ -27,5 +27,6 @@
       "image": "/image/main-page/allInOne.webp",
       "alt": "all in one"
     }
-  ]
+  ],
+  "authForm": {}
 }

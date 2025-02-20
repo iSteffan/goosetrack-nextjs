@@ -29,7 +29,7 @@ export default {
       },
       fontWeight: {
         // '300': '300',
-        // '400': '400',
+        '400': '400',
         '500': '500',
         '600': '600',
         '700': '700',
@@ -41,6 +41,13 @@ export default {
         blueMain: '#3E85F3',
         blueAccent: '#2B78EF',
         blueLight: '#DCEBF7',
+
+        grayLight: '#DCE3E5',
+        inputBorder: 'rgba(220, 227, 229, 0.60)',
+
+        error: '#E74A3B',
+
+        blackCustom: '#111',
       },
     },
   },
