@@ -3,6 +3,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import LogInIcon from '@/public/icon/logIn.svg';
+import CorrectIcon from '@/public/icon/inputCorrect.svg';
+import ErrorIcon from '@/public/icon/inputError.svg';
+
 import data from '@/data/common.json';
 
 type FormType = 'signUp' | 'logIn';
@@ -25,6 +29,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>();
 
@@ -42,22 +47,54 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         {/* Name */}
         {type === 'signUp' && (
           <div className="relative mb-[24px] flex flex-col md:mb-[18px]">
-            <label htmlFor="name" className="authFormLabel">
+            <label
+              htmlFor="name"
+              className={`authFormLabel ${
+                errors.name
+                  ? 'text-error'
+                  : watch('name') && !errors.name
+                    ? 'text-greenCorrect'
+                    : ''
+              }`}
+            >
               Name
             </label>
             <input
               id="name"
               {...register('name', { required: 'Name is required' })}
-              className="inputStyles"
+              className={`inputStyles ${
+                errors.name
+                  ? 'border-error'
+                  : watch('name') && !errors.name
+                    ? 'border-greenCorrect'
+                    : ''
+              }`}
               placeholder="Enter your name"
             />
+            {errors.name ? (
+              <ErrorIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+            ) : watch('name') && !errors.name ? (
+              <CorrectIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+            ) : (
+              ''
+            )}
+
             {errors.name && <p className="inputError">{errors.name.message}</p>}
           </div>
         )}
 
         {/* Email */}
         <div className="relative mb-[24px] flex flex-col md:mb-[18px]">
-          <label htmlFor="email" className="authFormLabel">
+          <label
+            htmlFor="email"
+            className={`authFormLabel ${
+              errors.email
+                ? 'text-error'
+                : watch('email') && !errors.email
+                  ? 'text-greenCorrect'
+                  : ''
+            }`}
+          >
             Email
           </label>
           <input
@@ -67,15 +104,38 @@ export const AuthForm = ({ type }: AuthFormProps) => {
               required: 'Email is required',
               pattern: { value: /^\S+@\S+$/, message: 'Invalid email' },
             })}
-            className="inputStyles"
+            className={`inputStyles ${
+              errors.email
+                ? 'border-error'
+                : watch('email') && !errors.email
+                  ? 'border-greenCorrect'
+                  : ''
+            }`}
             placeholder="Enter email"
           />
+          {errors.email ? (
+            <ErrorIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+          ) : watch('email') && !errors.email ? (
+            <CorrectIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+          ) : (
+            ''
+          )}
+
           {errors.email && <p className="inputError">{errors.email.message}</p>}
         </div>
 
         {/* Password */}
         <div className="relative mb-[32px] flex flex-col md:mb-[48px]">
-          <label htmlFor="password" className="authFormLabel">
+          <label
+            htmlFor="password"
+            className={`authFormLabel ${
+              errors.password
+                ? 'text-error'
+                : watch('password') && !errors.password
+                  ? 'text-greenCorrect'
+                  : ''
+            }`}
+          >
             Password
           </label>
           <input
@@ -85,7 +145,13 @@ export const AuthForm = ({ type }: AuthFormProps) => {
               required: 'Password is required',
               minLength: { value: 6, message: 'Min 6 characters' },
             })}
-            className="inputStyles"
+            className={`inputStyles ${
+              errors.password
+                ? 'border-error'
+                : watch('password') && !errors.password
+                  ? 'border-greenCorrect'
+                  : ''
+            }`}
             placeholder="Enter password"
           />
           <button
@@ -103,9 +169,10 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full rounded-[16px] bg-blueMain py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.28px] text-white transition-colors hover:bg-blueAccent focus:bg-blueAccent"
+          className="flex w-full justify-center gap-[11px] rounded-[16px] bg-blueMain py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.28px] text-white transition-colors hover:bg-blueAccent focus:bg-blueAccent"
         >
           {type === 'logIn' ? 'Log In' : 'Sign Up'}
+          <LogInIcon className="h-[18px] w-[18px]" />
         </button>
       </form>
     </div>

@@ -46,6 +46,7 @@ export default {
         inputBorder: 'rgba(220, 227, 229, 0.60)',
 
         error: '#E74A3B',
+        greenCorrect: '#3CBC81',
 
         blackCustom: '#111',
       },

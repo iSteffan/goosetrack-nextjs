@@ -32,11 +32,11 @@
   }
 
   .inputStyles {
-    @apply font-400 border-inputBorder text-blackCustom h-[46px] rounded-[8px] border-[1px] p-[18px] text-[14px] leading-[1.28];
+    @apply font-400 border-inputBorder text-blackCustom h-[46px] rounded-[8px] border-[1px] py-[18px] pl-[18px] pr-[60px] text-[14px] leading-[1.28];
   }
 
   .inputError {
-    @apply font-400 text-error absolute bottom-[-18px] left-[19px] text-[12px] leading-[1.16];
+    @apply font-400 text-error absolute bottom-[-16px] left-[19px] text-[10px] leading-[1.16] md:bottom-[-18px] md:text-[12px];
   }
 }
 
