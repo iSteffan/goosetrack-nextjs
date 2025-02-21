@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import LogInIcon from '@/public/icon/logIn.svg';
 import CorrectIcon from '@/public/icon/inputCorrect.svg';
 import ErrorIcon from '@/public/icon/inputError.svg';
+import HideIcon from '@/public/icon/password-hide.svg';
+import ShowIcon from '@/public/icon/password-show.svg';
 
 import data from '@/data/common.json';
 
@@ -46,7 +48,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Name */}
         {type === 'signUp' && (
-          <div className="relative mb-[24px] flex flex-col md:mb-[18px]">
+          <div className="relative mb-[24px] flex flex-col">
             <label
               htmlFor="name"
               className={`authFormLabel ${
@@ -72,9 +74,9 @@ export const AuthForm = ({ type }: AuthFormProps) => {
               placeholder="Enter your name"
             />
             {errors.name ? (
-              <ErrorIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+              <ErrorIcon className="formIcon" />
             ) : watch('name') && !errors.name ? (
-              <CorrectIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+              <CorrectIcon className="formIcon" />
             ) : (
               ''
             )}
@@ -84,7 +86,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         )}
 
         {/* Email */}
-        <div className="relative mb-[24px] flex flex-col md:mb-[18px]">
+        <div className="relative mb-[24px] flex flex-col">
           <label
             htmlFor="email"
             className={`authFormLabel ${
@@ -114,9 +116,9 @@ export const AuthForm = ({ type }: AuthFormProps) => {
             placeholder="Enter email"
           />
           {errors.email ? (
-            <ErrorIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+            <ErrorIcon className="formIcon" />
           ) : watch('email') && !errors.email ? (
-            <CorrectIcon className="absolute bottom-[11px] right-[18px] h-[24px] w-[24px]" />
+            <CorrectIcon className="formIcon" />
           ) : (
             ''
           )}
@@ -157,9 +159,13 @@ export const AuthForm = ({ type }: AuthFormProps) => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-2 top-9 text-sm text-blue-500 hover:underline"
+            className="absolute bottom-[11px] right-[18px] text-[12px] text-blueMain md:bottom-[14px]"
           >
-            {showPassword ? 'Hide' : 'Show'}
+            {!showPassword ? (
+              <HideIcon className="h-[24px] w-[24px]" />
+            ) : (
+              <ShowIcon className="h-[24px] w-[24px]" />
+            )}
           </button>
           {errors.password && (
             <p className="inputError">{errors.password.message}</p>
