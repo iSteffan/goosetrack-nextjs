@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 import LogInIcon from '@/public/icon/logIn.svg';
 import CorrectIcon from '@/public/icon/inputCorrect.svg';
@@ -25,6 +26,7 @@ type FormData = {
 
 export const AuthForm = ({ type }: AuthFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const { logIn, signUp } = data;
 
@@ -35,8 +37,35 @@ export const AuthForm = ({ type }: AuthFormProps) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (formData: FormData) => {
     console.log(type === 'logIn' ? 'Logging in:' : 'Signing up:', data);
+
+    try {
+      const url = type === 'logIn' ? '/api/auth/login' : '/api/auth/register';
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+
+      if (type === 'logIn' && data.token) {
+        localStorage.setItem('token', data.token);
+        router.push('/en/calendar');
+      } else if (type === 'signUp') {
+        router.push('/en/login');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+    // finally {
+    // }
   };
 
   return (
