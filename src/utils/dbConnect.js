@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error('MongoDB URI не вказано у файлі .env');
-}
-
-const dbConnect = async () => {
+export const dbConnect = async () => {
   if (mongoose.connection.readyState >= 1) return;
-  await mongoose.connect(MONGODB_URI);
-  console.log('✅ Підключено до MongoDB');
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      dbName: 'goosetrack',
+    });
+    console.log('MongoDB Connected');
+  } catch (error) {
+    console.error('MongoDB Connection Error:', error);
+  }
 };
-
-export default dbConnect;

@@ -1,14 +1,27 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+import { redirect } from 'next/navigation';
+
 import {
   AuthSection,
   DescriptionSection,
   ReviewsSection,
 } from '@/sections/MainPageSection';
 
+import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+
 export default function HomePage() {
   const t = useTranslations('HomePage');
+
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+  console.log('token', token);
+
+  if (token) {
+    redirect('/en/calendar');
+  }
+
   return (
     <>
       <h1>{t('title')}</h1>
