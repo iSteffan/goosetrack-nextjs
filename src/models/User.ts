@@ -1,13 +1,3 @@
-// import mongoose from 'mongoose';
-
-// const userSchema = new mongoose.Schema({
-//   email: { type: String, required: true, unique: true },
-//   password: { type: String, required: true },
-// });
-
-// export default mongoose.models.User || mongoose.model('User', userSchema);
-
-
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
@@ -44,4 +34,5 @@ const UserSchema = new Schema<IUser>({
 });
 
 // Перевіряємо, чи модель вже існує (щоб уникнути помилок при HMR у Next.js)
-export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+export default mongoose.models.User ||
+  mongoose.model<IUser>('User', UserSchema);
