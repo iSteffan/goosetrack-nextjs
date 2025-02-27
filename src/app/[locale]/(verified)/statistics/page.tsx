@@ -56,6 +56,26 @@ export default function Page() {
     fetchData();
   }, [router]);
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to logout');
+      }
+
+      // Перенаправлення на головну сторінку після логауту
+      router.push('/en');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -65,12 +85,20 @@ export default function Page() {
       <h1>User Information</h1>
       {user ? (
         <div>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Avatar URL: {user.avatarURL}</p>
-          <p>Birthday: {user.birthday}</p>
-          <p>Phone: {user.phone}</p>
-          <p>Telegram: {user.telegram}</p>
+          <div>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+            <p>Avatar URL: {user.avatarURL}</p>
+            <p>Birthday: {user.birthday}</p>
+            <p>Phone: {user.phone}</p>
+            <p>Telegram: {user.telegram}</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="mt-4 rounded bg-red-500 px-4 py-2 text-white"
+          >
+            Logout
+          </button>
         </div>
       ) : (
         <p>Loading...</p>
