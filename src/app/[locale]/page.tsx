@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 
 import {
   AuthSection,
@@ -13,14 +13,14 @@ import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 export default function HomePage() {
   const t = useTranslations('HomePage');
 
-  const token =
-    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  // const token =
+  //   typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  console.log('token', token);
+  // console.log('token', token);
 
-  if (token) {
-    redirect('/en/calendar');
-  }
+  // if (token) {
+  //   redirect('/en/calendar');
+  // }
 
   return (
     <>

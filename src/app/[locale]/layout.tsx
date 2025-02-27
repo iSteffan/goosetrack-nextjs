@@ -3,12 +3,14 @@ import { setRequestLocale } from 'next-intl/server';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { ToastContainer } from 'react-toastify';
 
 import { Inter } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -45,7 +47,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <main>{children}</main>
+            <ToastContainer />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
