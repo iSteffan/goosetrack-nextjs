@@ -46,6 +46,11 @@ export async function POST(req: Request) {
       name,
       email,
       password: hashedPassword,
+      avatarURL: ``,
+      birthday: '',
+      phone: '',
+      telegram: '',
+      verificationToken: '',
     });
 
     await newUser.save();
