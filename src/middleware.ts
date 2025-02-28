@@ -1,22 +1,6 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get('token');
+export default createMiddleware(routing);
 
-  if (!token) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/en/login';
-    return NextResponse.redirect(url);
-  }
-
-  return NextResponse.next();
-}
-
-export const config = {
-  matcher: [
-    '/(en|ua)/calendar/:path*',
-    '/(en|ua)/account/:path*',
-    '/(en|ua)/statistics/:path*',
-  ],
-};
+export const config = { matcher: ['/', '/(uk|en)/:path*'] };

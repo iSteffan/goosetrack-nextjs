@@ -28,6 +28,8 @@ type FormData = {
 
 export const AuthForm = ({ type }: AuthFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const { logIn, signUp } = data;
@@ -39,7 +41,43 @@ export const AuthForm = ({ type }: AuthFormProps) => {
     formState: { errors },
   } = useForm<FormData>();
 
+  // const handleRegister = async (formData: FormData) => {
+  //   try {
+  //     await registerUser({
+  //       name: formData.name ?? '',
+  //       email: formData.email,
+  //       password: formData.password,
+  //     });
+  //     toast.success('Registration successful! Please log in.');
+  //     router.push('/en/login');
+  //   } catch (error) {
+  //     console.log('error', error);
+
+  //     const errorMessage =
+  //       (error as Error).message || 'Registration failed. Try again.';
+  //     toast.error(errorMessage);
+  //   }
+  // };
+
+  // const handleLogin = async (formData: FormData) => {
+  //   try {
+  //     await loginUser({
+  //       email: formData.email,
+  //       password: formData.password,
+  //     });
+  //     toast.success('Login successful! Redirecting...');
+  //     router.push('/en/calendar');
+  //   } catch (error) {
+  //     console.log('error', error);
+
+  //     const errorMessage =
+  //       (error as Error).message || 'Login failed. Check your credentials.';
+  //     toast.error(errorMessage);
+  //   }
+  // };
+
   const handleRegister = async (formData: FormData) => {
+    setIsLoading(true);
     try {
       await registerUser({
         name: formData.name ?? '',
@@ -54,10 +92,13 @@ export const AuthForm = ({ type }: AuthFormProps) => {
       const errorMessage =
         (error as Error).message || 'Registration failed. Try again.';
       toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleLogin = async (formData: FormData) => {
+    setIsLoading(true);
     try {
       await loginUser({
         email: formData.email,
@@ -71,6 +112,8 @@ export const AuthForm = ({ type }: AuthFormProps) => {
       const errorMessage =
         (error as Error).message || 'Login failed. Check your credentials.';
       toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -212,12 +255,20 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         </div>
 
         {/* Submit Button */}
+
         <button
           type="submit"
-          className="flex w-full justify-center gap-[11px] rounded-[16px] bg-blueMain py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.28px] text-white transition-colors hover:bg-blueAccent focus:bg-blueAccent"
+          disabled={isLoading}
+          className={`flex w-full justify-center gap-[11px] rounded-[16px] bg-blueMain py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.28px] text-white transition-colors hover:bg-blueAccent focus:bg-blueAccent ${
+            isLoading ? 'cursor-not-allowed' : ''
+          }`}
         >
           {type === 'logIn' ? 'Log In' : 'Sign Up'}
-          <LogInIcon className="h-[18px] w-[18px]" />
+          {isLoading ? (
+            <div className="h-[18px] w-[18px] animate-spin rounded-full border-[2px] border-white border-t-transparent" />
+          ) : (
+            <LogInIcon className="h-[18px] w-[18px] stroke-white" />
+          )}
         </button>
       </form>
     </div>
