@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 import LogInIcon from '@/public/icon/logIn.svg';
 import CorrectIcon from '@/public/icon/inputCorrect.svg';
@@ -11,6 +12,7 @@ import HideIcon from '@/public/icon/password-hide.svg';
 import ShowIcon from '@/public/icon/password-show.svg';
 
 import data from '@/data/common.json';
+import { loginUser, registerUser } from '@/utils/auth';
 
 type FormType = 'signUp' | 'logIn';
 
@@ -37,35 +39,39 @@ export const AuthForm = ({ type }: AuthFormProps) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = async (formData: FormData) => {
-    console.log(type === 'logIn' ? 'Logging in:' : 'Signing up:', data);
-
+  const handleRegister = async (formData: FormData) => {
     try {
-      const url = type === 'logIn' ? '/api/auth/login' : '/api/auth/register';
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+      await registerUser({
+        name: formData.name ?? '',
+        email: formData.email,
+        password: formData.password,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
-      }
-
-      if (type === 'logIn' && data.token) {
-        localStorage.setItem('token', data.token);
-        router.push('/en/calendar');
-      } else if (type === 'signUp') {
-        router.push('/en/login');
-      }
+      toast.success('Registration successful! Please log in.');
+      router.push('/en/login');
     } catch (error) {
       console.log('error', error);
+
+      const errorMessage =
+        (error as Error).message || 'Registration failed. Try again.';
+      toast.error(errorMessage);
     }
-    // finally {
-    // }
+  };
+
+  const handleLogin = async (formData: FormData) => {
+    try {
+      await loginUser({
+        email: formData.email,
+        password: formData.password,
+      });
+      toast.success('Login successful! Redirecting...');
+      router.push('/en/calendar');
+    } catch (error) {
+      console.log('error', error);
+
+      const errorMessage =
+        (error as Error).message || 'Login failed. Check your credentials.';
+      toast.error(errorMessage);
+    }
   };
 
   return (
@@ -74,7 +80,11 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         {type === 'logIn' ? logIn : signUp}
       </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(
+          type === 'signUp' ? handleRegister : handleLogin,
+        )}
+      >
         {/* Name */}
         {type === 'signUp' && (
           <div className="relative mb-[24px] flex flex-col">
