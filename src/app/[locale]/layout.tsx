@@ -4,7 +4,8 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ToastContainer } from 'react-toastify';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import QueryProvider from '@/components/QueryProvider/QueryProvider';
+// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Inter } from 'next/font/google';
 
@@ -15,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -44,6 +45,7 @@ export default async function RootLayout({
     <html lang={locale} className={inter.className} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider messages={messages}>
+          {/* <QueryClientProvider client={queryClient}> */}
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -51,15 +53,77 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <main>
-              <QueryClientProvider client={queryClient}>
-                {children}
-              </QueryClientProvider>
-              ,
+              <QueryProvider>{children}</QueryProvider>
             </main>
             <ToastContainer />
           </ThemeProvider>
+          {/* </QueryClientProvider> */}
         </NextIntlClientProvider>
       </body>
     </html>
   );
 }
+
+// import { NextIntlClientProvider } from 'next-intl';
+// import { setRequestLocale } from 'next-intl/server';
+// import { getMessages } from 'next-intl/server';
+// import { notFound } from 'next/navigation';
+// import { routing } from '@/i18n/routing';
+// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// import { ToastContainer } from 'react-toastify';
+
+// import { Inter } from 'next/font/google';
+
+// import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
+
+// import './globals.css';
+// import 'react-toastify/dist/ReactToastify.css';
+
+// const inter = Inter({ subsets: ['latin'] });
+
+// // Створення клієнта лише один раз для всього додатку
+// const queryClient = new QueryClient();
+
+// export function generateStaticParams() {
+//   return routing.locales.map(locale => ({ locale }));
+// }
+
+// export default async function RootLayout({
+//   children,
+//   params,
+// }: {
+//   children: React.ReactNode;
+//   params: { locale: string }; // Замінили Promise на об'єкт для синхронного використання
+// }) {
+//   const { locale } = params;
+//   // Ensure that the incoming `locale` is valid
+//   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
+//     notFound();
+//   }
+
+//   // Enable static rendering
+//   setRequestLocale(locale);
+
+//   // Отримуємо повідомлення асинхронно на сервері
+//   const messages = await getMessages(); // Чекаємо на завершення отримання повідомлень
+
+//   return (
+//     <html lang={locale} className={inter.className} suppressHydrationWarning>
+//       <body>
+//         <NextIntlClientProvider messages={messages}>
+//           <QueryClientProvider client={queryClient}>
+//             <ThemeProvider
+//               attribute="class"
+//               defaultTheme="system"
+//               enableSystem
+//               disableTransitionOnChange
+//             >
+//               <main>{children}</main>
+//             </ThemeProvider>
+//           </QueryClientProvider>
+//         </NextIntlClientProvider>
+//         <ToastContainer />
+//       </body>
+//     </html>
+//   );
+// }

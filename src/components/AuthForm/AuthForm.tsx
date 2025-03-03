@@ -41,41 +41,6 @@ export const AuthForm = ({ type }: AuthFormProps) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  // const handleRegister = async (formData: FormData) => {
-  //   try {
-  //     await registerUser({
-  //       name: formData.name ?? '',
-  //       email: formData.email,
-  //       password: formData.password,
-  //     });
-  //     toast.success('Registration successful! Please log in.');
-  //     router.push('/en/login');
-  //   } catch (error) {
-  //     console.log('error', error);
-
-  //     const errorMessage =
-  //       (error as Error).message || 'Registration failed. Try again.';
-  //     toast.error(errorMessage);
-  //   }
-  // };
-
-  // const handleLogin = async (formData: FormData) => {
-  //   try {
-  //     await loginUser({
-  //       email: formData.email,
-  //       password: formData.password,
-  //     });
-  //     toast.success('Login successful! Redirecting...');
-  //     router.push('/en/calendar');
-  //   } catch (error) {
-  //     console.log('error', error);
-
-  //     const errorMessage =
-  //       (error as Error).message || 'Login failed. Check your credentials.';
-  //     toast.error(errorMessage);
-  //   }
-  // };
-
   const handleRegister = async (formData: FormData) => {
     setIsLoading(true);
     try {
