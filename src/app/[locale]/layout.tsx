@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ToastContainer } from 'react-toastify';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Inter } from 'next/font/google';
 
@@ -13,6 +14,8 @@ import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
+
+const queryClient = new QueryClient();
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -47,7 +50,12 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main>{children}</main>
+            <main>
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+              ,
+            </main>
             <ToastContainer />
           </ThemeProvider>
         </NextIntlClientProvider>
