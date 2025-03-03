@@ -10,6 +10,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getUser } from '@/utils/auth';
+
+import { toast } from 'react-toastify';
 
 interface User {
   name: string;
@@ -22,34 +25,22 @@ interface User {
 
 export default function Page() {
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/auth/users/current', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
-        const data = await response.json();
-        setUser(data.user);
+        const userData = await getUser();
+        setUser(userData.user);
+        // toast.success('Registration successful! Please log in.');
+        // router.push('/en/login');
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('An unexpected error occurred');
-        }
-        // Редирект на сторінку входу, якщо не вдалося отримати дані користувача
+        console.log('error', error);
         router.push('/en/login');
+        //   const errorMessage =
+        //     (error as Error).message || 'Registration failed. Try again.';
+        toast.error('Error getting user data');
       }
     };
 
@@ -76,9 +67,9 @@ export default function Page() {
     }
   };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   return (
     <div>
