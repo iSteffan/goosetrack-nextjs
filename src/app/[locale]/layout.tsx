@@ -4,19 +4,16 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ToastContainer } from 'react-toastify';
-import QueryProvider from '@/components/QueryProvider/QueryProvider';
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import QueryProvider from '@/components/ui/QueryProvider/QueryProvider';
 
 import { Inter } from 'next/font/google';
 
-import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
+import { ThemeProvider } from '@/components/ui/ThemeProvider/ThemeProvider';
 
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
-
-// const queryClient = new QueryClient();
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -45,7 +42,6 @@ export default async function RootLayout({
     <html lang={locale} className={inter.className} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider messages={messages}>
-          {/* <QueryClientProvider client={queryClient}> */}
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -57,7 +53,6 @@ export default async function RootLayout({
             </main>
             <ToastContainer />
           </ThemeProvider>
-          {/* </QueryClientProvider> */}
         </NextIntlClientProvider>
       </body>
     </html>

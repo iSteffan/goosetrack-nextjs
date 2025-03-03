@@ -48,4 +48,8 @@
   .scale {
     @apply transition-transform duration-300 hover:scale-105 focus:scale-105;
   }
+
+  .btnEffect {
+    @apply transition-colors hover:bg-blueAccent focus:bg-blueAccent;
+  }
 }

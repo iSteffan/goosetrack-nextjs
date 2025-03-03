@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { AuthForm } from '@/components/AuthForm/AuthForm';
+import { AuthForm } from '@/components/common/AuthForm/AuthForm';
 
 import data from '@/data/common.json';
 

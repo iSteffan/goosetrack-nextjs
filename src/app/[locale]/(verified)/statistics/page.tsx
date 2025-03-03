@@ -8,44 +8,25 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUser } from '@/utils/auth';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
-interface User {
-  name: string;
-  email: string;
-  avatarURL: string;
-  birthday: string;
-  phone: string;
-  telegram: string;
-}
+// interface User {
+//   name: string;
+//   email: string;
+//   avatarURL: string;
+//   birthday: string;
+//   phone: string;
+//   telegram: string;
+// }
 
 export default function Page() {
-  const [user, setUser] = useState<User | null>(null);
-  // const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const data = queryClient.getQueryData(['user']);
+
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getUser();
-        setUser(userData.user);
-        // toast.success('Registration successful! Please log in.');
-        // router.push('/en/login');
-      } catch (error) {
-        console.log('error', error);
-        router.push('/en/login');
-        //   const errorMessage =
-        //     (error as Error).message || 'Registration failed. Try again.';
-        toast.error('Error getting user data');
-      }
-    };
-
-    fetchData();
-  }, [router]);
 
   const handleLogout = async () => {
     try {
@@ -67,22 +48,18 @@ export default function Page() {
     }
   };
 
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
   return (
     <div>
       <h1>User Information</h1>
-      {user ? (
+      {data.user ? (
         <div>
           <div>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Avatar URL: {user.avatarURL}</p>
-            <p>Birthday: {user.birthday}</p>
-            <p>Phone: {user.phone}</p>
-            <p>Telegram: {user.telegram}</p>
+            <p>Name: {data.user.name}</p>
+            <p>Email: {data.user.email}</p>
+            <p>Avatar URL: {data.user.avatarURL}</p>
+            <p>Birthday: {data.user.birthday}</p>
+            <p>Phone: {data.user.phone}</p>
+            <p>Telegram: {data.user.telegram}</p>
           </div>
           <button
             onClick={handleLogout}

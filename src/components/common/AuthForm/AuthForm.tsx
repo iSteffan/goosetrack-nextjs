@@ -224,7 +224,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         <button
           type="submit"
           disabled={isLoading}
-          className={`flex w-full justify-center gap-[11px] rounded-[16px] bg-blueMain py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.28px] text-white transition-colors hover:bg-blueAccent focus:bg-blueAccent ${
+          className={`btnEffect flex w-full justify-center gap-[11px] rounded-[16px] bg-blueMain py-[14px] text-[14px] font-600 leading-[1.28] tracking-[-0.28px] text-white ${
             isLoading ? 'cursor-not-allowed' : ''
           }`}
         >
