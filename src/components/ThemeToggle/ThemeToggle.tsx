@@ -7,7 +7,7 @@ import SunIcon from '@/public/icon/sun.svg';
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
-  console.log('theme', theme);
+  // console.log('theme', theme);
 
   const isDark = theme === 'dark';
 

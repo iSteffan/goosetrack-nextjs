@@ -23,8 +23,8 @@ import { useQueryClient } from '@tanstack/react-query';
 // }
 
 export default function Page() {
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData(['user']);
+  // const queryClient = useQueryClient();
+  // const data = queryClient.getQueryData(['user']);
 
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export default function Page() {
   return (
     <div>
       <h1>User Information</h1>
-      {data.user ? (
+      {/* {data.user ? (
         <div>
           <div>
             <p>Name: {data.user.name}</p>
@@ -70,7 +70,7 @@ export default function Page() {
         </div>
       ) : (
         <p>Loading...</p>
-      )}
+      )} */}
     </div>
   );
 }
