@@ -23,9 +23,9 @@ import { useQueryClient } from '@tanstack/react-query';
 // }
 
 export default function Page() {
-  // const queryClient = useQueryClient();
-  // const data = queryClient.getQueryData(['user']);
-
+  const queryClient = useQueryClient();
+  const data = queryClient.getQueryData(['user']);
+  console.log('data statistics', data);
   const router = useRouter();
 
   const handleLogout = async () => {

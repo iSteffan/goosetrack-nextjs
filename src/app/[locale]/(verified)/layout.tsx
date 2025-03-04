@@ -1,20 +1,21 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 
 import { Header } from '@/components/common/Header/Header';
-import { getUser } from '@/utils/auth';
+// import { getUser } from '@/utils/auth';
 
 export default function VerifiedUserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUser,
-    staleTime: 1000 * 60 * 5,
-  });
+  // const { data, error, isLoading } = useQuery({
+  //   queryKey: ['user'],
+  //   queryFn: getUser,
+  //   staleTime: 1000 * 60 * 5, // 5 minutes
+  //   notifyOnChangeProps: ['data'], // Only re-render when data changes
+  // });
 
   // if (isLoading) {
   //   return <div>Loading user data...</div>;
@@ -37,7 +38,7 @@ export default function VerifiedUserLayout({
         <p>Email: {data.user.email}</p> */}
       {/* {data.user.avatarURL && <img src={data.user.avatarURL} alt="Avatar" />} */}
       {/* </div> */}
-      <Header data={data} />
+      <Header />
 
       {/* Main Content */}
       {/* <main className="flex-1 p-4"> */}

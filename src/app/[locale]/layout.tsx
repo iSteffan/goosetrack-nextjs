@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ToastContainer } from 'react-toastify';
+
 import QueryProvider from '@/components/ui/QueryProvider/QueryProvider';
 
 import { Inter } from 'next/font/google';

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.66.11",
+    "@tanstack/react-query-devtools": "^5.67.1",
     "bcrypt": "^5.1.1",
     "classnames": "^2.5.1",
     "jsonwebtoken": "^9.0.2",
