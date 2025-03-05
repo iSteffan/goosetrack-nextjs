@@ -25,7 +25,7 @@ import { useQueryClient } from '@tanstack/react-query';
 export default function Page() {
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData(['user']);
-  console.log('data statistics', data);
+  // console.log('data statistics', data);
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -51,7 +51,7 @@ export default function Page() {
   return (
     <div>
       <h1>User Information</h1>
-      {/* {data.user ? (
+      {data.user ? (
         <div>
           <div>
             <p>Name: {data.user.name}</p>
@@ -70,7 +70,7 @@ export default function Page() {
         </div>
       ) : (
         <p>Loading...</p>
-      )} */}
+      )}
     </div>
   );
 }

@@ -15,12 +15,12 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className=""
+      className="group ml-[18px] mr-[8px] md:ml-[24px] md:mr-[14px]"
     >
       {isDark ? (
-        <SunIcon className="h-[24px] w-[24px] fill-blueMain md:h-[32px] md:w-[32px]" />
+        <SunIcon className="h-[24px] w-[24px] fill-blueMain transition-colors group-hover:stroke-blueAccent md:h-[32px] md:w-[32px]" />
       ) : (
-        <MoonIcon className="h-[24px] w-[24px] fill-blueMain md:h-[32px] md:w-[32px]" />
+        <MoonIcon className="h-[24px] w-[24px] fill-blueMain transition-colors group-hover:stroke-blueAccent md:h-[32px] md:w-[32px]" />
       )}
     </button>
   );

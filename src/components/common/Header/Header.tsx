@@ -1,46 +1,22 @@
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
 import { UserInfo } from '@/components/ui/UserInfo/UserInfo';
+import MenuIcon from '@/public/icon/menu.svg';
 
-export const Header = () => {
+export const Header = ({ pageName }) => {
   return (
-    <header className="flex px-[20px] py-[24px] md:px-[32px] xl:pb-[] xl:pt-[32px]">
-      <AddFeedbackBtn />
-      <ThemeToggle />
-      <UserInfo  />
+    <header>
+      <div className="flex items-center justify-between px-[20px] py-[24px] md:px-[32px] xl:pb-[] xl:pt-[32px]">
+        <p className="capitalize">{pageName}</p>
+        <button type="button" className="group xl:hidden">
+          <MenuIcon className="h-[24px] w-[24px] stroke-blackCustom transition-colors group-hover:stroke-blueMain" />
+        </button>
+        <div className="flex items-center">
+          <AddFeedbackBtn />
+          <ThemeToggle />
+          <UserInfo />
+        </div>
+      </div>
     </header>
   );
 };
-
-// 'use client';
-// import { usePathname } from 'next/navigation';
-// import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
-// import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
-// import { UserInfo } from '@/components/ui/UserInfo/UserInfo';
-
-// export const Header = () => {
-//   const pathname = usePathname();
-
-//   // Вкажи маршрути, на яких має рендеритись Header
-//   const headerRoutes = [
-//     '/en/account',
-//     '/en/calendar',
-//     '/en/statistics',
-//     '/uk/account',
-//     '/uk/calendar',
-//     '/uk/statistics',
-//   ];
-
-//   // Перевірка, чи поточний маршрут входить до списку потрібних маршрутів
-//   if (!headerRoutes.includes(pathname)) {
-//     return null; // Не рендерити Header, якщо маршрут не входить до списку
-//   }
-
-//   return (
-//     <header className="flex px-[20px] py-[24px] md:px-[32px] xl:pb-[] xl:pt-[32px]">
-//       <AddFeedbackBtn />
-//       <ThemeToggle />
-//       <UserInfo />
-//     </header>
-//   );
-// };
