@@ -7,6 +7,12 @@ import { Header } from '@/components/common/Header/Header';
 import Link from 'next/link';
 // import { getUser } from '@/utils/auth';
 
+// ----------------------------------------------
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { getUser } from '@/utils/auth';
+import { useEffect, useState } from 'react';
+// --------------------------------------------
+
 export default function VerifiedUserLayout({
   children,
 }: {
@@ -15,16 +21,43 @@ export default function VerifiedUserLayout({
   const pathname = usePathname();
 
   // Розбиваємо шлях на частини
-  const pathParts = pathname.split('/').filter(Boolean); // Видаляємо порожні частини
+  const pathParts = pathname.split('/').filter(Boolean);
 
-  // Видаляємо інтернаціоналізацію, якщо є
+  // Видаляємо інтернаціоналізацію
   let pageName = pathParts.length > 1 ? pathParts[1] : pathParts[0];
 
-  // Замінюємо `account` на `User Profile`
   if (pageName === 'account') {
     pageName = 'User Profile';
   }
- // const { data, error, isLoading } = useQuery({
+
+  const queryClient = useQueryClient();
+  const cachedData = queryClient.getQueryData(['user']);
+
+  const [isFirstLoad, setIsFirstLoad] = useState(cachedData === undefined);
+
+  useEffect(() => {
+    if (cachedData) {
+      setIsFirstLoad(false);
+    }
+  }, [cachedData]);
+
+  const { data } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    notifyOnChangeProps: ['data'], // Only re-render when data changes
+    initialData: cachedData, // Set initial data from cache
+    initialDataUpdatedAt: () =>
+      queryClient.getQueryState(['user'])?.dataUpdatedAt,
+    enabled: isFirstLoad, // Enable query only on the first load
+  });
+
+  useEffect(() => {
+    if (data) {
+      setIsFirstLoad(false);
+    }
+  }, [data]);
+  // const { data, error, isLoading } = useQuery({
   //   queryKey: ['user'],
   //   queryFn: getUser,
   //   staleTime: 1000 * 60 * 5, // 5 minutes
