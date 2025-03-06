@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 
 import { Dialog, Transition } from '@headlessui/react';
+import { SideBar } from '../SideBar/SideBar';
 
 type IMenu = {
   isOpen: boolean;
@@ -36,15 +37,12 @@ export const BurgerMenu = ({ isOpen, onClose }: IMenu) => {
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
               >
                 <Dialog.Panel className="pointer-events-auto relative w-[225px] bg-white md:w-[330px]">
-                  <div className="mx-auto flex h-full max-w-[480px] flex-col justify-between px-[20px] pb-[16px] md:max-w-full md:px-[40px] md:pb-[40px]">
-                    <div>
-                      <div className="mb-[62px] flex items-center justify-between py-[8px] md:mb-[40px] md:py-[22px]">
-                        <button type="button" onClick={onClose} className="o">
-                          close
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <SideBar />
+                  {/* <div className="mx-auto flex h-full max-w-[480px] flex-col justify-between px-[20px] pb-[16px] md:max-w-full md:px-[40px] md:pb-[40px]"> */}
+                  <button type="button" onClick={onClose} className="o">
+                    close
+                  </button>
+                  {/* </div> */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
