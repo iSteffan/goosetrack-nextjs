@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { getUser } from '@/utils/auth';
 import { useEffect, useState } from 'react';
+import { BurgerMenu } from '@/components/common/BurgerMenu/BurgerMenu';
 // --------------------------------------------
 
 export default function VerifiedUserLayout({
@@ -18,7 +19,13 @@ export default function VerifiedUserLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const queryClient = useQueryClient();
+  const cachedData = queryClient.getQueryData(['user']);
+
   const pathname = usePathname();
+
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [isFirstLoad, setIsFirstLoad] = useState(cachedData === undefined);
 
   // Розбиваємо шлях на частини
   const pathParts = pathname.split('/').filter(Boolean);
@@ -29,11 +36,6 @@ export default function VerifiedUserLayout({
   if (pageName === 'account') {
     pageName = 'User Profile';
   }
-
-  const queryClient = useQueryClient();
-  const cachedData = queryClient.getQueryData(['user']);
-
-  const [isFirstLoad, setIsFirstLoad] = useState(cachedData === undefined);
 
   useEffect(() => {
     if (cachedData) {
@@ -76,6 +78,9 @@ export default function VerifiedUserLayout({
   //   return <div>No user data found</div>;
   // }
 
+  const onCloseMenu = () => setIsBurgerOpen(false);
+  const onOpenMenu = () => setIsBurgerOpen(true);
+
   return (
     <>
       {/* Sidebar */}
@@ -85,7 +90,8 @@ export default function VerifiedUserLayout({
         <p>Email: {data.user.email}</p> */}
       {/* {data.user.avatarURL && <img src={data.user.avatarURL} alt="Avatar" />} */}
       {/* </div> */}
-      <Header pageName={pageName} />
+      <Header pageName={pageName} onOpen={onOpenMenu} />
+      <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
       <div className="mb-2 flex flex-col gap-1">
         <Link href={'/en/account'}>account</Link>
         <Link href={'/en/calendar'}>calendar</Link>
