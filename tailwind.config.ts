@@ -41,6 +41,7 @@ export default {
         blueMain: '#3E85F3',
         blueAccent: '#2B78EF',
         blueLight: '#DCEBF7',
+        bluePale: '#E3F3FF',
 
         grayLight: '#DCE3E5',
         inputBorder: 'rgba(220, 227, 229, 0.60)',
@@ -49,6 +50,8 @@ export default {
         greenCorrect: '#3CBC81',
 
         blackCustom: '#111',
+
+        grayCustom: 'rgba(52, 52, 52, 0.50)',
       },
     },
   },

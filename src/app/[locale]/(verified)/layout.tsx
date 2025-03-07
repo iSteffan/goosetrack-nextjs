@@ -23,12 +23,14 @@ export default function VerifiedUserLayout({
   const cachedData = queryClient.getQueryData(['user']);
 
   const pathname = usePathname();
+  // console.log('pathname', pathname);
 
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(cachedData === undefined);
 
   // Розбиваємо шлях на частини
   const pathParts = pathname.split('/').filter(Boolean);
+  // console.log('pathParts', pathParts);
 
   // Видаляємо інтернаціоналізацію
   let pageName = pathParts.length > 1 ? pathParts[1] : pathParts[0];
