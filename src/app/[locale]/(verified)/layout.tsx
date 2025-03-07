@@ -94,11 +94,6 @@ export default function VerifiedUserLayout({
       {/* </div> */}
       <Header pageName={pageName} onOpen={onOpenMenu} />
       <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
-      <div className="mb-2 flex flex-col gap-1">
-        <Link href={'/en/account'}>account</Link>
-        <Link href={'/en/calendar'}>calendar</Link>
-        <Link href={'/en/statistics'}>statistics</Link>
-      </div>
 
       {children}
     </>

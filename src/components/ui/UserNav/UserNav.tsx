@@ -16,18 +16,18 @@ export const UserNav = () => {
 
   const getLinkClasses = (href: string) => {
     const isActive = pathname === href;
-    return `group flex gap-[10px] rounded-[8px] px-[20px] py-[16px] text-[16px] font-600 transition-colors 
-      ${isActive ? 'bg-bluePale text-blueMain' : 'text-grayCustom hover:bg-bluePale hover:text-blueMain focus:bg-bluePale focus:text-blueMain'}`;
+    return `group flex gap-[10px] rounded-[8px] px-[20px] py-[16px] text-[16px] font-600 transition-colors dark:text-white dark:hover:bg-blueMain
+      ${isActive ? 'bg-bluePale text-blueMain dark:bg-blueMain' : 'text-grayCustom hover:bg-bluePale hover:text-blueMain focus:bg-bluePale focus:text-blueMain'}`;
   };
 
   const getIconClasses = (href: string) => {
     const isActive = pathname === href;
-    return `h-[20px] w-[20px] md:h-[24px] md:w-[24px] stroke-grayCustom ${isActive ? 'stroke-blueMain' : 'group-hover:stroke-blueMain'}`;
+    return `h-[20px] w-[20px] md:h-[24px] md:w-[24px] stroke-grayCustom dark:stroke-white dark:group-hover:stroke-white ${isActive ? 'stroke-blueMain' : 'group-hover:stroke-blueMain'}`;
   };
 
   return (
-    <nav>
-      <p className="md:text-grayCustom mb-[24px] text-[12px] font-600 md:text-[14px]">
+    <nav className="">
+      <p className="md:text-grayCustom dark:text-#FAFAFA4D mb-[24px] text-[12px] font-600 md:text-[14px]">
         User Panel
       </p>
       <ul className="flex flex-col gap-[18px] md:gap-[16px]">

@@ -50,6 +50,7 @@ export default {
         greenCorrect: '#3CBC81',
 
         blackCustom: '#111',
+        blackBg: '#13151A',
 
         grayCustom: 'rgba(52, 52, 52, 0.50)',
       },
