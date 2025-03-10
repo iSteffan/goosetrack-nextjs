@@ -4,7 +4,6 @@
 import { usePathname } from 'next/navigation';
 
 import { Header } from '@/components/common/Header/Header';
-import Link from 'next/link';
 // import { getUser } from '@/utils/auth';
 
 // ----------------------------------------------
