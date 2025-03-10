@@ -54,6 +54,7 @@ export default {
 
         grayCustom: 'rgba(52, 52, 52, 0.50)',
         grayTheme: 'rgba(250, 250, 250, 0.30)',
+        grayBg: '#F7F6F9;',
       },
     },
   },

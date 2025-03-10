@@ -5,11 +5,18 @@ import CloseIcon from '@/public/icon/x-close.svg';
 
 interface ISideBar {
   onClose?: () => void;
+  isBurgerMenu?: boolean;
 }
 
-export const SideBar = ({ onClose }: ISideBar) => {
+export const SideBar = ({ onClose, isBurgerMenu }: ISideBar) => {
   return (
-    <aside>
+    <aside
+      className={
+        !isBurgerMenu
+          ? 'fixed inset-0 z-50 hidden w-[289px] bg-white xl:block'
+          : ''
+      }
+    >
       <div className="relavite px-[20px] py-[24px] md:px-[24px] md:py-[32px]">
         <div className="mb-[64px] flex items-center md:mb-[50px] xl:mb-[32px]">
           <GooseIcon className="mr-[6px] h-[35px] w-[36px] xl:mr-[10px]" />

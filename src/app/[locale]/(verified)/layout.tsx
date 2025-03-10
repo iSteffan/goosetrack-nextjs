@@ -11,6 +11,7 @@ import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { getUser } from '@/utils/auth';
 import { useEffect, useState } from 'react';
 import { BurgerMenu } from '@/components/common/BurgerMenu/BurgerMenu';
+import { SideBar } from '@/components/common/SideBar/SideBar';
 // --------------------------------------------
 
 export default function VerifiedUserLayout({
@@ -93,7 +94,7 @@ export default function VerifiedUserLayout({
       {/* </div> */}
       <Header pageName={pageName} onOpen={onOpenMenu} />
       <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
-
+      <SideBar />
       {children}
     </>
   );

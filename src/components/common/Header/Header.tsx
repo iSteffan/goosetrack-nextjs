@@ -10,9 +10,9 @@ interface IHeader {
 
 export const Header = ({ pageName, onOpen }: IHeader) => {
   return (
-    <header>
+    <header className="bg-grayBg">
       <div className="flex items-center justify-between px-[20px] py-[24px] md:px-[32px] xl:pb-[] xl:pt-[32px]">
-        <p className="hidden text-[32px] font-700 capitalize dark:text-white xl:block">
+        <p className="ml-[321px] hidden text-[32px] font-700 capitalize dark:text-white xl:block">
           {pageName}
         </p>
         <button

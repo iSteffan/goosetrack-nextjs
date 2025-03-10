@@ -37,7 +37,7 @@ export const BurgerMenu = ({ isOpen, onClose }: IMenu) => {
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
               >
                 <Dialog.Panel className="pointer-events-auto relative w-[225px] bg-white dark:bg-blackBg md:w-[330px]">
-                  <SideBar onClose={onClose} />
+                  <SideBar onClose={onClose} isBurgerMenu />
                   {/* <div className="mx-auto flex h-full max-w-[480px] flex-col justify-between px-[20px] pb-[16px] md:max-w-full md:px-[40px] md:pb-[40px]"> */}
                   {/* <button type="button" onClick={onClose} className="">
                     close
