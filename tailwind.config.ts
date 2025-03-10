@@ -50,7 +50,8 @@ export default {
         greenCorrect: '#3CBC81',
 
         blackCustom: '#111',
-        blackBg: '#13151A',
+        blackSidebarBg: '#13151A',
+        blackPageBg: '#181921',
 
         grayCustom: 'rgba(52, 52, 52, 0.50)',
         grayTheme: 'rgba(250, 250, 250, 0.30)',

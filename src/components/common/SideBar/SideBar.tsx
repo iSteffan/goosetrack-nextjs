@@ -13,7 +13,7 @@ export const SideBar = ({ onClose, isBurgerMenu }: ISideBar) => {
     <aside
       className={
         !isBurgerMenu
-          ? 'fixed inset-0 z-50 hidden w-[289px] bg-white xl:block'
+          ? 'dark:bg-blackSidebarBg hidden w-[289px] bg-white xl:block'
           : ''
       }
     >

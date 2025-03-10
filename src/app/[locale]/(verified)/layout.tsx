@@ -61,41 +61,42 @@ export default function VerifiedUserLayout({
       setIsFirstLoad(false);
     }
   }, [data]);
-  // const { data, error, isLoading } = useQuery({
-  //   queryKey: ['user'],
-  //   queryFn: getUser,
-  //   staleTime: 1000 * 60 * 5, // 5 minutes
-  //   notifyOnChangeProps: ['data'], // Only re-render when data changes
-  // });
 
-  // if (isLoading) {
-  //   return <div>Loading user data...</div>;
-  // }
+  // Логіка для прослуховування зміни ширини екрана
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1440px)');
+    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIsBurgerOpen(false); // Закриваємо бургер-меню, якщо екран більший за 1440px
+      }
+    };
 
-  // if (error instanceof Error) {
-  //   return <div>Error loading user data: {error.message}</div>;
-  // }
+    // Початкове перевірка
+    if (mediaQuery.matches) {
+      setIsBurgerOpen(false); // Якщо екран уже більший за 1440px
+    }
 
-  // if (!data) {
-  //   return <div>No user data found</div>;
-  // }
+    // Додаємо слухач змін
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
+    };
+  }, []);
 
   const onCloseMenu = () => setIsBurgerOpen(false);
   const onOpenMenu = () => setIsBurgerOpen(true);
 
   return (
     <>
-      {/* Sidebar */}
-      {/* <div className="w-1/4 p-4">
-        <h2>User Info</h2>
-        <p>Name: {data.user.name}</p>
-        <p>Email: {data.user.email}</p> */}
-      {/* {data.user.avatarURL && <img src={data.user.avatarURL} alt="Avatar" />} */}
-      {/* </div> */}
-      <Header pageName={pageName} onOpen={onOpenMenu} />
-      <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
-      <SideBar />
-      {children}
+      <div className="min-h-screen xl:grid xl:grid-cols-[auto_1fr]">
+        <SideBar />
+        <div className="flex w-full flex-col">
+          <Header pageName={pageName} onOpen={onOpenMenu} />
+          <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
+          {children}
+        </div>
+      </div>
     </>
   );
 }
