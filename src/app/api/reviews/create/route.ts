@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     // Отримуємо `id` та `username`, гарантуючи, що `user` — це `JwtPayload`
     const userId = (user as JwtPayload).id;
-    const username = (user as JwtPayload).username;
+    const username = (user as JwtPayload).name;
 
     if (!userId || !username) {
       return NextResponse.json(

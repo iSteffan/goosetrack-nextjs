@@ -13,7 +13,7 @@ const ReviewSchema = new Schema<IReview>(
   {
     userId: { type: String, required: true, unique: true },
     username: { type: String, required: true },
-    avatarURL: { type: String, required: true },
+    avatarURL: { type: String, default: '' },
     rating: { type: Number, required: true, min: 1, max: 5 },
     comment: { type: String, required: true },
   },
