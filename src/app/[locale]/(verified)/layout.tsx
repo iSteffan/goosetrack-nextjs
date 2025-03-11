@@ -8,7 +8,7 @@ import { Header } from '@/components/common/Header/Header';
 
 // ----------------------------------------------
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { getUser } from '@/utils/auth';
+import { getUser } from '@/utils/getAuth';
 import { useEffect, useState } from 'react';
 import { BurgerMenu } from '@/components/common/BurgerMenu/BurgerMenu';
 import { SideBar } from '@/components/common/SideBar/SideBar';

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ReactStars from 'react-stars';
+import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
 
 export const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
@@ -9,75 +10,43 @@ export const FeedbackForm = () => {
   const [loading, setLoading] = useState(false);
   const [reviewExists, setReviewExists] = useState(false);
 
-  // Отримуємо відгук при завантаженні сторінки
   useEffect(() => {
-    const fetchReview = async () => {
-      try {
-        const res = await fetch('/api/reviews/user', {
-          credentials: 'include',
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setRating(data.rating);
-          setComment(data.comment);
-          setReviewExists(true);
-        }
-      } catch (error) {
-        console.error('Failed to fetch review:', error);
+    const getReview = async () => {
+      const result = await fetchReview();
+      if (result.success && result.data) {
+        setRating(result.data.rating);
+        setComment(result.data.comment);
+        setReviewExists(true);
+      } else {
+        console.error(result.message);
       }
     };
 
-    fetchReview();
+    getReview();
   }, []);
 
-  // Функція для створення або оновлення відгуку
   const handleSave = async () => {
     setLoading(true);
-    const method = reviewExists ? 'PATCH' : 'POST';
-    const url = reviewExists ? '/api/reviews/update' : '/api/reviews/create';
-
-    try {
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ rating, comment }),
-      });
-
-      if (res.ok) {
-        setReviewExists(true);
-      } else {
-        console.error('Error saving review');
-      }
-    } catch (error) {
-      console.error('Failed to save review:', error);
-    } finally {
-      setLoading(false);
+    const result = await saveReview(rating, comment, reviewExists);
+    if (result.success) {
+      setReviewExists(true);
+    } else {
+      console.error(result.message);
     }
+    setLoading(false);
   };
 
-  // Функція для видалення відгуку
   const handleDelete = async () => {
     setLoading(true);
-
-    try {
-      const res = await fetch('/api/reviews/delete', {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (res.ok) {
-        setRating(0);
-        setComment('');
-        setReviewExists(false);
-      } else {
-        console.error('Error deleting review');
-      }
-    } catch (error) {
-      console.error('Failed to delete review:', error);
-    } finally {
-      setLoading(false);
+    const result = await deleteReview();
+    if (result.success) {
+      setRating(0);
+      setComment('');
+      setReviewExists(false);
+    } else {
+      console.error(result.message);
     }
+    setLoading(false);
   };
 
   return (

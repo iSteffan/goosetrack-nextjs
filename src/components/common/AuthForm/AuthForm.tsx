@@ -12,7 +12,7 @@ import HideIcon from '@/public/icon/password-hide.svg';
 import ShowIcon from '@/public/icon/password-show.svg';
 
 import data from '@/data/common.json';
-import { loginUser, registerUser } from '@/utils/auth';
+import { loginUser, registerUser } from '@/utils/getAuth';
 
 type FormType = 'signUp' | 'logIn';
 

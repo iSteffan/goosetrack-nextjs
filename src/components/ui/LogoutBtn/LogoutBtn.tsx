@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { logout } from '@/utils/auth';
+import { logout } from '@/utils/getAuth';
 
 import LogoutIcon from '@/public/icon/logout.svg';
 
