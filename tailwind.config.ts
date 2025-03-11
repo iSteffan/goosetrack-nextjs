@@ -52,6 +52,7 @@ export default {
         blackCustom: '#111',
         blackSidebarBg: '#13151A',
         blackPageBg: '#181921',
+        blackLightBg: '#171820',
 
         grayCustom: 'rgba(52, 52, 52, 0.50)',
         grayTheme: 'rgba(250, 250, 250, 0.30)',

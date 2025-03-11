@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
 import { UserInfo } from '@/components/ui/UserInfo/UserInfo';
 import { Modal } from '@/components/ui/Modal/Modal';
 
 import MenuIcon from '@/public/icon/menu.svg';
+import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
 interface IHeader {
   pageName: string;
@@ -46,8 +47,8 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
         </div>
       </header>
 
-      <Modal isOpen={isModalOpen} onClose={handleToggleModal}>
-        <div className="h-[500px] w-[500px] bg-red-600">modal</div>
+      <Modal isOpen={isModalOpen} onClose={handleToggleModal} isFeedback>
+        <FeedbackForm />
       </Modal>
     </>
   );

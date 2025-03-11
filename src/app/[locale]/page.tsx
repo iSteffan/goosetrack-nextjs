@@ -61,7 +61,7 @@ import {
   ReviewsSection,
 } from '@/sections/MainPageSection';
 
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 
 // Цей компонент відображатиметься на клієнті
 export default function HomePage() {
