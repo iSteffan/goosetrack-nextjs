@@ -50,6 +50,7 @@ export default {
         greenCorrect: '#3CBC81',
 
         blackCustom: '#111',
+        blackText: '#343434',
         blackSidebarBg: '#13151A',
         blackPageBg: '#181921',
         blackLightBg: '#171820',
