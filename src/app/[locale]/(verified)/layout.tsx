@@ -7,8 +7,11 @@ import { Header } from '@/components/common/Header/Header';
 // import { getUser } from '@/utils/auth';
 
 // ----------------------------------------------
-import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { getUser } from '@/utils/getAuth';
+// import {
+//   useQueryClient,
+//   useQuery
+// } from '@tanstack/react-query';
+// import { getUser } from '@/utils/getAuth';
 import { useEffect, useState } from 'react';
 import { BurgerMenu } from '@/components/common/BurgerMenu/BurgerMenu';
 import { SideBar } from '@/components/common/SideBar/SideBar';
@@ -19,14 +22,14 @@ export default function VerifiedUserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const queryClient = useQueryClient();
-  const cachedData = queryClient.getQueryData(['user']);
+  // const queryClient = useQueryClient();
+  // const cachedData = queryClient.getQueryData(['user']);
 
   const pathname = usePathname();
   // console.log('pathname', pathname);
 
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const [isFirstLoad, setIsFirstLoad] = useState(cachedData === undefined);
+  // const [isFirstLoad, setIsFirstLoad] = useState(cachedData === undefined);
 
   // Розбиваємо шлях на частини
   const pathParts = pathname.split('/').filter(Boolean);
@@ -39,28 +42,28 @@ export default function VerifiedUserLayout({
     pageName = 'User Profile';
   }
 
-  useEffect(() => {
-    if (cachedData) {
-      setIsFirstLoad(false);
-    }
-  }, [cachedData]);
+  // useEffect(() => {
+  //   if (cachedData) {
+  //     setIsFirstLoad(false);
+  //   }
+  // }, [cachedData]);
 
-  const { data } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUser,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    notifyOnChangeProps: ['data'], // Only re-render when data changes
-    initialData: cachedData, // Set initial data from cache
-    initialDataUpdatedAt: () =>
-      queryClient.getQueryState(['user'])?.dataUpdatedAt,
-    enabled: isFirstLoad, // Enable query only on the first load
-  });
+  // const { data } = useQuery({
+  //   queryKey: ['user'],
+  //   queryFn: getUser,
+  //   staleTime: 1000 * 60 * 5, // 5 minutes
+  //   notifyOnChangeProps: ['data'], // Only re-render when data changes
+  //   initialData: cachedData, // Set initial data from cache
+  //   initialDataUpdatedAt: () =>
+  //     queryClient.getQueryState(['user'])?.dataUpdatedAt,
+  //   // enabled: isFirstLoad, // Enable query only on the first load
+  // });
 
-  useEffect(() => {
-    if (data) {
-      setIsFirstLoad(false);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setIsFirstLoad(false);
+  //   }
+  // }, [data]);
 
   // Логіка для прослуховування зміни ширини екрана
   useEffect(() => {

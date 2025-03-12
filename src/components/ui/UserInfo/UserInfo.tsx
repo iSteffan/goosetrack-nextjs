@@ -1,13 +1,21 @@
 'use client';
-
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { getUser } from '@/utils/getAuth';
 import Image from 'next/image';
-
 
 export const UserInfo = () => {
   const queryClient = useQueryClient();
-  const data = queryClient.getQueryData(['user']);
+  const cachedData = queryClient.getQueryData(['user']);
 
+  const { data } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    notifyOnChangeProps: ['data'], // Only re-render when data changes
+    initialData: cachedData, // Set initial data from cache
+    initialDataUpdatedAt: () =>
+      queryClient.getQueryState(['user'])?.dataUpdatedAt,
+  });
 
   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
 
