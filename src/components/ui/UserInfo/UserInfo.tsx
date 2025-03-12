@@ -1,12 +1,9 @@
 'use client';
 
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-// import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 
 import { getUser } from '@/utils/getAuth';
-
-// import 'react-loading-skeleton/dist/skeleton.css';
 
 export const UserInfo = () => {
   const queryClient = useQueryClient();

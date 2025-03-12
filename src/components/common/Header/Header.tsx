@@ -2,17 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
-import Skeleton from 'react-loading-skeleton';
 
 import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
 import { UserInfo } from '@/components/ui/UserInfo/UserInfo';
 import { Modal } from '@/components/ui/Modal/Modal';
-
-import MenuIcon from '@/public/icon/menu.svg';
+import { HeaderSkeleton } from '@/components/ui/HeaderSkeleton/HeaderSkeleton';
 import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
-import 'react-loading-skeleton/dist/skeleton.css';
+import MenuIcon from '@/public/icon/menu.svg';
 
 interface IHeader {
   pageName: string;
@@ -31,12 +29,12 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
 
   useEffect(() => {
     if (isFetching) {
-      setShowComponents(false); 
+      setShowComponents(false);
     } else {
       const timer = setTimeout(() => {
-        setShowComponents(true); 
-      }, 300); 
-      return () => clearTimeout(timer); 
+        setShowComponents(true);
+      }, 400);
+      return () => clearTimeout(timer);
     }
   }, [isFetching]);
 
@@ -58,12 +56,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
 
           <div className="flex w-full items-center justify-end leading-[1]">
             {isFetching || !showComponents ? (
-              <div className="h-[32px] w-[231px] md:h-[44px] md:w-[314px]">
-                <Skeleton
-                  className="h-[32px] dark:bg-blueMain md:h-[44px]"
-                  containerClassName="flex-1"
-                />
-              </div>
+              <HeaderSkeleton />
             ) : (
               <>
                 <AddFeedbackBtn onOpen={handleToggleModal} />
@@ -71,6 +64,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
                 <UserInfo />
               </>
             )}
+            {/* <HeaderSkeleton /> */}
           </div>
         </div>
       </header>
