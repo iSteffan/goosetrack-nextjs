@@ -9,7 +9,7 @@ export const fetchReview = async (): Promise<{
   message?: string;
 }> => {
   try {
-    const res = await fetch('/api/reviews/user', {
+    const res = await fetch('/api/reviews/userReview', {
       credentials: 'include',
     });
     if (res.ok) {

@@ -2,55 +2,44 @@
 
 import { useEffect, useState } from 'react';
 import ReactStars from 'react-stars';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
 
 export const FeedbackForm = () => {
+  const queryClient = useQueryClient();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [reviewExists, setReviewExists] = useState(false);
+
+  const { data: review, isLoading } = useQuery({
+    queryKey: ['review'],
+    queryFn: fetchReview,
+  });
 
   useEffect(() => {
-    const getReview = async () => {
-      const result = await fetchReview();
-      if (result.success && result.data) {
-        setRating(result.data.rating);
-        setComment(result.data.comment);
-        setReviewExists(true);
-      } else {
-        console.error(result.message);
-      }
-    };
-
-    getReview();
-  }, []);
-
-  const handleSave = async () => {
-    setLoading(true);
-    const result = await saveReview(rating, comment, reviewExists);
-    if (result.success) {
-      setReviewExists(true);
-    } else {
-      console.error(result.message);
+    if (review?.success && review.data) {
+      setRating(review.data.rating);
+      setComment(review.data.comment);
     }
-    setLoading(false);
-  };
+  }, [review]);
 
-  const handleDelete = async () => {
-    setLoading(true);
-    const result = await deleteReview();
-    if (result.success) {
+  const saveMutation = useMutation({
+    mutationFn: () => saveReview(rating, comment, !!review?.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['review'] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteReview,
+    onSuccess: () => {
       setRating(0);
       setComment('');
-      setReviewExists(false);
-    } else {
-      console.error(result.message);
-    }
-    setLoading(false);
-  };
+      queryClient.invalidateQueries({ queryKey: ['review'] });
+    },
+  });
 
   return (
-    <div className="">
+    <div>
       <div className="mb-[20px] md:mb-[24px]">
         <p className="text-[12px] leading-[1.16] text-blackText">Rating</p>
         <ReactStars
@@ -80,17 +69,17 @@ export const FeedbackForm = () => {
       <div className="mt-4 flex justify-between">
         <button
           className="rounded-md bg-blue-500 px-4 py-2 text-white disabled:bg-gray-400"
-          onClick={handleSave}
-          disabled={loading}
+          onClick={() => saveMutation.mutate()}
+          disabled={saveMutation.isPending || isLoading}
         >
-          {reviewExists ? 'Edit Review' : 'Submit Review'}
+          {review?.data ? 'Edit Review' : 'Submit Review'}
         </button>
 
-        {reviewExists && (
+        {review?.data && (
           <button
             className="rounded-md bg-red-500 px-4 py-2 text-white disabled:bg-gray-400"
-            onClick={handleDelete}
-            disabled={loading}
+            onClick={() => deleteMutation.mutate()}
+            disabled={deleteMutation.isPending}
           >
             Delete Review
           </button>
