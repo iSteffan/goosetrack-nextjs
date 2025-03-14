@@ -3,12 +3,21 @@
 import { useEffect, useState } from 'react';
 import ReactStars from 'react-stars';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
+import { toast } from 'react-toastify';
 
-export const FeedbackForm = () => {
+import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
+import EditIcon from '@/public/icon/feedbackEdit.svg';
+import DeleteIcon from '@/public/icon/feedbackDelete.svg';
+
+interface IFeedbackForm {
+  onClose: () => void;
+}
+
+export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
   const queryClient = useQueryClient();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const { data: review, isLoading } = useQuery({
     queryKey: ['review'],
@@ -26,6 +35,10 @@ export const FeedbackForm = () => {
     mutationFn: () => saveReview(rating, comment, !!review?.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['review'] });
+      toast.success('Review saved successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to save review. Please try again.');
     },
   });
 
@@ -35,13 +48,37 @@ export const FeedbackForm = () => {
       setRating(0);
       setComment('');
       queryClient.invalidateQueries({ queryKey: ['review'] });
+      toast.success('Review deleted successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to delete review. Please try again.');
     },
   });
 
+  const handleSave = () => {
+    if (rating === 0) {
+      toast.error('Please provide a rating before submitting.');
+      return;
+    }
+
+    if (comment.trim() === '') {
+      toast.error('Review text cannot be empty.');
+      return;
+    }
+
+    saveMutation.mutate();
+  };
+
+  const handleEdit = () => {
+    setIsEditOpen(!isEditOpen);
+  };
+
   return (
-    <div>
+    <div className="w-[295px] md:w-[404px]">
       <div className="mb-[20px] md:mb-[24px]">
-        <p className="text-[12px] leading-[1.16] text-blackText">Rating</p>
+        <p className="text-[12px] leading-[1.16] text-blackText dark:text-grayTheme">
+          Rating
+        </p>
         <ReactStars
           count={5}
           size={30}
@@ -54,37 +91,57 @@ export const FeedbackForm = () => {
       </div>
 
       <div>
-        <p className="mb-[8px] text-[12px] leading-[1.16] text-blackText">
-          Review
-        </p>
+        <div className="mb-[8px] flex h-[30px] items-center justify-between">
+          <p className="text-[12px] leading-[1.16] text-blackText dark:text-grayTheme">
+            Review
+          </p>
+
+          {review?.data && (
+            <div className="flex gap-[8px]">
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="group flex h-[30px] w-[30px] items-center justify-center rounded-[50%] bg-[#E3F3FF] transition-colors hover:bg-blueMain dark:bg-[#353647] dark:hover:bg-blueMain"
+              >
+                <EditIcon className="h-[16px] w-[16px] stroke-[#3E85F3] transition-colors group-hover:stroke-white" />
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteMutation.mutate()}
+                disabled={deleteMutation.isPending}
+                className="group flex h-[30px] w-[30px] items-center justify-center rounded-[50%] bg-[#ea3d6533] transition-colors hover:bg-blueMain"
+              >
+                <DeleteIcon className="h-[16px] w-[16px] stroke-[#EA3D65] transition-colors group-hover:stroke-white" />
+              </button>
+            </div>
+          )}
+        </div>
 
         <textarea
-          className="w-full rounded-[8px] border bg-grayBg px-[14px] py-[12px]"
+          className="min-h-[130px] w-full rounded-[8px] border bg-grayBg px-[14px] py-[12px] text-[14px] leading-[1.28] dark:bg-blackLightBg dark:text-white"
           placeholder="Write your review..."
           value={comment}
           onChange={e => setComment(e.target.value)}
         ></textarea>
       </div>
 
-      <div className="mt-4 flex justify-between">
-        <button
-          className="rounded-md bg-blue-500 px-4 py-2 text-white disabled:bg-gray-400"
-          onClick={() => saveMutation.mutate()}
-          disabled={saveMutation.isPending || isLoading}
-        >
-          {review?.data ? 'Edit Review' : 'Submit Review'}
-        </button>
-
-        {review?.data && (
+      {(!review?.data || isEditOpen) && (
+        <div className="mt-[14px] flex justify-between gap-[8px]">
           <button
-            className="rounded-md bg-red-500 px-4 py-2 text-white disabled:bg-gray-400"
-            onClick={() => deleteMutation.mutate()}
-            disabled={deleteMutation.isPending}
+            className="btnEffect w-full rounded-[8px] bg-blueMain py-[12px] text-[14px] font-600 text-white"
+            onClick={handleSave}
+            disabled={saveMutation.isPending || isLoading}
           >
-            Delete Review
+            {review?.data ? 'Edit' : 'Save'}
           </button>
-        )}
-      </div>
+          <button
+            className="w-full rounded-[8px] bg-[#E5EDFA] py-[12px] text-[14px] font-600 text-blackText dark:bg-[#21222C] dark:text-white"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
     </div>
   );
 };

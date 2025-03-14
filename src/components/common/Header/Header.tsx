@@ -70,7 +70,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
       </header>
 
       <Modal isOpen={isModalOpen} onClose={handleToggleModal} isFeedback>
-        <FeedbackForm />
+        <FeedbackForm onClose={handleToggleModal} />
       </Modal>
     </>
   );
