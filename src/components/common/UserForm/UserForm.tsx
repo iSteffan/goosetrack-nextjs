@@ -27,18 +27,8 @@ export const UserForm = () => {
 
   const [showComponents, setShowComponents] = useState(false);
 
-  console.log('data account', data);
-
-  useEffect(() => {
-    if (isFetching) {
-      setShowComponents(false);
-    } else {
-      const timer = setTimeout(() => {
-        setShowComponents(true);
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [isFetching]);
+  //   console.log('data account', data);
+  //   console.log('showComponents', showComponents);
 
   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
 
@@ -89,20 +79,6 @@ export const UserForm = () => {
     },
   });
 
-  //   const onSubmit = async values => {
-  //     // Відправляємо тільки змінені значення
-  //     const updatedFields = {};
-  //     Object.keys(values).forEach(key => {
-  //       if (values[key] !== data?.user[key]) {
-  //         updatedFields[key] = values[key];
-  //       }
-  //     });
-
-  //     if (Object.keys(updatedFields).length > 0) {
-  //       await mutation.mutateAsync(updatedFields);
-  //     }
-  //   };
-
   const onSubmit = async (values: IUser) => {
     const updatedFields: Partial<IUser> = {};
 
@@ -116,6 +92,21 @@ export const UserForm = () => {
       await mutation.mutateAsync(updatedFields);
     }
   };
+
+  useEffect(() => {
+    if (isFetching) {
+      setShowComponents(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowComponents(true);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isFetching]);
+
+  if (isFetching || !showComponents) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
