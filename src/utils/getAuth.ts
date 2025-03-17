@@ -1,3 +1,5 @@
+import { IUser } from '@/components/common/UserForm/UserForm';
+
 export const registerUser = async (formData: {
   name: string;
   email: string;
@@ -78,5 +80,26 @@ export const logout = async () => {
 
   if (!response.ok) {
     throw new Error('Failed to logout');
+  }
+};
+
+export const updateUser = async (userData: Partial<IUser>) => {
+  try {
+    const response = await fetch('/api/auth/users/edit', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update user data');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating user data:', error);
+    throw error;
   }
 };

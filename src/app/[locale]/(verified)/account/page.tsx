@@ -1,11 +1,10 @@
-// import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
-import { Link } from '@/i18n/routing';
-import { useTranslations } from 'next-intl';
-// import { useRouter } from 'next/router';
+// import { Link } from '@/i18n/routing';
+// import { useTranslations } from 'next-intl';
+
+import { UserForm } from '@/components/common/UserForm/UserForm';
 
 export default function Page() {
-  const t = useTranslations('AccountPage');
-  // const router = useRouter();
+  // const t = useTranslations('AccountPage');
 
   // const handleLanguageChange = (newLang: string) => {
 
@@ -14,8 +13,11 @@ export default function Page() {
   // };
 
   return (
-    <>
-      <h1>{t('title')}</h1>
+    <section className="bg-grayBg pb-[40px] pt-[95px]">
+      <div className="container">
+        <UserForm />
+      </div>
+      {/* <h1>{t('title')}</h1>
       <Link href="/">{t('home')}</Link>
       <div className="flex flex-col">
         <Link
@@ -32,14 +34,8 @@ export default function Page() {
         >
           Switch to Ukrainian
         </Link>
-        {/* <button onClick={() => handleLanguageChange('en')}>
-          {t('english')}
-        </button>
-        <button onClick={() => handleLanguageChange('uk')}>
-          {t('ukrainian')}
-        </button> */}
-      </div>
-      {/* <ThemeToggle /> */}
-    </>
+
+      </div> */}
+    </section>
   );
 }
