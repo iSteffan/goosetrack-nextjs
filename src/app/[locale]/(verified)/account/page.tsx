@@ -14,7 +14,7 @@ export default function Page() {
 
   return (
     <section className="bg-grayBg pb-[40px] pt-[95px]">
-      <div className="container">
+      <div className="container xl:px-[32px]">
         <UserForm />
       </div>
       {/* <h1>{t('title')}</h1>

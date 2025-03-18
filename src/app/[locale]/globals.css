@@ -35,6 +35,10 @@
     @apply h-[46px] rounded-[8px] border-[1px] border-inputBorder py-[18px] pl-[18px] pr-[60px] text-[14px] font-400 leading-[1.28] text-blackCustom md:h-[54px];
   }
 
+  .inputAccount {
+    @apply h-[42px] w-full rounded-[8px] border-[1px] border-inputBorder px-[14px] py-[12px] text-[14px] font-600 leading-[1.28] text-blackCustom md:h-[46px] md:text-[16px] md:leading-[1.18];
+  }
+
   .inputError {
     @apply absolute bottom-[-16px] left-[19px] text-[10px] font-400 leading-[1.16] text-error md:bottom-[-18px] md:text-[12px];
   }
