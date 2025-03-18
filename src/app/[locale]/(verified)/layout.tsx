@@ -65,21 +65,18 @@ export default function VerifiedUserLayout({
   //   }
   // }, [data]);
 
-  // Логіка для прослуховування зміни ширини екрана
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1440px)');
     const handleMediaQueryChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
-        setIsBurgerOpen(false); // Закриваємо бургер-меню, якщо екран більший за 1440px
+        setIsBurgerOpen(false);
       }
     };
 
-    // Початкове перевірка
     if (mediaQuery.matches) {
-      setIsBurgerOpen(false); // Якщо екран уже більший за 1440px
+      setIsBurgerOpen(false);
     }
 
-    // Додаємо слухач змін
     mediaQuery.addEventListener('change', handleMediaQueryChange);
 
     return () => {
@@ -91,15 +88,13 @@ export default function VerifiedUserLayout({
   const onOpenMenu = () => setIsBurgerOpen(true);
 
   return (
-    <>
-      <div className="min-h-screen xl:grid xl:grid-cols-[auto_1fr]">
-        <SideBar />
-        <div className="flex w-full flex-col">
-          <Header pageName={pageName} onOpen={onOpenMenu} />
-          <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
-          {children}
-        </div>
+    <div className="min-h-screen xl:pl-[289px]">
+      <SideBar />
+      <div className="flex w-full flex-col">
+        <Header pageName={pageName} onOpen={onOpenMenu} />
+        <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
+        {children}
       </div>
-    </>
+    </div>
   );
 }

@@ -11,13 +11,13 @@ interface ISideBar {
 export const SideBar = ({ onClose, isBurgerMenu }: ISideBar) => {
   return (
     <aside
-      className={
-        !isBurgerMenu
-          ? 'dark:bg-blackSidebarBg hidden w-[289px] bg-white xl:block'
-          : ''
-      }
+      className={`flex ${
+        isBurgerMenu
+          ? ''
+          : 'fixed left-0 top-0 z-50 hidden h-screen flex-col bg-white dark:bg-blackSidebarBg xl:block'
+      }`}
     >
-      <div className="relavite px-[20px] py-[24px] md:px-[24px] md:py-[32px]">
+      <div className="relavite w-[225px] px-[20px] py-[24px] md:w-[289px] md:px-[24px] md:py-[32px]">
         <div className="mb-[64px] flex items-center md:mb-[50px] xl:mb-[32px]">
           <GooseIcon className="mr-[6px] h-[35px] w-[36px] xl:mr-[10px]" />
 
