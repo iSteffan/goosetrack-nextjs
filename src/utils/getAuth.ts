@@ -83,14 +83,42 @@ export const logout = async () => {
   }
 };
 
-export const updateUser = async (userData: Partial<IUser>) => {
+// export const updateUser = async (userData: Partial<IUser>) => {
+//   try {
+//     const response = await fetch('/api/auth/users/edit', {
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(userData),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Failed to update user data');
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Error updating user data:', error);
+//     throw error;
+//   }
+// };
+
+export const updateUser = async (userData: Partial<IUser>, avatar?: File) => {
   try {
+    const formData = new FormData();
+
+    Object.entries(userData).forEach(([key, value]) => {
+      if (value) formData.append(key, value);
+    });
+
+    if (avatar) {
+      formData.append('avatar', avatar);
+    }
+
     const response = await fetch('/api/auth/users/edit', {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
+      body: formData,
     });
 
     if (!response.ok) {
