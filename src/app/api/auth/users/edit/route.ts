@@ -46,7 +46,7 @@ export async function PATCH(req: Request) {
     }
 
     const formData = await req.formData();
-    const updates: UserUpdates = {}; // Використовуємо новий тип
+    const updates: UserUpdates = {};
 
     const avatarURL = formData.get('avatarURL');
     if (avatarURL && typeof avatarURL === 'string') {
@@ -58,7 +58,7 @@ export async function PATCH(req: Request) {
     ['name', 'email', 'birthday', 'phone', 'telegram'].forEach(key => {
       const value = formData.get(key);
       if (value) {
-        updates[key as keyof UserUpdates] = value as string; // Явне приведення типу
+        updates[key as keyof UserUpdates] = value as string;
         console.log(`Added to updates: ${key} - ${value}`);
       }
     });

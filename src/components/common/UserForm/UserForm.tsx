@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
 
 import { updateUser } from '@/utils/getAuth';
@@ -28,7 +29,8 @@ export const UserForm = () => {
   const isFetching = useIsFetching({ queryKey: ['user'] });
 
   const [showComponents, setShowComponents] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
@@ -67,20 +69,6 @@ export const UserForm = () => {
     },
   });
 
-  const onSubmit = async (values: IUser) => {
-    const updatedFields: Partial<IUser> = {};
-
-    Object.keys(values).forEach(key => {
-      if (values[key as keyof IUser] !== data?.user[key as keyof IUser]) {
-        updatedFields[key as keyof IUser] = values[key as keyof IUser];
-      }
-    });
-
-    if (Object.keys(updatedFields).length > 0) {
-      await mutation.mutateAsync(updatedFields);
-    }
-  };
-
   useEffect(() => {
     if (isFetching) {
       setShowComponents(false);
@@ -94,41 +82,37 @@ export const UserForm = () => {
 
   const watchedValues = useWatch<IUser>({ control });
 
-  const isFormChanged = (Object.keys(watchedValues) as (keyof IUser)[]).some(
-    key => watchedValues[key] !== data?.user[key],
-  );
+  const isFormChanged =
+    (Object.keys(watchedValues) as (keyof IUser)[]).some(
+      key => watchedValues[key] !== data?.user[key],
+    ) || avatarFile !== null;
 
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (file) {
+      setAvatarFile(file);
+    }
+  };
 
-    setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append(
-      'upload_preset',
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!,
-    );
+  const onSubmit = async (values: IUser) => {
+    const updatedFields: Partial<IUser> = {};
 
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        {
-          method: 'POST',
-          body: formData,
-        },
-      );
-      const data = await response.json();
-      // console.log('data cloud', data);
-      if (data.secure_url) {
-        await mutation.mutateAsync({ avatarURL: data.secure_url });
+    (Object.keys(values) as (keyof IUser)[]).forEach(key => {
+      if (values[key] !== data?.user[key]) {
+        updatedFields[key] = values[key];
       }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    } finally {
-      setUploading(false);
+    });
+
+    if (avatarFile) {
+      const avatarURL = await uploadToCloudinary(avatarFile);
+      if (avatarURL) {
+        updatedFields.avatarURL = avatarURL;
+      }
+    }
+
+    if (Object.keys(updatedFields).length > 0) {
+      await mutation.mutateAsync(updatedFields);
+      setAvatarFile(null);
     }
   };
 
@@ -140,13 +124,21 @@ export const UserForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <div className="relative rounded-[16px] bg-white px-[18px] pb-[40px] pt-[59px] dark:bg-blackAccentBg md:px-[175px] md:pt-[40px] xl:px-[164px] xl:py-[60px]">
         <div className="absolute left-1/2 top-[-32px] flex h-[72px] w-[72px] translate-x-[-50%] items-center justify-center rounded-[72px] border-[2px] border-blueMain bg-white text-[36px] font-700 leading-[1.28] text-blackCustom dark:bg-blackAccentBg dark:text-white md:relative md:left-0 md:top-0 md:mx-auto md:mb-[20px] md:h-[124px] md:w-[124px] md:transform-none md:rounded-[124px] md:text-[48px]">
-          {data?.user?.avatarURL ? (
+          {avatarFile ? (
+            <Image
+              src={URL.createObjectURL(avatarFile)}
+              alt="user avatar"
+              width={72}
+              height={72}
+              className="h-full w-full rounded-full object-cover"
+            />
+          ) : data?.user?.avatarURL ? (
             <Image
               src={data?.user?.avatarURL}
               alt="user avatar"
               width={72}
               height={72}
-              className="rounded-full object-cover"
+              className="h-full w-full rounded-full object-cover"
             />
           ) : (
             <p>{firstLetter}</p>
@@ -156,7 +148,6 @@ export const UserForm = () => {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             className="btnEffect absolute bottom-[-6px] right-[13px] flex h-[14px] w-[14px] items-center justify-center rounded-[50%] bg-blueMain md:h-[24px] md:w-[24px]"
-            disabled={uploading}
           >
             <PlusIcon className="h-[8px] w-[8px] md:h-[18px] md:w-[18px]" />
           </button>
