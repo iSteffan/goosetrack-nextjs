@@ -113,7 +113,7 @@ export const updateUser = async (userData: Partial<IUser>, avatar?: File) => {
     });
 
     if (avatar) {
-      formData.append('avatar', avatar);
+      formData.append('avatarURL', avatar);
     }
 
     const response = await fetch('/api/auth/users/edit', {
