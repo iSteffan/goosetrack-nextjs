@@ -13,6 +13,7 @@ import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
 
 import { updateUser } from '@/utils/getAuth';
+import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkeleton';
 
 export interface IUser {
   name: string;
@@ -117,7 +118,7 @@ export const UserForm = () => {
   };
 
   if (isFetching || !showComponents) {
-    return <div>Loading...</div>;
+    return <UserFormSkeleton />;
   }
 
   return (

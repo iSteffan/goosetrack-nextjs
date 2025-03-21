@@ -24,7 +24,7 @@ export const UserInfo = () => {
 
   return (
     <div className="flex items-center gap-[8px] md:gap-[14px]">
-      <p className="text-[14px] font-700 leading-[1.28] text-blackCustom dark:text-white md:text-[18px] md:leading-[1]">
+      <p className="max-w-[80px] truncate text-[14px] font-700 leading-[1.28] text-blackCustom dark:text-white md:max-w-[200px] md:text-[18px] md:leading-[1]">
         {data?.user?.name}
       </p>
 
