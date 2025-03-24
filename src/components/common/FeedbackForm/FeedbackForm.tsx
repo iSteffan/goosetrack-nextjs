@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
 import EditIcon from '@/public/icon/feedbackEdit.svg';
 import DeleteIcon from '@/public/icon/feedbackDelete.svg';
+import { FeedbackFormSkeleton } from '@/components/ui/FeedbackFormSkeleton/FeedbackFormSkeleton';
 
 interface IFeedbackForm {
   onClose: () => void;
@@ -18,11 +19,27 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [showComponents, setShowComponents] = useState(false);
 
-  const { data: review, isLoading } = useQuery({
+  const {
+    data: review,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['review'],
     queryFn: fetchReview,
   });
+
+  useEffect(() => {
+    if (isFetching) {
+      setShowComponents(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowComponents(true);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isFetching]);
 
   useEffect(() => {
     if (review?.success && review.data) {
@@ -73,6 +90,12 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
     setIsEditOpen(!isEditOpen);
   };
 
+  if (isFetching || !showComponents) {
+    return <FeedbackFormSkeleton />;
+  }
+
+  // return <FeedbackFormSkeleton />;
+
   return (
     <div className="w-[295px] md:w-[404px]">
       <div className="mb-[20px] md:mb-[24px]">
@@ -81,7 +104,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
         </p>
         <ReactStars
           count={5}
-          size={30}
+          size={24}
           color2={'#FFAC33'}
           color1={'#CEC9C1'}
           value={rating}
