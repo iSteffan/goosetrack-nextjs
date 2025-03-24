@@ -13,7 +13,7 @@ interface DecodedToken {
   exp: number;
 }
 
-export async function POST() {
+export async function GET() {
   try {
     await dbConnect();
 

@@ -7,7 +7,7 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
 import { UserInfo } from '@/components/ui/UserInfo/UserInfo';
 import { Modal } from '@/components/ui/Modal/Modal';
-import { HeaderSkeleton } from '@/components/ui/HeaderSkeleton/HeaderSkeleton';
+import { HeaderLoader } from '@/components/ui/HeaderLoader/HeaderLoader';
 import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
 import MenuIcon from '@/public/icon/menu.svg';
@@ -56,7 +56,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
 
           <div className="flex items-center justify-end leading-[1]">
             {isFetching || !showComponents ? (
-              <HeaderSkeleton />
+              <HeaderLoader />
             ) : (
               <>
                 <AddFeedbackBtn onOpen={handleToggleModal} />
