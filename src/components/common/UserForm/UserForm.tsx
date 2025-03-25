@@ -42,7 +42,7 @@ export const UserForm = () => {
     handleSubmit,
     control,
     setValue,
-    formState: {},
+    formState: { errors },
   } = useForm<IUser>({
     defaultValues: {
       name: '',
@@ -171,14 +171,28 @@ export const UserForm = () => {
 
         <div className="mb-[40px] flex flex-col gap-[18px] md:gap-[24px] xl:mb-[88px] xl:grid xl:grid-cols-2 xl:gap-x-[50px]">
           <div className="flex flex-col gap-[18px] md:gap-[24px]">
-            <div>
+            <div className="relative">
               <label
                 htmlFor="name"
                 className="mb-[8px] block text-[12px] font-400 leading-[1.16] text-blackCustom dark:text-grayTheme md:text-[14px] md:leading-[1.28]"
               >
                 User Name
               </label>
-              <input id="name" {...register('name')} className="inputAccount" />
+              {/* <input id="name" {...register('name')} className="inputAccount" /> */}
+              <input
+                id="name"
+                {...register('name', {
+                  required: 'Name is required',
+                  maxLength: {
+                    value: 16,
+                    message: 'Name cannot be longer than 16 characters',
+                  },
+                })}
+                className="inputAccount"
+              />
+              {errors.name && (
+                <p className="inputError">{errors.name.message}</p>
+              )}
             </div>
 
             <div>
