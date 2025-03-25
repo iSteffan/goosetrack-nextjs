@@ -7,7 +7,8 @@ import {
 } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm, useWatch, Controller } from 'react-hook-form';
+import { PatternFormat } from 'react-number-format';
 
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
@@ -218,11 +219,25 @@ export const UserForm = () => {
               >
                 Phone
               </label>
-              <input
-                id="phone"
-                {...register('phone')}
-                className="inputAccount"
-                placeholder="38 (XXX) XXX XX XX"
+
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <PatternFormat
+                    {...field}
+                    format="+38 (###) ### ## ##"
+                    mask="_"
+                    className="inputAccount"
+                    placeholder="+38 (XXX) XXX XX XX"
+                    value={field.value || ''}
+                    allowEmptyFormatting
+                    onValueChange={values => {
+                      setValue('phone', values.value);
+                    }}
+                    disabled={false}
+                  />
+                )}
               />
             </div>
 
