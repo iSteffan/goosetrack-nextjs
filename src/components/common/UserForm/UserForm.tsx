@@ -222,7 +222,7 @@ export const UserForm = () => {
                 id="phone"
                 {...register('phone')}
                 className="inputAccount"
-                placeholder="38 (097) 256 34 77"
+                placeholder="38 (XXX) XXX XX XX"
               />
             </div>
 

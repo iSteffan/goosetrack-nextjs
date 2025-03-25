@@ -9,19 +9,19 @@ export const FeedbackFormSkeleton = () => {
       highlightColor="var(--skeleton-highlight)"
     >
       <div className="w-[295px] md:w-[404px]">
-        <div className="mb-[2px] md:mb-[8px] xl:mb-[6px]">
+        <div className="mb-[2px] md:mb-[7px]">
           <Skeleton className="h-[14px]" />
         </div>
 
-        <div className="mb-[18px] xl:mb-[42px]">
+        <div className="mb-[18px]">
           <Skeleton className="h-[24px]" />
         </div>
 
-        <div className="mb-[6px] xl:mb-[42px]">
+        <div className="mb-[6px]">
           <Skeleton className="h-[14px]" />
         </div>
 
-        <div className="mb-[12px] xl:mb-[42px]">
+        <div className="mb-[12px]">
           <Skeleton className="h-[142px]" />
         </div>
 

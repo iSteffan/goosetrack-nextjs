@@ -94,8 +94,6 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
     return <FeedbackFormSkeleton />;
   }
 
-  // return <FeedbackFormSkeleton />;
-
   return (
     <div className="w-[295px] md:w-[404px]">
       <div className="mb-[20px] md:mb-[24px]">
@@ -141,7 +139,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
         </div>
 
         <textarea
-          className="min-h-[130px] w-full rounded-[8px] border bg-grayBg px-[14px] py-[12px] text-[14px] leading-[1.28] dark:bg-blackLightBg dark:text-white"
+          className="min-h-[130px] w-full resize-none rounded-[8px] border bg-grayBg px-[14px] py-[12px] text-[14px] leading-[1.28] dark:bg-blackLightBg dark:text-white"
           placeholder="Write your review..."
           value={comment}
           onChange={e => setComment(e.target.value)}

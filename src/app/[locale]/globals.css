@@ -69,3 +69,23 @@
     @apply transition-colors hover:bg-blueAccent focus:bg-blueAccent;
   }
 }
+
+.inputStyles:-webkit-autofill,
+.inputStyles:-webkit-autofill:hover,
+.inputStyles:-webkit-autofill:focus,
+.inputStyles:-webkit-autofill:active {
+  background-color: white !important;
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.dark .inputStyles:-webkit-autofill,
+.dark .inputStyles:-webkit-autofill:hover,
+.dark .inputStyles:-webkit-autofill:focus,
+.dark .inputStyles:-webkit-autofill:active {
+  background-color: white !important;
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
