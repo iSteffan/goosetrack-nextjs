@@ -156,7 +156,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
             {review?.data ? 'Edit' : 'Save'}
           </button>
           <button
-            className="w-full rounded-[8px] bg-[#E5EDFA] py-[12px] text-[14px] font-600 text-blackText dark:bg-[#21222C] dark:text-white"
+            className="w-full rounded-[8px] bg-[#E5EDFA] py-[12px] text-[14px] font-600 text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white"
             onClick={onClose}
           >
             Cancel

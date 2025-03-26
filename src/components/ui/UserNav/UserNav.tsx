@@ -7,6 +7,7 @@ import { useLocale } from 'next-intl';
 import CalendarIcon from '@/public/icon/sidebarCalendar.svg';
 import StatIcon from '@/public/icon/sidebarStatistics.svg';
 import UserIcon from '@/public/icon/sidebarUser.svg';
+import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 
 export const UserNav = () => {
   const pathname = usePathname();
@@ -27,9 +28,13 @@ export const UserNav = () => {
 
   return (
     <nav>
-      <p className="dark:text-#FAFAFA4D dark:text-grayTheme mb-[24px] text-[12px] font-600 md:text-[14px] md:text-grayCustom">
-        User Panel
-      </p>
+      <div className="mb-[24px] flex items-center justify-between">
+        <p className="dark:text-#FAFAFA4D text-[12px] font-600 dark:text-grayTheme md:text-[14px] md:text-grayCustom">
+          User Panel
+        </p>
+        <LocaleSwitcher />
+      </div>
+
       <ul className="flex flex-col gap-[18px] md:gap-[16px]">
         <li>
           <Link
