@@ -16,6 +16,7 @@
     "bcrypt": "^5.1.1",
     "classnames": "^2.5.1",
     "cloudinary": "^2.6.0",
+    "date-fns": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "next": "15.1.6",
