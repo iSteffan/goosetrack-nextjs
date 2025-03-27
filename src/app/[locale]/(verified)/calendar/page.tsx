@@ -9,7 +9,7 @@ export default function CalendarPage() {
   const { locale } = useParams();
 
   useEffect(() => {
-    const currentDate = format(new Date(), 'yyyy-MM');
+    const currentDate = format(new Date(), 'yyyy-MM-dd');
     router.replace(`/${locale}/calendar/month/${currentDate}`);
   }, [router, locale]);
 
