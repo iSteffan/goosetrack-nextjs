@@ -68,6 +68,10 @@
   .btnEffect {
     @apply transition-colors hover:bg-blueAccent focus:bg-blueAccent;
   }
+
+  .cardBorder {
+    @apply dark:border-darkThemeBorder border-inputBorder;
+  }
 }
 
 .inputStyles:-webkit-autofill,

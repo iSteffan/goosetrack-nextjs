@@ -1,7 +1,6 @@
 'use client';
 
 import { addMonths, addDays, format, parse, isValid } from 'date-fns';
-import { useRouter } from 'next/navigation';
 
 import ArrowLeftIcon from '@/public/icon/chevron-left.svg';
 import ArrowRightIcon from '@/public/icon/chevron-right.svg';
@@ -17,8 +16,6 @@ export const PeriodPaginator = ({
   selectedDate,
   onDateChange,
 }: PeriodPaginatorProps) => {
-  const router = useRouter();
-
   let dateToParse = selectedDate;
   if (periodType === 'month' && selectedDate.length === 7) {
     dateToParse = `${selectedDate}-01`;
@@ -42,10 +39,6 @@ export const PeriodPaginator = ({
 
     const formattedNewDate = format(newDate, 'yyyy-MM-dd');
     onDateChange(formattedNewDate);
-
-    router.replace(`/uk/calendar/${periodType}/${formattedNewDate}`, {
-      scroll: false,
-    });
   };
 
   const formattedDate =
@@ -63,14 +56,14 @@ export const PeriodPaginator = ({
         <button
           type="button"
           onClick={() => handleChange(-1)}
-          className="rounded-l-[8px] border-[1px] border-inputBorder bg-white px-[10px] py-[7px] dark:border-grayBorder dark:bg-blackAccentBg"
+          className="cardBorder rounded-l-[8px] border-[1px] bg-white px-[10px] py-[7px] dark:bg-blackAccentBg"
         >
           <ArrowLeftIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
         </button>
         <button
           type="button"
           onClick={() => handleChange(1)}
-          className="rounded-r-[8px] border-[1px] border-inputBorder bg-white px-[10px] py-[7px] dark:border-grayBorder dark:bg-blackAccentBg"
+          className="cardBorder rounded-r-[8px] border-[1px] bg-white px-[10px] py-[7px] dark:bg-blackAccentBg"
         >
           <ArrowRightIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
         </button>

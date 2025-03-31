@@ -1,13 +1,56 @@
+// 'use client';
+
+// import { useEffect } from 'react';
+// import { useParams, useRouter } from 'next/navigation';
+// import { format } from 'date-fns';
+// import { CalendarToolbar } from '@/components/common/CalendarToolbar/CalendarToolbar';
+
+// export default function CalendarPage() {
+//   const router = useRouter();
+//   const { params = [], locale } = useParams();
+
+//   useEffect(() => {
+//     if (params.length === 0) {
+//       const currentDate = format(new Date(), 'yyyy-MM-dd');
+//       router.replace(`/${locale}/calendar/month/${currentDate}`);
+//     }
+//   }, [params, locale, router]);
+
+//   const periodType = params[0] === 'day' ? 'day' : 'month';
+//   const currentDate = params[1] || format(new Date(), 'yyyy-MM');
+
+//   return (
+//     <section className="bg-grayBg dark:bg-blackPageBg">
+//       <div className="container pt-[40px]">
+//         <CalendarToolbar currentDate={currentDate} periodType={periodType} />
+
+//         <div>
+//           Контент календаря для {currentDate} ({periodType})
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { CalendarToolbar } from '@/components/common/CalendarToolbar/CalendarToolbar';
+import { ChoosedDay } from '@/components/common/ChoosedDay/ChoosedDay';
 
 export default function CalendarPage() {
   const router = useRouter();
-  const { params = [], locale } = useParams(); 
+  const { params = [], locale } = useParams();
+
+  const initialPeriodType = params[0] === 'day' ? 'day' : 'month';
+  const initialDate = params[1] || format(new Date(), 'yyyy-MM-dd');
+
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [periodType, setPeriodType] = useState<'day' | 'month'>(
+    initialPeriodType,
+  );
 
   useEffect(() => {
     if (params.length === 0) {
@@ -16,15 +59,33 @@ export default function CalendarPage() {
     }
   }, [params, locale, router]);
 
-  const periodType = params[0] === 'day' ? 'day' : 'month';
-  const currentDate = params[1] || format(new Date(), 'yyyy-MM');
+  useEffect(() => {
+    router.replace(`/${locale}/calendar/${periodType}/${selectedDate}`, {
+      scroll: false,
+    });
+  }, [periodType, selectedDate, locale, router]);
 
   return (
     <section className="bg-grayBg dark:bg-blackPageBg">
       <div className="container pt-[40px]">
-        <CalendarToolbar currentDate={currentDate} periodType={periodType} />
+        <CalendarToolbar
+          currentDate={selectedDate}
+          periodType={periodType}
+          onDateChange={setSelectedDate}
+          onPeriodChange={setPeriodType}
+        />
+
         <div>
-          Контент календаря для {currentDate} ({periodType})
+          {periodType === 'day' ? (
+            <ChoosedDay
+              selectedDate={selectedDate}
+              onDateChange={setSelectedDate}
+            />
+          ) : (
+            <div>
+              Контент календаря для {selectedDate} ({periodType})
+            </div>
+          )}
         </div>
       </div>
     </section>
