@@ -54,24 +54,27 @@ export const PeriodPaginator = ({
       : format(parsedDate, 'dd MMMM yyyy');
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center justify-between md:w-[270px]">
       <p className="inline-block rounded-[8px] bg-blueMain px-[12px] py-[6px] text-[14px] font-700 uppercase leading-[1.28] text-white">
         {formattedDate}
       </p>
-      <button
-        type="button"
-        onClick={() => handleChange(-1)}
-        className="rounded-l-[8px] border-[1px] border-inputBorder bg-white px-[10px] py-[7px] dark:border-grayBorder dark:bg-blackAccentBg"
-      >
-        <ArrowLeftIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
-      </button>
-      <button
-        type="button"
-        onClick={() => handleChange(1)}
-        className="rounded-r-[8px] border-[1px] border-inputBorder bg-white px-[10px] py-[7px] dark:border-grayBorder dark:bg-blackAccentBg"
-      >
-        <ArrowRightIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
-      </button>
+
+      <div>
+        <button
+          type="button"
+          onClick={() => handleChange(-1)}
+          className="rounded-l-[8px] border-[1px] border-inputBorder bg-white px-[10px] py-[7px] dark:border-grayBorder dark:bg-blackAccentBg"
+        >
+          <ArrowLeftIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
+        </button>
+        <button
+          type="button"
+          onClick={() => handleChange(1)}
+          className="rounded-r-[8px] border-[1px] border-inputBorder bg-white px-[10px] py-[7px] dark:border-grayBorder dark:bg-blackAccentBg"
+        >
+          <ArrowRightIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
+        </button>
+      </div>
     </div>
   );
 };
