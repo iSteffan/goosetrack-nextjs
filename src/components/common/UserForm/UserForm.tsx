@@ -151,7 +151,7 @@ export const UserForm = () => {
             onClick={() => fileInputRef.current?.click()}
             className="btnEffect absolute bottom-[-6px] right-[13px] flex h-[14px] w-[14px] items-center justify-center rounded-[50%] bg-blueMain md:h-[24px] md:w-[24px]"
           >
-            <PlusIcon className="h-[8px] w-[8px] md:h-[18px] md:w-[18px]" />
+            <PlusIcon className="h-[8px] w-[8px] stroke-white md:h-[18px] md:w-[18px]" />
           </button>
           <input
             type="file"
