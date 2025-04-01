@@ -93,10 +93,8 @@ export const CalendarToolbar = ({
   onDateChange: (newDate: string) => void;
   onPeriodChange: (type: 'day' | 'month') => void;
 }) => {
-
-
   return (
-    <div className="flex flex-col justify-between gap-[18px] p-4 md:flex-row md:items-center">
+    <div className="mb-[24px] flex flex-col justify-between gap-[18px] md:mb-[32px] md:flex-row md:items-center">
       <PeriodPaginator
         periodType={periodType}
         selectedDate={currentDate}
