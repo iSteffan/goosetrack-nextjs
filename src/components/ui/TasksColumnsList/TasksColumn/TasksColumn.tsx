@@ -6,7 +6,7 @@ export const TasksColumn = () => {
   return (
     <div>
       TasksColumn
-      <ColumnHeadBar />
+      <ColumnHeadBar title="To Do" />
       <ColumnsTasksList />
       <AddTaskBtn />
     </div>
