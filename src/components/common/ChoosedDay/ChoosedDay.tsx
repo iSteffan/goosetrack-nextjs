@@ -41,13 +41,12 @@ import { startOfWeek, addDays, parse } from 'date-fns';
 import { DayCalendarHead } from '@/components/ui/DayCalendarHead/DayCalendarHead';
 import { TasksColumnsList } from '@/components/ui/TasksColumnsList/TasksColumnsList';
 
-export const ChoosedDay = ({
-  selectedDate,
-  onDateChange,
-}: {
+interface ChoosedDayProps {
   selectedDate: string;
   onDateChange: (newDate: string) => void;
-}) => {
+}
+
+export const ChoosedDay = ({ selectedDate, onDateChange }: ChoosedDayProps) => {
   const weekStart = startOfWeek(parse(selectedDate, 'yyyy-MM-dd', new Date()), {
     weekStartsOn: 1,
   });

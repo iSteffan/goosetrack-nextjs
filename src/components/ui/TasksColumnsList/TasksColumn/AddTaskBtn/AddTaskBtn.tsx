@@ -1,9 +1,14 @@
 import PlusIcon from '@/public/icon/plus.svg';
 
-export const AddTaskBtn = () => {
+interface AddTaskBtnProps {
+  onOpen: () => void;
+}
+
+export const AddTaskBtn = ({ onOpen }: AddTaskBtnProps) => {
   return (
     <button
       type="button"
+      onClick={onOpen}
       className="btnEffect group flex w-full items-center justify-center gap-[8px] rounded-[8px] border-[1px] border-dashed border-blueMain bg-bluePale py-[12px] dark:bg-blueMain dark:hover:bg-blueAccent"
     >
       <PlusIcon className="h-[24px] w-[24px] stroke-blackCustom group-hover:stroke-white group-focus:stroke-white dark:stroke-white" />
