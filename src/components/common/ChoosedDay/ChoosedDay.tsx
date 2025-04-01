@@ -39,6 +39,7 @@
 
 import { startOfWeek, addDays, parse } from 'date-fns';
 import { DayCalendarHead } from '@/components/ui/DayCalendarHead/DayCalendarHead';
+import { TasksColumnsList } from '@/components/ui/TasksColumnsList/TasksColumnsList';
 
 export const ChoosedDay = ({
   selectedDate,
@@ -55,10 +56,13 @@ export const ChoosedDay = ({
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
   //   console.log('weekDays', weekDays);
   return (
-    <DayCalendarHead
-      weekDays={weekDays}
-      selectedDate={selectedDate}
-      onDateChange={onDateChange}
-    />
+    <>
+      <DayCalendarHead
+        weekDays={weekDays}
+        selectedDate={selectedDate}
+        onDateChange={onDateChange}
+      />
+      <TasksColumnsList />
+    </>
   );
 };
