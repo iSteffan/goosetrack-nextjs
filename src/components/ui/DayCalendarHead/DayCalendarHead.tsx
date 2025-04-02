@@ -18,7 +18,7 @@ export const DayCalendarHead = ({
   //   query: '(min-width: 768px)',
   // });
   return (
-    <ul className="cardBorder flex justify-between rounded-[8px] border-[1px] bg-white px-[18px] py-[14px] dark:bg-blackAccentBg md:px-[32px] md:py-[10px] xl:px-[46px]">
+    <ul className="cardBorder mb-[14px] flex justify-between rounded-[8px] border-[1px] bg-white px-[18px] py-[14px] dark:bg-blackAccentBg md:mb-[16px] md:px-[32px] md:py-[10px] xl:px-[46px]">
       {weekDays.map((day, id) => {
         const formattedDate = format(day, 'yyyy-MM-dd');
         const isActive = isSameDay(day, new Date(selectedDate));

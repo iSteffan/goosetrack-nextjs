@@ -61,7 +61,7 @@ export const ChoosedDay = ({ selectedDate, onDateChange }: ChoosedDayProps) => {
         selectedDate={selectedDate}
         onDateChange={onDateChange}
       />
-      <TasksColumnsList />
+      <TasksColumnsList selectedDate={selectedDate} />
     </>
   );
 };
