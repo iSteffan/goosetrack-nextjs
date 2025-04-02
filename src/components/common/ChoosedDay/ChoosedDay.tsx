@@ -61,6 +61,7 @@ export const ChoosedDay = ({ selectedDate, onDateChange }: ChoosedDayProps) => {
         selectedDate={selectedDate}
         onDateChange={onDateChange}
       />
+      <p>Контент календаря для {selectedDate}</p>
       <TasksColumnsList selectedDate={selectedDate} />
     </>
   );
