@@ -132,7 +132,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
                 disabled={deleteMutation.isPending}
                 className="group flex h-[30px] w-[30px] items-center justify-center rounded-[50%] bg-[#ea3d6533] transition-colors hover:bg-blueMain"
               >
-                <DeleteIcon className="h-[16px] w-[16px] stroke-[#EA3D65] transition-colors group-hover:stroke-white" />
+                <DeleteIcon className="stroke-radioHigh h-[16px] w-[16px] transition-colors group-hover:stroke-white" />
               </button>
             </div>
           )}

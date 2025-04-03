@@ -61,8 +61,20 @@ export default {
         grayBg: '#F7F6F9',
 
         darkThemeBorder: 'rgba(255, 255, 255, 0.15)',
+
+        radioLow: '#72C2F8',
+        radioMed: '#F3B249',
+        radioHigh: '#EA3D65',
       },
     },
   },
+  safelist: [
+    'border-radioLow',
+    'bg-radioLow',
+    'border-radioMed',
+    'bg-radioMed',
+    'border-radioHigh',
+    'bg-radioHigh',
+  ],
   plugins: [],
 } satisfies Config;
