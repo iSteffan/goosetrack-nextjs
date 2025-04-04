@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 import EditIcon from '@/public/icon/feedbackEdit.svg';
 import PlusIcon from '@/public/icon/plus.svg';
+import { createTask } from '@/utils/getTask';
 
 const priorityArr = [
   {
@@ -67,11 +68,19 @@ export const TaskForm = ({
 
   const selectedPriority = watch('priority');
 
-  const onSubmit = data => {
-    console.log('Form submitted:', data);
-    onClose();
-  };
+  const onSubmit = async (data: any) => {
+    try {
+      await createTask({
+        ...data,
+        category,
+        date: selectedDate,
+      });
 
+      onClose();
+    } catch (error) {
+      console.error('Failed to create task', error);
+    }
+  };
   return (
     <div className="w-[267px] md:w-[340px]">
       {/* <p>{category}</p>

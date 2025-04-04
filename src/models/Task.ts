@@ -4,9 +4,9 @@ export interface ITask extends Document {
   title: string;
   start: string;
   end: string;
-  priority: 'low' | 'medium' | 'high';
+  priority: 'Low' | 'Medium' | 'High';
   date: string;
-  category: 'to-do' | 'in-progress' | 'done';
+  category: 'To Do' | 'In Progress' | 'Done';
   userId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -38,7 +38,7 @@ const TaskSchema = new Schema<ITask>(
     priority: {
       type: String,
       required: [true, 'Priority is required'],
-      enum: ['low', 'medium', 'high'],
+      enum: ['Low', 'Medium', 'High'],
     },
     date: {
       type: String,
@@ -48,7 +48,7 @@ const TaskSchema = new Schema<ITask>(
     category: {
       type: String,
       required: [true, 'Category is required'],
-      enum: ['to-do', 'in-progress', 'done'],
+      enum: ['To Do', 'In Progress', 'Done'],
     },
     userId: {
       type: String,
