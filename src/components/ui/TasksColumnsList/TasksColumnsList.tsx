@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-
+import { useQueryClient } from '@tanstack/react-query';
 import { TasksColumn } from './TasksColumn/TasksColumn';
-import { fetchTasks } from '@/utils/getTask';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,7 +10,7 @@ interface TasksColumnsListProps {
   selectedDate: string;
 }
 
-interface Task {
+export interface Task {
   _id: string;
   title: string;
   start: string;
@@ -22,57 +20,43 @@ interface Task {
   category: 'To Do' | 'In Progress' | 'Done';
 }
 
+const categories = ['To Do', 'In Progress', 'Done'] as const;
+
 export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
-  const [tasks, setTasks] = useState<Task[] | null>(null);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const getTasks = async () => {
-      try {
-        const data = await fetchTasks();
-        setTasks(data);
-      } catch (err) {
-        console.log('Помилка при завантаженні завдань');
-        console.error(err);
-      }
-    };
-
-    getTasks();
-  }, []);
-
-  console.log('tasks', tasks);
+  // Отримуємо tasks з кешу, які були завантажені в Layout
+  const tasks = queryClient.getQueryData<Task[]>(['tasks']);
 
   const swiperParams = {
     centeredSlides: false,
     modules: [Navigation],
-
     slidesPerView: 1,
     spaceBetween: 16,
-
     breakpoints: {
-      768: {
-        slidesPerView: 2,
-      },
-
-      1280: {
-        slidesPerView: 3,
-        spaceBetween: 20,
-      },
+      768: { slidesPerView: 2 },
+      1280: { slidesPerView: 3, spaceBetween: 20 },
     },
   };
 
   return (
-    <Swiper {...swiperParams} className={`w-full`}>
-      <SwiperSlide>
-        <TasksColumn title="To Do" selectedDate={selectedDate} />
-      </SwiperSlide>
+    <Swiper {...swiperParams} className="w-full">
+      {categories.map(category => {
+        const tasksByCategory =
+          tasks?.filter(
+            task => task.category === category && task.date === selectedDate,
+          ) || [];
 
-      <SwiperSlide>
-        <TasksColumn title="In Progress" selectedDate={selectedDate} />
-      </SwiperSlide>
-
-      <SwiperSlide>
-        <TasksColumn title="Done" selectedDate={selectedDate} />
-      </SwiperSlide>
+        return (
+          <SwiperSlide key={category}>
+            <TasksColumn
+              title={category}
+              selectedDate={selectedDate}
+              tasks={tasksByCategory}
+            />
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 };

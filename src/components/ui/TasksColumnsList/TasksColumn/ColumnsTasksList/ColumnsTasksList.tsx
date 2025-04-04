@@ -1,10 +1,14 @@
+import { Task } from '../../TasksColumnsList';
 import { TaskColumnCard } from './TaskColumnCard/TaskColumnCard';
 
-export const ColumnsTasksList = () => {
+interface ColumnsTasksListProps {
+  tasks: Task[];
+}
+
+export const ColumnsTasksList = ({ tasks }: ColumnsTasksListProps) => {
   return (
     <div>
-      ColumnTasksList
-      <TaskColumnCard />
+      <TaskColumnCard task={tasks[0]} />
     </div>
   );
 };
