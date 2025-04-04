@@ -10,8 +10,10 @@ interface TaskData {
 }
 
 export const fetchTasks = async () => {
-  const response = await axios.get('/api/tasks');
-  return response.data;
+  const response = await axios.get('/api/tasks', {
+    withCredentials: true,
+  });
+  return response.data.tasks;
 };
 
 export const createTask = async (task: TaskData) => {
