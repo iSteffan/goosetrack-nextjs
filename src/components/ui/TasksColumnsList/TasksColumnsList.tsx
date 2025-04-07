@@ -1,3 +1,5 @@
+'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { useQueryClient } from '@tanstack/react-query';
@@ -24,8 +26,6 @@ const categories = ['To Do', 'In Progress', 'Done'] as const;
 
 export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   const queryClient = useQueryClient();
-
-  // Отримуємо tasks з кешу, які були завантажені в Layout
   const tasks = queryClient.getQueryData<Task[]>(['tasks']);
 
   const swiperParams = {
@@ -39,24 +39,26 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
     },
   };
 
+  const columns = categories.map(category => {
+    const tasksByCategory =
+      tasks?.filter(
+        task => task.category === category && task.date === selectedDate,
+      ) || [];
+
+    return (
+      <SwiperSlide key={category}>
+        <TasksColumn
+          title={category}
+          selectedDate={selectedDate}
+          tasks={tasksByCategory}
+        />
+      </SwiperSlide>
+    );
+  });
+
   return (
     <Swiper {...swiperParams} className="w-full">
-      {categories.map(category => {
-        const tasksByCategory =
-          tasks?.filter(
-            task => task.category === category && task.date === selectedDate,
-          ) || [];
-
-        return (
-          <SwiperSlide key={category}>
-            <TasksColumn
-              title={category}
-              selectedDate={selectedDate}
-              tasks={tasksByCategory}
-            />
-          </SwiperSlide>
-        );
-      })}
+      {columns}
     </Swiper>
   );
 };

@@ -19,24 +19,22 @@ interface IHeader {
 
 export const Header = ({ pageName, onOpen }: IHeader) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showComponents, setShowComponents] = useState(false);
+  const [isHydrating, setIsHydrating] = useState(true);
+
+  const isFetching = useIsFetching({ queryKey: ['user'] });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsHydrating(false);
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, []);
 
   const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const isFetching = useIsFetching({ queryKey: ['user'] });
-
-  useEffect(() => {
-    if (isFetching) {
-      setShowComponents(false);
-    } else {
-      const timer = setTimeout(() => {
-        setShowComponents(true);
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [isFetching]);
+  const showLoader = isHydrating || isFetching > 0;
 
   return (
     <>
@@ -55,7 +53,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
           </button>
 
           <div className="flex items-center justify-end leading-[1]">
-            {isFetching || !showComponents ? (
+            {showLoader ? (
               <HeaderLoader />
             ) : (
               <>

@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import {
-  useIsFetching,
+  // useIsFetching,
   // useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
@@ -17,35 +17,35 @@ interface TaskColumnCardProps {
 export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<{ user: IUser }>(['user']);
-  const isFetching = useIsFetching({ queryKey: ['user'] });
+  // const isFetching = useIsFetching({ queryKey: ['user'] });
 
-  const [showComponents, setShowComponents] = useState(false);
+  // const [showComponents, setShowComponents] = useState(false);
 
   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
 
   // console.log('task', task);
 
-  useEffect(() => {
-    if (isFetching) {
-      setShowComponents(false);
-    } else {
-      const timer = setTimeout(() => {
-        setShowComponents(true);
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [isFetching]);
+  // useEffect(() => {
+  //   if (isFetching) {
+  //     setShowComponents(false);
+  //   } else {
+  //     const timer = setTimeout(() => {
+  //       setShowComponents(true);
+  //     }, 400);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isFetching]);
 
-  if (isFetching || !showComponents) {
-    return <p>Loading</p>;
-  }
+  // if (isFetching || !showComponents) {
+  //   return null;
+  // }
 
   if (!task) {
     return null;
   }
 
   return (
-    <div className="border-taskCardBorder rounded-[8px] border-[1px] px-[14px] pb-[18px] pt-[14px] dark:border-darkThemeBorder dark:bg-blackLightBg">
+    <div className="rounded-[8px] border-[1px] border-taskCardBorder px-[14px] pb-[18px] pt-[14px] dark:border-darkThemeBorder dark:bg-blackLightBg">
       <p className="mb-[28px] block text-[14px] leading-[1.28] text-blackCustom dark:text-white">
         {task?.title}
       </p>
