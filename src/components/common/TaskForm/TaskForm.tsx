@@ -2,6 +2,7 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import EditIcon from '@/public/icon/feedbackEdit.svg';
 import PlusIcon from '@/public/icon/plus.svg';
@@ -58,6 +59,8 @@ export const TaskForm = ({
     },
   });
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (initialData) {
       Object.keys(initialData).forEach(key => {
@@ -68,19 +71,38 @@ export const TaskForm = ({
 
   const selectedPriority = watch('priority');
 
-  const onSubmit = async (data: any) => {
-    try {
-      await createTask({
-        ...data,
-        category,
-        date: selectedDate,
-      });
-
+  const { mutate, isPending } = useMutation({
+    mutationFn: createTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
       onClose();
-    } catch (error) {
+    },
+    onError: error => {
       console.error('Failed to create task', error);
-    }
+    },
+  });
+
+  const onSubmit = (data: any) => {
+    mutate({
+      ...data,
+      category,
+      date: selectedDate,
+    });
   };
+
+  // const onSubmit = async (data: any) => {
+  //   try {
+  //     await createTask({
+  //       ...data,
+  //       category,
+  //       date: selectedDate,
+  //     });
+
+  //     onClose();
+  //   } catch (error) {
+  //     console.error('Failed to create task', error);
+  //   }
+  // };
   return (
     <div className="w-[267px] md:w-[340px]">
       {/* <p>{category}</p>
@@ -198,6 +220,7 @@ export const TaskForm = ({
           <button
             type="button"
             onClick={onClose}
+            disabled={isPending}
             className="rounded-[8px] bg-[#EFEFEF] px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white md:px-[48px] md:py-[15px]"
           >
             Cancel

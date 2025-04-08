@@ -2,7 +2,8 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { fetchTasks } from '@/utils/getTask';
 import { TasksColumn } from './TasksColumn/TasksColumn';
 
 import 'swiper/css';
@@ -25,8 +26,12 @@ export interface Task {
 const categories = ['To Do', 'In Progress', 'Done'] as const;
 
 export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
-  const queryClient = useQueryClient();
-  const tasks = queryClient.getQueryData<Task[]>(['tasks']);
+  const { data: tasks = [] } = useQuery<Task[]>({
+    queryKey: ['tasks'],
+    queryFn: fetchTasks,
+  });
+
+  // console.log('TasksColumnsList tasks', tasks);
 
   const swiperParams = {
     centeredSlides: false,

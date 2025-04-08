@@ -26,6 +26,7 @@ export default function VerifiedUserLayout({
   const { data: _tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: fetchTasks,
+    enabled: false, // не тригери автоматично
     staleTime: 1000 * 60 * 5, // 5 хвилин кешу
     notifyOnChangeProps: ['data'],
     initialDataUpdatedAt: () =>

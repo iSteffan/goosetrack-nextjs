@@ -6,9 +6,19 @@ interface ColumnsTasksListProps {
 }
 
 export const ColumnsTasksList = ({ tasks }: ColumnsTasksListProps) => {
+  // console.log('ColumnsTasksList tasks', tasks);
   return (
-    <div>
-      <TaskColumnCard task={tasks[0]} />
-    </div>
+    <ul>
+      {tasks.map(task => {
+        return (
+          <li key={task._id}>
+            <TaskColumnCard task={task} />
+          </li>
+        );
+      })}
+    </ul>
+    // <div>
+    //   <TaskColumnCard task={tasks[0]} />
+    // </div>
   );
 };
