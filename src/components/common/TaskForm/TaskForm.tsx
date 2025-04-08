@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import EditIcon from '@/public/icon/feedbackEdit.svg';
+import EditIcon from '@/public/icon/pencil.svg';
 import PlusIcon from '@/public/icon/plus.svg';
 import { createTask } from '@/utils/getTask';
 

@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
-import EditIcon from '@/public/icon/feedbackEdit.svg';
+import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/feedbackDelete.svg';
 import { FeedbackFormSkeleton } from '@/components/ui/FeedbackFormSkeleton/FeedbackFormSkeleton';
 
@@ -132,7 +132,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
                 disabled={deleteMutation.isPending}
                 className="group flex h-[30px] w-[30px] items-center justify-center rounded-[50%] bg-[#ea3d6533] transition-colors hover:bg-blueMain"
               >
-                <DeleteIcon className="stroke-radioHigh h-[16px] w-[16px] transition-colors group-hover:stroke-white" />
+                <DeleteIcon className="h-[16px] w-[16px] stroke-radioHigh transition-colors group-hover:stroke-white" />
               </button>
             </div>
           )}
