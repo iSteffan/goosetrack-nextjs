@@ -1,70 +1,33 @@
-// export const Page=()=> {
-//   return (
-//     <>
-//       <div>statistics page</div>
-//     </>
-//   );
-// }
-
 'use client';
 
+import { IUser } from '@/components/common/UserForm/UserForm';
 // import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
 // import { toast } from 'react-toastify';
 
-// interface User {
-//   name: string;
-//   email: string;
-//   avatarURL: string;
-//   birthday: string;
-//   phone: string;
-//   telegram: string;
-// }
-
 export default function Page() {
   const queryClient = useQueryClient();
-  const data = queryClient.getQueryData(['user']);
+  const data = queryClient.getQueryData<{ user: IUser }>(['user']);
   // console.log('data statistics', data);
   // const router = useRouter();
 
-  // const handleLogout = async () => {
-  //   try {
-  //     const response = await fetch('/api/auth/logout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to logout');
-  //     }
-
-  //     // Перенаправлення на головну сторінку після логауту
-  //     router.push('/en');
-  //   } catch (error) {
-  //     console.error('Error logging out:', error);
-  //   }
-  // };
+  // Перевіряємо, чи є дані перед рендером
+  if (!data?.user) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
       <h1>User Information</h1>
-      {data.user ? (
-        <div>
-          <div>
-            <p>Name: {data.user.name}</p>
-            <p>Email: {data.user.email}</p>
-            <p>Avatar URL: {data.user.avatarURL}</p>
-            <p>Birthday: {data.user.birthday}</p>
-            <p>Phone: {data.user.phone}</p>
-            <p>Telegram: {data.user.telegram}</p>
-          </div>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <div>
+        <p>Name: {data.user.name}</p>
+        <p>Email: {data.user.email}</p>
+        <p>Avatar URL: {data.user.avatarURL}</p>
+        <p>Birthday: {data.user.birthday}</p>
+        <p>Phone: {data.user.phone}</p>
+        <p>Telegram: {data.user.telegram}</p>
+      </div>
     </div>
   );
 }
