@@ -1,32 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect } from '@/utils/dbConnect';
-
 import Task from '@/models/Task';
-
 import { authMiddleware } from '@/middleware/auth';
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { taskId: string } },
+) {
   const user = authMiddleware(req);
 
-  // Перевіряємо, чи user є об’єктом JwtPayload, а не string
   if (!user || typeof user === 'string') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
   try {
     await dbConnect();
 
-    // Перетворюємо req.url на об'єкт URL
-    const url = new URL(req.url);
-    const id = url.searchParams.get('id'); // Отримуємо ID задачі з query-параметра
+    const { taskId } = params;
 
-    if (!id) {
+    if (!taskId) {
       return NextResponse.json(
         { message: 'Task ID is required' },
         { status: 400 },
       );
     }
 
-    const task = await Task.findById(id);
+    const task = await Task.findById(taskId);
+
     if (!task || task.userId !== user.id) {
       return NextResponse.json(
         { message: 'Task not found or unauthorized' },
@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    await task.remove();
+    await Task.findByIdAndDelete(taskId);
 
     return NextResponse.json(
       { message: 'Task deleted successfully' },

@@ -28,7 +28,9 @@ export const updateTask = async (taskId: string, data: TaskData) => {
   return response.data;
 };
 
-// export const deleteTask = async (taskId: string) => {
-//   const response = await axios.delete(`/api/tasks/delete/${taskId}`);
-//   return response.data;
-// };
+export const deleteTaskById = async (taskId: string) => {
+  const response = await axios.delete(`/api/tasks/delete/${taskId}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};

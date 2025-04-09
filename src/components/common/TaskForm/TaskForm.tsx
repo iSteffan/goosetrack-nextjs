@@ -222,19 +222,19 @@ export const TaskForm = ({
         <div className="flex justify-between gap-[14px]">
           <button
             type="submit"
+            disabled={isPending || isUpdating}
             className="btnEffect flex items-center gap-[8px] rounded-[8px] bg-blueMain px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-white md:px-[64px] md:py-[15px]"
           >
-            {initialData ? (
-              <>
-                <EditIcon className="h-[16px] w-[16px] stroke-white" />
-                <p>Edit</p>
-              </>
-            ) : (
-              <>
+            <>
+              {isPending || isUpdating ? (
+                <div className="h-[18px] w-[18px] animate-spin rounded-full border-[2px] border-white border-t-transparent" />
+              ) : initialData ? (
+                <EditIcon className="h-[18px] w-[18px] stroke-white" />
+              ) : (
                 <PlusIcon className="h-[18px] w-[18px] stroke-white" />
-                <p>Add</p>
-              </>
-            )}
+              )}
+              <p>{initialData ? 'Edit' : 'Add'}</p>
+            </>
           </button>
 
           <button

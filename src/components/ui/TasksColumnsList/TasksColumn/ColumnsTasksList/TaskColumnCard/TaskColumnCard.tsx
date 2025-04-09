@@ -72,7 +72,7 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
           <p className={priorityStyles}>{task?.priority}</p>
         </div>
 
-        <TaskToolbar onOpen={handleToggleModal} />
+        <TaskToolbar onOpen={handleToggleModal} taskId={task._id} />
       </div>
 
       <Modal isOpen={isModalOpen} onClose={handleToggleModal}>
