@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { dbConnect } from '@/utils/dbConnect';
 
+import { dbConnect } from '@/utils/dbConnect';
+import { authMiddleware } from '@/middleware/auth';
 import Task from '@/models/Task';
 
-import { authMiddleware } from '@/middleware/auth';
-
-export async function PATCH(req: NextRequest) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { taskId: string } },
+) {
   const user = authMiddleware(req);
 
-  // Перевіряємо, чи user є об’єктом JwtPayload, а не string
   if (!user || typeof user === 'string') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -16,20 +17,13 @@ export async function PATCH(req: NextRequest) {
   try {
     await dbConnect();
 
-    const data = await req.json();
-    const { id, updates } = data;
+    const updates = await req.json();
+    const taskId = params.taskId;
 
-    if (!id || !updates) {
-      return NextResponse.json(
-        { message: 'Task ID and updates are required' },
-        { status: 400 },
-      );
-    }
-
-    const task = await Task.findById(id);
+    const task = await Task.findById(taskId);
     if (!task || task.userId !== user.id) {
       return NextResponse.json(
-        { message: 'Task not found or unauthorized' },
+        { message: 'Not found or unauthorized' },
         { status: 404 },
       );
     }

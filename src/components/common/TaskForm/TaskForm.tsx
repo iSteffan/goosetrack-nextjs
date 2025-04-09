@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import EditIcon from '@/public/icon/pencil.svg';
 import PlusIcon from '@/public/icon/plus.svg';
-import { createTask } from '@/utils/getTask';
+import { createTask, updateTask } from '@/utils/getTask';
 
 const priorityArr = [
   {
@@ -29,6 +29,7 @@ const priorityArr = [
 interface TaskFormProps {
   category: 'To Do' | 'In Progress' | 'Done';
   initialData?: {
+    _id: string;
     title: string;
     start: string;
     end: string;
@@ -37,6 +38,16 @@ interface TaskFormProps {
   onClose: () => void;
   selectedDate: string;
 }
+
+type TaskFormData = {
+  title: string;
+  start: string;
+  end: string;
+  priority: 'Low' | 'Medium' | 'High';
+  date: string;
+  category: 'To Do' | 'In Progress' | 'Done';
+};
+
 export const TaskForm = ({
   initialData,
   onClose,
@@ -50,7 +61,7 @@ export const TaskForm = ({
     watch,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<TaskFormData>({
     defaultValues: initialData || {
       title: '',
       start: '',
@@ -63,7 +74,9 @@ export const TaskForm = ({
 
   useEffect(() => {
     if (initialData) {
-      Object.keys(initialData).forEach(key => {
+      const keys = ['title', 'start', 'end', 'priority'] as const;
+
+      keys.forEach(key => {
         setValue(key, initialData[key]);
       });
     }
@@ -71,7 +84,7 @@ export const TaskForm = ({
 
   const selectedPriority = watch('priority');
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: createMutate, isPending } = useMutation({
     mutationFn: createTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -82,32 +95,39 @@ export const TaskForm = ({
     },
   });
 
-  const onSubmit = (data: any) => {
-    mutate({
+  const { mutate: updateMutate, isPending: isUpdating } = useMutation({
+    mutationFn: ({
+      taskId,
+      updates,
+    }: {
+      taskId: string;
+      updates: TaskFormData;
+    }) => updateTask(taskId, updates),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      onClose();
+    },
+    onError: error => {
+      console.error('Failed to update task', error);
+    },
+  });
+
+  const onSubmit = (data: TaskFormData) => {
+    const commonData = {
       ...data,
       category,
       date: selectedDate,
-    });
+    };
+
+    if (initialData?._id) {
+      updateMutate({ taskId: initialData._id, updates: commonData });
+    } else {
+      createMutate(commonData);
+    }
   };
 
-  // const onSubmit = async (data: any) => {
-  //   try {
-  //     await createTask({
-  //       ...data,
-  //       category,
-  //       date: selectedDate,
-  //     });
-
-  //     onClose();
-  //   } catch (error) {
-  //     console.error('Failed to create task', error);
-  //   }
-  // };
   return (
     <div className="w-[267px] md:w-[340px]">
-      {/* <p>{category}</p>
-      <p>{selectedDate}</p> */}
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-[16px] md:mb-[18px]">
           <label
@@ -220,7 +240,7 @@ export const TaskForm = ({
           <button
             type="button"
             onClick={onClose}
-            disabled={isPending}
+            disabled={isPending || isUpdating}
             className="rounded-[8px] bg-[#EFEFEF] px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white md:px-[48px] md:py-[15px]"
           >
             Cancel

@@ -10,7 +10,9 @@ import classNames from 'classnames';
 import { IUser } from '@/components/common/UserForm/UserForm';
 import { Task } from '../../../TasksColumnsList';
 import { TaskToolbar } from './TaskToolbar/TaskToolbar';
-
+import { Modal } from '@/components/ui/Modal/Modal';
+import { TaskForm } from '@/components/common/TaskForm/TaskForm';
+import { useState } from 'react';
 interface TaskColumnCardProps {
   task: Task;
 }
@@ -18,6 +20,12 @@ interface TaskColumnCardProps {
 export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<{ user: IUser }>(['user']);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   // const isFetching = useIsFetching({ queryKey: ['user'] });
 
   // const [showComponents, setShowComponents] = useState(false);
@@ -25,21 +33,6 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
 
   // console.log('task', task);
-
-  // useEffect(() => {
-  //   if (isFetching) {
-  //     setShowComponents(false);
-  //   } else {
-  //     const timer = setTimeout(() => {
-  //       setShowComponents(true);
-  //     }, 400);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isFetching]);
-
-  // if (isFetching || !showComponents) {
-  //   return null;
-  // }
 
   const priorityStyles = classNames(
     'inline-block h-[20px] rounded-[4px] px-[12px] py-[4px] text-[10px] font-600 leading-[1.2] text-white',
@@ -79,8 +72,17 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
           <p className={priorityStyles}>{task?.priority}</p>
         </div>
 
-        <TaskToolbar />
+        <TaskToolbar onOpen={handleToggleModal} />
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={handleToggleModal}>
+        <TaskForm
+          selectedDate={task.date}
+          category={task.category}
+          initialData={task}
+          onClose={handleToggleModal}
+        />
+      </Modal>
     </div>
   );
 };

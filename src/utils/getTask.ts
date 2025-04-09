@@ -23,10 +23,10 @@ export const createTask = async (task: TaskData) => {
   return response.data;
 };
 
-// export const updateTask = async (taskId: string, data: TaskData) => {
-//   const response = await axios.patch(`/api/tasks/update/${taskId}`, data);
-//   return response.data;
-// };
+export const updateTask = async (taskId: string, data: TaskData) => {
+  const response = await axios.patch(`/api/tasks/update/${taskId}`, data);
+  return response.data;
+};
 
 // export const deleteTask = async (taskId: string) => {
 //   const response = await axios.delete(`/api/tasks/delete/${taskId}`);
