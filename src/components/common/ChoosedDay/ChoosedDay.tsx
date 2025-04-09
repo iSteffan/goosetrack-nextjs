@@ -1,6 +1,8 @@
 'use client';
 
 import { startOfWeek, addDays, parse } from 'date-fns';
+import { useTranslations } from 'next-intl';
+
 import { DayCalendarHead } from '@/components/ui/DayCalendarHead/DayCalendarHead';
 import { TasksColumnsList } from '@/components/ui/TasksColumnsList/TasksColumnsList';
 
@@ -10,6 +12,8 @@ interface ChoosedDayProps {
 }
 
 export const ChoosedDay = ({ selectedDate, onDateChange }: ChoosedDayProps) => {
+  const t = useTranslations('ChoosedDay');
+
   const weekStart = startOfWeek(parse(selectedDate, 'yyyy-MM-dd', new Date()), {
     weekStartsOn: 1,
   });
@@ -24,7 +28,9 @@ export const ChoosedDay = ({ selectedDate, onDateChange }: ChoosedDayProps) => {
         selectedDate={selectedDate}
         onDateChange={onDateChange}
       />
-      <p>Контент календаря для {selectedDate}</p>
+      <p>
+        {t('content')} {selectedDate}
+      </p>
       <TasksColumnsList selectedDate={selectedDate} />
     </>
   );
