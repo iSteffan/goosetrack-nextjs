@@ -4,7 +4,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/deleteTask.svg';
 import MoveIcon from '@/public/icon/moveTask.svg';
-import { deleteTaskById } from '@/utils/getTask';
+import { deleteTaskById, updateTask } from '@/utils/getTask';
 
 interface TaskToolbarProps {
   taskId: string;
@@ -13,9 +13,9 @@ interface TaskToolbarProps {
 }
 
 export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
-  const useDeleteTask = () => {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
+  const useDeleteTask = () => {
     return useMutation({
       mutationFn: deleteTaskById,
       onSuccess: () => {
@@ -43,6 +43,13 @@ export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
 
   const otherCategories = categories.filter(cat => cat !== category);
 
+  const { mutate: moveTask, isPending: isMoving } = useMutation({
+    mutationFn: (newCategory: TaskToolbarProps['category']) =>
+      updateTask(taskId, { category: newCategory }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
+    onError: error => console.error('Failed to move task', error),
+  });
+
   return (
     <div className="flex items-end">
       <ul className="flex h-[14px] gap-[10px] md:h-[16px]">
@@ -61,6 +68,8 @@ export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
                 <MenuItem key={cat}>
                   <button
                     type="button"
+                    onClick={() => moveTask(cat)}
+                    disabled={isMoving}
                     className="group flex w-full items-center justify-between gap-[8px] transition-colors data-[focus]:text-blueMain"
                   >
                     {cat}

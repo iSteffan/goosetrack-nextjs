@@ -40,7 +40,7 @@ interface TaskFormProps {
   selectedDate: string;
 }
 
-type TaskFormData = {
+export type TaskFormData = {
   title: string;
   start: string;
   end: string;

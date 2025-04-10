@@ -1,13 +1,26 @@
 import axios from 'axios';
 
-interface TaskData {
-  title: string;
-  start: string;
-  end: string;
-  priority: 'Low' | 'Medium' | 'High';
-  date: string;
-  category: 'To Do' | 'In Progress' | 'Done';
-}
+import { TaskFormData } from '@/components/common/TaskForm/TaskForm';
+
+// interface TaskData {
+//   title: string;
+//   start: string;
+//   end: string;
+//   priority: 'Low' | 'Medium' | 'High';
+//   date: string;
+//   category: 'To Do' | 'In Progress' | 'Done';
+// }
+
+// export type TaskData = Partial<{
+//   title: string;
+//   start: string;
+//   end: string;
+//   priority: 'Low' | 'Medium' | 'High';
+//   date: string;
+//   category: 'To Do' | 'In Progress' | 'Done';
+// }>;
+
+export type TaskData = Partial<TaskFormData>;
 
 export const fetchTasks = async () => {
   const response = await axios.get('/api/tasks', {
