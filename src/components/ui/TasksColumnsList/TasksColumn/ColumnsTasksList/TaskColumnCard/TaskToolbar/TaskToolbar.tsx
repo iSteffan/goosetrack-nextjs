@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 
 import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/deleteTask.svg';
@@ -7,10 +8,11 @@ import { deleteTaskById } from '@/utils/getTask';
 
 interface TaskToolbarProps {
   taskId: string;
+  category: 'To Do' | 'In Progress' | 'Done';
   onOpen: () => void;
 }
 
-export const TaskToolbar = ({ onOpen, taskId }: TaskToolbarProps) => {
+export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
   const useDeleteTask = () => {
     const queryClient = useQueryClient();
 
@@ -33,13 +35,41 @@ export const TaskToolbar = ({ onOpen, taskId }: TaskToolbarProps) => {
     }
   };
 
+  const categories: TaskToolbarProps['category'][] = [
+    'To Do',
+    'In Progress',
+    'Done',
+  ];
+
+  const otherCategories = categories.filter(cat => cat !== category);
+
   return (
     <div className="flex items-end">
       <ul className="flex h-[14px] gap-[10px] md:h-[16px]">
         <li>
-          <button type="button" className="group">
-            <MoveIcon className="h-[14px] w-[14px] stroke-blackCustom transition-colors group-hover:stroke-blueMain dark:stroke-white md:h-[16px] md:w-[16px]" />
-          </button>
+          <Menu>
+            <MenuButton className="group">
+              <MoveIcon className="h-[14px] w-[14px] stroke-blackCustom transition-colors group-hover:stroke-blueMain dark:stroke-white md:h-[16px] md:w-[16px]" />
+            </MenuButton>
+
+            <MenuItems
+              transition
+              anchor="top end"
+              className="z-10 flex origin-top-right flex-col gap-[14px] rounded-[8px] bg-white p-[14px] text-[12px] leading-[1.16] text-black transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+            >
+              {otherCategories.map(cat => (
+                <MenuItem key={cat}>
+                  <button
+                    type="button"
+                    className="group flex w-full items-center justify-between gap-[8px] transition-colors data-[focus]:text-blueMain"
+                  >
+                    {cat}
+                    <MoveIcon className="h-[14px] w-[14px] stroke-blackCustom transition-colors group-hover:stroke-blueMain dark:stroke-white md:h-[16px] md:w-[16px]" />
+                  </button>
+                </MenuItem>
+              ))}
+            </MenuItems>
+          </Menu>
         </li>
         <li>
           <button type="button" className="group" onClick={onOpen}>

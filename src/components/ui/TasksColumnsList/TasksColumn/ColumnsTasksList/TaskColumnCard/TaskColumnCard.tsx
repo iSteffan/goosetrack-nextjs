@@ -48,7 +48,7 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
   }
 
   return (
-    <div className="rounded-[8px] border-[1px] border-taskCardBorder px-[14px] pb-[18px] pt-[14px] dark:border-darkThemeBorder dark:bg-blackLightBg">
+    <div className="rounded-[8px] border-[1px] border-taskCardBorder bg-grayBg px-[14px] pb-[18px] pt-[14px] dark:border-darkThemeBorder dark:bg-blackLightBg">
       <p className="mb-[28px] block overflow-hidden text-ellipsis whitespace-nowrap text-[14px] leading-[1.28] text-blackCustom dark:text-white">
         {task?.title}
       </p>
@@ -72,7 +72,11 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
           <p className={priorityStyles}>{task?.priority}</p>
         </div>
 
-        <TaskToolbar onOpen={handleToggleModal} taskId={task._id} />
+        <TaskToolbar
+          onOpen={handleToggleModal}
+          taskId={task._id}
+          category={task.category}
+        />
       </div>
 
       <Modal isOpen={isModalOpen} onClose={handleToggleModal}>
