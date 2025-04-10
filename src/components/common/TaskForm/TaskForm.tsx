@@ -1,8 +1,9 @@
 'use client';
 
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, useWatch, Controller } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import classNames from 'classnames';
 
 import EditIcon from '@/public/icon/pencil.svg';
 import PlusIcon from '@/public/icon/plus.svg';
@@ -112,6 +113,19 @@ export const TaskForm = ({
     },
   });
 
+  const watchedValues = useWatch<TaskFormData>({ control });
+
+  const initialFormValues: Partial<TaskFormData> = {
+    title: initialData?.title,
+    start: initialData?.start,
+    end: initialData?.end,
+    priority: initialData?.priority,
+  };
+
+  const isFormChanged = (
+    Object.keys(initialFormValues) as (keyof TaskFormData)[]
+  ).some(key => watchedValues[key] !== initialFormValues[key]);
+
   const onSubmit = (data: TaskFormData) => {
     const commonData = {
       ...data,
@@ -126,10 +140,23 @@ export const TaskForm = ({
     }
   };
 
+  const submitBtnStyles = classNames(
+    'flex items-center gap-[8px] rounded-[8px] bg-blueMain px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-white disabled:cursor-not-allowed  md:px-[64px] md:py-[15px]',
+    {
+      'disabled:bg-[#EFEFEF] disabled:text-blackText': !isFormChanged,
+      btnEffect: isFormChanged || !isPending || !isUpdating,
+    },
+  );
+
+  const iconStyles = classNames('h-[18px] w-[18px]', {
+    'stroke-blackText': !isFormChanged,
+    'stroke-white': isFormChanged,
+  });
+
   return (
     <div className="w-[267px] md:w-[340px]">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-[16px] md:mb-[18px]">
+        <div className="relative mb-[16px] md:mb-[18px]">
           <label
             htmlFor="title"
             className="mb-[8px] inline-block text-[12px] leading-[1.16] text-blackText dark:text-grayTheme"
@@ -142,14 +169,12 @@ export const TaskForm = ({
             className="h-[42px] w-full rounded-[8px] border-[1px] border-transparent bg-[#F6F6F6] px-[18px] py-[14px] text-[14px] font-600 leading-[1.28] text-blackText dark:border-darkThemeBorder dark:bg-transparent dark:text-white md:h-[46px]"
           />
           {errors.title && (
-            <p className="text-red-500">
-              Title is required (max 250 characters)
-            </p>
+            <p className="inputError">Title is required (max 250 characters)</p>
           )}
         </div>
 
         <div className="mb-[16px] flex gap-[14px] md:mb-[28px]">
-          <div className="w-full">
+          <div className="relative w-full">
             <label
               htmlFor="start"
               className="mb-[8px] inline-block text-[12px] leading-[1.16] text-blackText dark:text-grayTheme"
@@ -163,11 +188,11 @@ export const TaskForm = ({
               className="h-[42px] w-full rounded-[8px] border-[1px] border-transparent bg-[#F6F6F6] px-[18px] py-[14px] text-[14px] font-600 leading-[1.28] text-blackText dark:border-darkThemeBorder dark:bg-transparent dark:text-white md:h-[46px]"
             />
             {errors.start && (
-              <p className="text-red-500">Start time is required</p>
+              <p className="inputError">Start time is required</p>
             )}
           </div>
 
-          <div className="w-full">
+          <div className="relative w-full">
             <label
               htmlFor="end"
               className="mb-[8px] inline-block text-[12px] leading-[1.16] text-blackText dark:text-grayTheme"
@@ -184,6 +209,7 @@ export const TaskForm = ({
               })}
               className="h-[42px] w-full rounded-[8px] border-[1px] border-transparent bg-[#F6F6F6] px-[18px] py-[14px] text-[14px] font-600 leading-[1.28] text-blackText dark:border-darkThemeBorder dark:bg-transparent dark:text-white md:h-[46px]"
             />
+            {errors.end && <p className="inputError">End &gt; Start time</p>}
           </div>
         </div>
 
@@ -222,16 +248,16 @@ export const TaskForm = ({
         <div className="flex justify-between gap-[14px]">
           <button
             type="submit"
-            disabled={isPending || isUpdating}
-            className="btnEffect flex items-center gap-[8px] rounded-[8px] bg-blueMain px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-white md:px-[64px] md:py-[15px]"
+            disabled={isPending || isUpdating || !isFormChanged}
+            className={submitBtnStyles}
           >
             <>
               {isPending || isUpdating ? (
                 <div className="h-[18px] w-[18px] animate-spin rounded-full border-[2px] border-white border-t-transparent" />
               ) : initialData ? (
-                <EditIcon className="h-[18px] w-[18px] stroke-white" />
+                <EditIcon className={iconStyles} />
               ) : (
-                <PlusIcon className="h-[18px] w-[18px] stroke-white" />
+                <PlusIcon className={iconStyles} />
               )}
               <p>{initialData ? 'Edit' : 'Add'}</p>
             </>

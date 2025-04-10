@@ -129,7 +129,7 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
     spaceBetween: 16,
     breakpoints: {
       768: { slidesPerView: 2 },
-      1280: { slidesPerView: 3, spaceBetween: 20 },
+      1440: { slidesPerView: 3, spaceBetween: 20 },
     },
   };
 
