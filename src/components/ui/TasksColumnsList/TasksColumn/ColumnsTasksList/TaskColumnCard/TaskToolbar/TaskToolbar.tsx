@@ -5,6 +5,7 @@ import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/deleteTask.svg';
 import MoveIcon from '@/public/icon/moveTask.svg';
 import { deleteTaskById, updateTask } from '@/utils/getTask';
+import { useTasksStore } from '@/store/tasksStore';
 
 interface TaskToolbarProps {
   taskId: string;
@@ -13,25 +14,23 @@ interface TaskToolbarProps {
 }
 
 export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
+  const { tasks, setTasks, deleteTask } = useTasksStore();
   const queryClient = useQueryClient();
 
-  const useDeleteTask = () => {
-    return useMutation({
-      mutationFn: deleteTaskById,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      },
-      onError: error => {
-        console.error('Failed to delete task', error);
-      },
-    });
-  };
-
-  const { mutate: deleteTask, isPending } = useDeleteTask();
+  const { mutate: deleteTaskMutation, isPending } = useMutation({
+    mutationFn: deleteTaskById,
+    onSuccess: () => {
+      deleteTask(taskId);
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: error => {
+      console.error('Failed to delete task', error);
+    },
+  });
 
   const handleDelete = () => {
     if (confirm('Are you sure you want to delete this task?')) {
-      deleteTask(taskId);
+      deleteTaskMutation(taskId);
     }
   };
 
@@ -46,7 +45,12 @@ export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
   const { mutate: moveTask, isPending: isMoving } = useMutation({
     mutationFn: (newCategory: TaskToolbarProps['category']) =>
       updateTask(taskId, { category: newCategory }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
+    onSuccess: () => {
+      setTasks(
+        tasks.map(task => (task._id === taskId ? { ...task, category } : task)),
+      );
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
     onError: error => console.error('Failed to move task', error),
   });
 

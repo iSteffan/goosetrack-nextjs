@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import EditIcon from '@/public/icon/pencil.svg';
 import PlusIcon from '@/public/icon/plus.svg';
 import { createTask, updateTask } from '@/utils/getTask';
+import { useTasksStore } from '@/store/tasksStore';
 
 const priorityArr = [
   {
@@ -72,6 +73,7 @@ export const TaskForm = ({
   });
 
   const queryClient = useQueryClient();
+  const { addTask, updateTask: updateStoreTask } = useTasksStore();
 
   useEffect(() => {
     if (initialData) {
@@ -87,7 +89,8 @@ export const TaskForm = ({
 
   const { mutate: createMutate, isPending } = useMutation({
     mutationFn: createTask,
-    onSuccess: () => {
+    onSuccess: newTask => {
+      addTask(newTask);
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       onClose();
     },
@@ -97,14 +100,10 @@ export const TaskForm = ({
   });
 
   const { mutate: updateMutate, isPending: isUpdating } = useMutation({
-    mutationFn: ({
-      taskId,
-      updates,
-    }: {
-      taskId: string;
-      updates: TaskFormData;
-    }) => updateTask(taskId, updates),
-    onSuccess: () => {
+    mutationFn: (data: { taskId: string; updates: TaskFormData }) =>
+      updateTask(data.taskId, data.updates),
+    onSuccess: updatedTask => {
+      updateStoreTask(updatedTask._id, updatedTask);
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       onClose();
     },
