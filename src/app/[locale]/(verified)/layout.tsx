@@ -2,8 +2,9 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
+import { useTasksStore } from '@/store/tasksStore';
 import { Header } from '@/components/common/Header/Header';
 import { BurgerMenu } from '@/components/common/BurgerMenu/BurgerMenu';
 import { SideBar } from '@/components/common/SideBar/SideBar';
@@ -16,22 +17,27 @@ export default function VerifiedUserLayout({
 }) {
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const queryClient = useQueryClient();
 
   const pathParts = pathname.split('/').filter(Boolean);
   let pageName = pathParts.length > 1 ? pathParts[1] : pathParts[0];
   if (pageName === 'account') pageName = 'User Profile';
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: _tasks } = useQuery({
+  const { setTasks, setLoading } = useTasksStore(state => state); // Оновлюємо тільки завдання і loading в Zustand
+
+  const { data: tasks, isLoading } = useQuery({
     queryKey: ['tasks'],
     queryFn: fetchTasks,
-    enabled: false, // не тригери автоматично
+    enabled: true, // Вмикаємо автоматичне отримання
     staleTime: 1000 * 60 * 5, // 5 хвилин кешу
     notifyOnChangeProps: ['data'],
-    initialDataUpdatedAt: () =>
-      queryClient.getQueryState(['tasks'])?.dataUpdatedAt,
   });
+
+  useEffect(() => {
+    setLoading(isLoading);
+    if (tasks) {
+      setTasks(tasks);
+    }
+  }, [tasks, isLoading, setTasks, setLoading]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1440px)');

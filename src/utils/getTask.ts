@@ -1,32 +1,33 @@
 import axios from 'axios';
 
 import { TaskFormData } from '@/components/common/TaskForm/TaskForm';
-
-// interface TaskData {
-//   title: string;
-//   start: string;
-//   end: string;
-//   priority: 'Low' | 'Medium' | 'High';
-//   date: string;
-//   category: 'To Do' | 'In Progress' | 'Done';
-// }
-
-// export type TaskData = Partial<{
-//   title: string;
-//   start: string;
-//   end: string;
-//   priority: 'Low' | 'Medium' | 'High';
-//   date: string;
-//   category: 'To Do' | 'In Progress' | 'Done';
-// }>;
+import { useTasksStore } from '@/store/tasksStore';
 
 export type TaskData = Partial<TaskFormData>;
 
+// export const fetchTasks = async () => {
+//   const response = await axios.get('/api/tasks', {
+//     withCredentials: true,
+//   });
+//   return response.data.tasks;
+// };
+
 export const fetchTasks = async () => {
-  const response = await axios.get('/api/tasks', {
-    withCredentials: true,
-  });
-  return response.data.tasks;
+  try {
+    const response = await axios.get('/api/tasks', {
+      withCredentials: true,
+    });
+    return response.data.tasks;
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    return [];
+  }
+};
+
+export const loadTasks = async () => {
+  const tasks = await fetchTasks();
+  const setTasks = useTasksStore.getState().setTasks;
+  setTasks(tasks);
 };
 
 export const createTask = async (task: TaskData) => {
