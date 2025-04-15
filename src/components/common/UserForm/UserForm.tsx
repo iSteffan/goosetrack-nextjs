@@ -1,20 +1,138 @@
+// 'use client';
+
+// import {
+//   useIsFetching,
+//   useMutation,
+//   useQueryClient,
+// } from '@tanstack/react-query';
+// import Image from 'next/image';
+// import { useEffect, useRef, useState } from 'react';
+// import { useForm, useWatch, Controller } from 'react-hook-form';
+// import { PatternFormat } from 'react-number-format';
+
+// import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
+// import PlusIcon from '@/public/icon/plus.svg';
+
+// import { updateUser } from '@/utils/getAuth';
+// import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkeleton';
+
+// export interface IUser {
+//   name: string;
+//   email: string;
+//   avatarURL?: string;
+//   birthday: string;
+//   phone: string;
+//   telegram: string;
+// }
+
+// export const UserForm = () => {
+//   const queryClient = useQueryClient();
+//   const data = queryClient.getQueryData<{ user: IUser }>(['user']);
+//   const isFetching = useIsFetching({ queryKey: ['user'] });
+
+//   const [showComponents, setShowComponents] = useState(false);
+//   const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+//   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+//   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
+
+//   const {
+//     register,
+//     handleSubmit,
+//     control,
+//     setValue,
+//     formState: { errors },
+//   } = useForm<IUser>({
+//     defaultValues: {
+//       name: '',
+//       email: '',
+//       birthday: new Date().toISOString().split('T')[0],
+//       phone: '',
+//       telegram: '',
+//       avatarURL: '',
+//     },
+//   });
+
+//   useEffect(() => {
+//     if (data?.user) {
+//       (
+//         ['name', 'email', 'birthday', 'phone', 'telegram', 'avatarURL'] as const
+//       ).forEach(key => {
+//         setValue(key, data.user[key] || '');
+//       });
+//     }
+//   }, [data, setValue]);
+
+//   const mutation = useMutation({
+//     mutationFn: updateUser,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ['user'] });
+//     },
+//   });
+
+//   useEffect(() => {
+//     if (isFetching) {
+//       setShowComponents(false);
+//     } else {
+//       const timer = setTimeout(() => {
+//         setShowComponents(true);
+//       }, 400);
+//       return () => clearTimeout(timer);
+//     }
+//   }, [isFetching]);
+
+//   const watchedValues = useWatch<IUser>({ control });
+
+//   const isFormChanged =
+//     (Object.keys(watchedValues) as (keyof IUser)[]).some(
+//       key => watchedValues[key] !== data?.user[key],
+//     ) || avatarFile !== null;
+
+//   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     const file = event.target.files?.[0];
+//     if (file) {
+//       setAvatarFile(file);
+//     }
+//   };
+
+// const onSubmit = async (values: IUser) => {
+//   const updatedFields: Partial<IUser> = {};
+
+//   (Object.keys(values) as (keyof IUser)[]).forEach(key => {
+//     if (values[key] !== data?.user[key]) {
+//       updatedFields[key] = values[key];
+//     }
+//   });
+
+//   if (avatarFile) {
+//     const avatarURL = await uploadToCloudinary(avatarFile);
+//     if (avatarURL) {
+//       updatedFields.avatarURL = avatarURL;
+//     }
+//   }
+
+//   if (Object.keys(updatedFields).length > 0) {
+//     await mutation.mutateAsync(updatedFields);
+//     setAvatarFile(null);
+//   }
+// };
+
 'use client';
 
-import {
-  useIsFetching,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, useWatch, Controller } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
 
 import { updateUser } from '@/utils/getAuth';
 import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkeleton';
+import { useUserStore } from '@/store/userStore';
 
 export interface IUser {
   name: string;
@@ -27,15 +145,15 @@ export interface IUser {
 
 export const UserForm = () => {
   const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<{ user: IUser }>(['user']);
-  const isFetching = useIsFetching({ queryKey: ['user'] });
+  const { user, setUser, isUserLoading } = useUserStore();
 
-  const [showComponents, setShowComponents] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const firstLetter = data?.user?.name.charAt(0).toUpperCase();
+  const firstLetter = user?.name.charAt(0).toUpperCase();
 
   const {
     register,
@@ -55,38 +173,47 @@ export const UserForm = () => {
   });
 
   useEffect(() => {
-    if (data?.user) {
+    if (user) {
       (
         ['name', 'email', 'birthday', 'phone', 'telegram', 'avatarURL'] as const
       ).forEach(key => {
-        setValue(key, data.user[key] || '');
+        setValue(key, user[key] || '');
       });
     }
-  }, [data, setValue]);
+  }, [user, setValue]);
 
   const mutation = useMutation({
     mutationFn: updateUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+    onSuccess: updated => {
+      if (updated) {
+        setUser(prev => (prev ? { ...prev, ...updated } : updated));
+        queryClient.invalidateQueries({ queryKey: ['user'] });
+      }
     },
   });
 
+  // useEffect(() => {
+  //   if (!isUserLoading) {
+  //     setIsInitialLoad(false);
+  //   }
+  // }, [isUserLoading]);
+
   useEffect(() => {
-    if (isFetching) {
-      setShowComponents(false);
+    if (isUserLoading) {
+      setIsInitialLoad(false);
     } else {
       const timer = setTimeout(() => {
-        setShowComponents(true);
+        setIsInitialLoad(true);
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [isFetching]);
+  }, [isUserLoading]);
 
   const watchedValues = useWatch<IUser>({ control });
 
   const isFormChanged =
     (Object.keys(watchedValues) as (keyof IUser)[]).some(
-      key => watchedValues[key] !== data?.user[key],
+      key => watchedValues[key] !== user?.[key],
     ) || avatarFile !== null;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +227,7 @@ export const UserForm = () => {
     const updatedFields: Partial<IUser> = {};
 
     (Object.keys(values) as (keyof IUser)[]).forEach(key => {
-      if (values[key] !== data?.user[key]) {
+      if (values[key] !== user?.[key]) {
         updatedFields[key] = values[key];
       }
     });
@@ -118,7 +245,7 @@ export const UserForm = () => {
     }
   };
 
-  if (isFetching || !showComponents) {
+  if (isUserLoading || !isInitialLoad) {
     return <UserFormSkeleton />;
   }
 
@@ -134,9 +261,9 @@ export const UserForm = () => {
               height={72}
               className="h-full w-full rounded-full object-cover"
             />
-          ) : data?.user?.avatarURL ? (
+          ) : user?.avatarURL ? (
             <Image
-              src={data?.user?.avatarURL}
+              src={user?.avatarURL}
               alt="user avatar"
               width={72}
               height={72}
@@ -163,7 +290,7 @@ export const UserForm = () => {
         </div>
 
         <p className="mb-[4px] block text-center text-[14px] font-700 leading-[1.28] text-blackText dark:text-white md:mb-[8px] md:text-[18px] md:leading-[1]">
-          {data?.user?.name}
+          {user?.name}
         </p>
         <p className="mb-[40px] block text-center text-[12px] font-600 leading-[1.28] text-blackText dark:text-grayTheme md:text-[14px] xl:mb-[44px]">
           User
