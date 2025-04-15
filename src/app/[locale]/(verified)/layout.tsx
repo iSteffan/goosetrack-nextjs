@@ -5,10 +5,14 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { useTasksStore } from '@/store/tasksStore';
+import { useUserStore } from '@/store/userStore';
+
 import { Header } from '@/components/common/Header/Header';
 import { BurgerMenu } from '@/components/common/BurgerMenu/BurgerMenu';
 import { SideBar } from '@/components/common/SideBar/SideBar';
+
 import { fetchTasks } from '@/utils/getTask';
+import { getUser } from '@/utils/getAuth';
 
 export default function VerifiedUserLayout({
   children,
@@ -22,12 +26,14 @@ export default function VerifiedUserLayout({
   let pageName = pathParts.length > 1 ? pathParts[1] : pathParts[0];
   if (pageName === 'account') pageName = 'User Profile';
 
-  const { setTasks, setLoading } = useTasksStore(state => state); // Оновлюємо тільки завдання і loading в Zustand
+  // --------------------------------------------tasks---------------------------------------
+
+  const { setTasks, setLoading } = useTasksStore(state => state);
 
   const { data: tasks, isLoading } = useQuery({
     queryKey: ['tasks'],
     queryFn: fetchTasks,
-    enabled: true, // Вмикаємо автоматичне отримання
+    enabled: true,
     staleTime: 1000 * 60 * 5, // 5 хвилин кешу
     notifyOnChangeProps: ['data'],
   });
@@ -38,6 +44,27 @@ export default function VerifiedUserLayout({
       setTasks(tasks);
     }
   }, [tasks, isLoading, setTasks, setLoading]);
+
+  // --------------------------------------------user---------------------------------------
+
+  const { setUser, setUserLoading } = useUserStore();
+
+  const { data: userData, isLoading: isUserLoading } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    enabled: true,
+    staleTime: 1000 * 60 * 5,
+    notifyOnChangeProps: ['data'],
+  });
+
+  useEffect(() => {
+    setUserLoading(isUserLoading);
+    if (userData?.user) {
+      setUser(userData.user);
+    }
+  }, [userData, isUserLoading, setUser, setUserLoading]);
+
+  // ------------------------------------------------------------------------------------------
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1440px)');

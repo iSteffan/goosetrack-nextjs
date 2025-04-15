@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useIsFetching } from '@tanstack/react-query';
 
 import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
@@ -11,6 +10,7 @@ import { HeaderLoader } from '@/components/ui/HeaderLoader/HeaderLoader';
 import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
 import MenuIcon from '@/public/icon/menu.svg';
+import { useUserStore } from '@/store/userStore';
 
 interface IHeader {
   pageName: string;
@@ -19,22 +19,19 @@ interface IHeader {
 
 export const Header = ({ pageName, onOpen }: IHeader) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isHydrating, setIsHydrating] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const isFetching = useIsFetching({ queryKey: ['user'] });
+  const { isUserLoading } = useUserStore();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsHydrating(false);
-    }, 0);
-    return () => clearTimeout(timeout);
-  }, []);
+    if (!isUserLoading) {
+      setIsInitialLoad(false);
+    }
+  }, [isUserLoading]);
 
   const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-
-  const showLoader = isHydrating || isFetching > 0;
 
   return (
     <>
@@ -53,7 +50,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
           </button>
 
           <div className="flex items-center justify-end leading-[1]">
-            {showLoader ? (
+            {isInitialLoad || isUserLoading ? (
               <HeaderLoader />
             ) : (
               <>
