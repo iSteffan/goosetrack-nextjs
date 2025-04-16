@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { IUser } from '@/components/common/UserForm/UserForm';
+import { IUser } from '@/store/userStore';
 
 const api = axios.create({
   baseURL: '/api/auth',

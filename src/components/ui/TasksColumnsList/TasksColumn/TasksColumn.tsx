@@ -7,12 +7,12 @@ import { ColumnHeadBar } from './ColumnHeadBar/ColumnHeadBar';
 import { ColumnsTasksList } from './ColumnsTasksList/ColumnsTasksList';
 import { Modal } from '@/components/ui/Modal/Modal';
 import { TaskForm } from '@/components/common/TaskForm/TaskForm';
-import { Task } from '../TasksColumnsList';
+import { ITask } from '@/store/tasksStore';
 
 interface TasksColumnProps {
   title: 'To Do' | 'In Progress' | 'Done';
   selectedDate: string;
-  tasks: Task[];
+  tasks: ITask[];
 }
 
 export const TasksColumn = ({

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   // useIsFetching,
   // useMutation,
@@ -7,14 +7,13 @@ import {
 } from '@tanstack/react-query';
 import classNames from 'classnames';
 
-import { IUser } from '@/components/common/UserForm/UserForm';
-import { Task } from '../../../TasksColumnsList';
 import { TaskToolbar } from './TaskToolbar/TaskToolbar';
 import { Modal } from '@/components/ui/Modal/Modal';
 import { TaskForm } from '@/components/common/TaskForm/TaskForm';
-import { useState } from 'react';
+import { IUser } from '@/store/userStore';
+import { ITask } from '@/store/tasksStore';
 interface TaskColumnCardProps {
-  task: Task;
+  task: ITask;
 }
 
 export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {

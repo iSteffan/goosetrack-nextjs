@@ -10,15 +10,7 @@ import { TasksColumn } from './TasksColumn/TasksColumn';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-export interface Task {
-  _id: string;
-  title: string;
-  start: string;
-  end: string;
-  priority: 'Low' | 'Medium' | 'High';
-  date: string;
-  category: 'To Do' | 'In Progress' | 'Done';
-}
+
 interface TasksColumnsListProps {
   selectedDate: string;
 }

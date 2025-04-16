@@ -1,15 +1,23 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware'; // імпортуємо devtools
 
-import { Task } from '@/components/ui/TasksColumnsList/TasksColumnsList';
+export interface ITask {
+  _id: string;
+  title: string;
+  start: string;
+  end: string;
+  priority: 'Low' | 'Medium' | 'High';
+  date: string;
+  category: 'To Do' | 'In Progress' | 'Done';
+}
 
 interface TasksState {
-  tasks: Task[];
+  tasks: ITask[];
   isLoading: boolean;
-  setTasks: (tasks: Task[]) => void;
+  setTasks: (tasks: ITask[]) => void;
   setLoading: (isLoading: boolean) => void;
-  addTask: (task: Task) => void;
-  updateTask: (taskId: string, updatedTask: Task) => void;
+  addTask: (task: ITask) => void;
+  updateTask: (taskId: string, updatedTask: ITask) => void;
   deleteTask: (taskId: string) => void;
 }
 

@@ -1,7 +1,6 @@
 'use client';
 
 import { format, isSameDay } from 'date-fns';
-// import { useMediaQuery } from 'react-responsive';
 
 interface DayCalendarHeadProps {
   weekDays: Date[];
@@ -14,9 +13,6 @@ export const DayCalendarHead = ({
   selectedDate,
   onDateChange,
 }: DayCalendarHeadProps) => {
-  // const isTablet = useMediaQuery({
-  //   query: '(min-width: 768px)',
-  // });
   return (
     <ul className="cardBorder mb-[14px] flex justify-between rounded-[8px] border-[1px] bg-white px-[18px] py-[14px] dark:bg-blackAccentBg md:mb-[16px] md:px-[32px] md:py-[10px] xl:px-[46px]">
       {weekDays.map((day, id) => {

@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { CalendarToolbar } from '@/components/common/CalendarToolbar/CalendarToolbar';
 import { ChoosedDay } from '@/components/common/ChoosedDay/ChoosedDay';
+import { ChoosedMonth } from '@/components/common/ChoosedMonth/ChoosedMonth';
 
 export default function CalendarPage() {
   const router = useRouter();
@@ -40,7 +41,9 @@ export default function CalendarPage() {
           onDateChange={setSelectedDate}
           onPeriodChange={setPeriodType}
         />
-
+        <div>
+          Контент календаря для {selectedDate} ({periodType})
+        </div>
         <div>
           {periodType === 'day' ? (
             <ChoosedDay
@@ -48,9 +51,7 @@ export default function CalendarPage() {
               onDateChange={setSelectedDate}
             />
           ) : (
-            <div>
-              Контент календаря для {selectedDate} ({periodType})
-            </div>
+            <ChoosedMonth />
           )}
         </div>
       </div>

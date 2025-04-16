@@ -12,18 +12,9 @@ import { PatternFormat } from 'react-number-format';
 
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
-
 import { updateUser } from '@/utils/getAuth';
 import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkeleton';
-
-export interface IUser {
-  name: string;
-  email: string;
-  avatarURL?: string;
-  birthday: string;
-  phone: string;
-  telegram: string;
-}
+import { IUser } from '@/store/userStore';
 
 export const UserForm = () => {
   const queryClient = useQueryClient();

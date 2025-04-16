@@ -1,8 +1,8 @@
-import { Task } from '../../TasksColumnsList';
+import { ITask } from '@/store/tasksStore';
 import { TaskColumnCard } from './TaskColumnCard/TaskColumnCard';
 
 interface ColumnsTasksListProps {
-  tasks: Task[];
+  tasks: ITask[];
 }
 
 export const ColumnsTasksList = ({ tasks }: ColumnsTasksListProps) => {

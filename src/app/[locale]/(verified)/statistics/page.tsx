@@ -1,8 +1,8 @@
 'use client';
 
-import { IUser } from '@/components/common/UserForm/UserForm';
-// import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+
+import { IUser } from '@/store/userStore';
 
 // import { toast } from 'react-toastify';
 
