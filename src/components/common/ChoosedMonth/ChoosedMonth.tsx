@@ -1,11 +1,15 @@
 import { CalendarTable } from '@/components/ui/CalendarTable/CalendarTable';
 import { MonthCalendarHead } from '@/components/ui/MonthCalendarHead/MonthCalendarHead';
 
-export const ChoosedMonth = () => {
+interface ChoosedMonthProps {
+  selectedDate: string;
+}
+
+export const ChoosedMonth = ({ selectedDate }: ChoosedMonthProps) => {
   return (
     <section>
       <MonthCalendarHead />
-      <CalendarTable />
+      <CalendarTable currentDate={selectedDate} />
     </section>
   );
 };

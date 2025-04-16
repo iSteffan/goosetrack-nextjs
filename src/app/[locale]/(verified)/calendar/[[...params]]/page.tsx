@@ -51,7 +51,7 @@ export default function CalendarPage() {
               onDateChange={setSelectedDate}
             />
           ) : (
-            <ChoosedMonth />
+            <ChoosedMonth selectedDate={selectedDate} />
           )}
         </div>
       </div>
