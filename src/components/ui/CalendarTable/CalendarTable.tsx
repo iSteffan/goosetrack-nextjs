@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   endOfMonth,
   startOfWeek,
@@ -13,6 +13,8 @@ import {
 import classNames from 'classnames';
 
 import { useTasksStore } from '@/store/tasksStore';
+import { Modal } from '../Modal/Modal';
+import { TaskForm } from '@/components/common/TaskForm/TaskForm';
 
 interface CalendarTableProps {
   currentDate: string;
@@ -21,6 +23,8 @@ interface CalendarTableProps {
 export const CalendarTable = ({ currentDate }: CalendarTableProps) => {
   const router = useRouter();
   const tasks = useTasksStore(state => state.tasks);
+
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
 
   const pathname = usePathname();
   const locale = pathname.split('/')[1];
@@ -55,31 +59,43 @@ export const CalendarTable = ({ currentDate }: CalendarTableProps) => {
   };
 
   const getTaskClasses = (priority: 'Low' | 'Medium' | 'High') =>
-    classNames('rounded-[8px] px-[4px] py-[2px]', {
-      'bg-[#CEEEFD] text-radioLow': priority === 'Low',
-      'bg-[#FCF0D4] text-radioMed': priority === 'Medium',
-      'bg-[#FFD2DD] text-radioHigh': priority === 'High',
-    });
+    classNames(
+      'rounded-[8px] px-[4px] py-[2px] w-full transform transition-transform hover:scale-90',
+      {
+        'bg-[#CEEEFD] text-radioLow': priority === 'Low',
+        'bg-[#FCF0D4] text-radioMed': priority === 'Medium',
+        'bg-[#FFD2DD] text-radioHigh': priority === 'High',
+      },
+    );
 
   return (
     <div className="cardBorder grid grid-cols-7 rounded-[8px] border-[1px]">
-      {allDays.map(day => {
+      {allDays.map((day, index) => {
         const iso = format(day, 'yyyy-MM-dd');
         const isCurrentMonth =
           day.getMonth() === new Date(currentDate).getMonth();
         const isSelected = iso === selectedIso;
         const tasksForDay = getTasksForDay(day);
 
+        const isFirstRow = index < 7;
+        const isLastRow = index >= allDays.length - 7;
+        const isFirstCol = index % 7 === 0;
+        const isLastCol = index % 7 === 6;
+
         const cellStyles = classNames(
-          'cardBorder h-[94px] cursor-pointer border-[1px] px-[4px] py-[4px]',
+          'h-[94px] outline outline-[1px] dark:outline-darkThemeBorder outline-inputBorder px-[4px] py-[8px] md:h-[144px] xl:h-[125px]',
           {
             'bg-white dark:bg-blackAccentBg': isCurrentMonth,
             'bg-gray-50 dark:bg-blackPageBg': !isCurrentMonth,
+            'rounded-tl-[8px]': isFirstRow && isFirstCol,
+            'rounded-tr-[8px]': isFirstRow && isLastCol,
+            'rounded-bl-[8px]': isLastRow && isFirstCol,
+            'rounded-br-[8px]': isLastRow && isLastCol,
           },
         );
 
         const dayStyles = classNames(
-          'inline-block rounded-[6px] px-[6px] py-[2px] text-end text-[12px] font-700 leading-[1.12]]',
+          'inline-block rounded-[6px] px-[6px] py-[2px] text-end text-[12px] font-700 leading-[1.12] md:text-[16px] md:py-[4px] md:px-[8px]',
           {
             'bg-blueMain text-white': isSelected,
             'text-gray-400': !isCurrentMonth,
@@ -90,22 +106,44 @@ export const CalendarTable = ({ currentDate }: CalendarTableProps) => {
         return (
           <div
             key={iso}
-            onClick={() => handleDayClick(day)}
             className={cellStyles}
+            style={{ borderCollapse: 'collapse' }}
           >
-            <div className="flex justify-end">
+            <button
+              type="button"
+              className="ml-auto flex transform justify-end transition-transform hover:scale-125"
+              onClick={() => handleDayClick(day)}
+            >
               <p className={dayStyles}>{format(day, 'd')}</p>
-            </div>
+            </button>
 
             {tasksForDay.length > 0 && (
-              <ul className="mt-[4px] flex max-h-[58px] flex-col gap-[2px] overflow-y-auto">
+              <ul className="mt-[4px] flex max-h-[58px] flex-col gap-[4px] overflow-y-auto md:max-h-[100px] md:gap-[8px] xl:max-h-[78px]">
                 {tasksForDay.map(task => (
                   <li key={task._id}>
-                    <div className={getTaskClasses(task.priority)}>
-                      <p className="truncate text-[10px] font-700 leading-[1.4] dark:text-white">
+                    <button
+                      type="button"
+                      className={getTaskClasses(task.priority)}
+                      onClick={e => {
+                        e.stopPropagation();
+                        setActiveTaskId(task._id);
+                      }}
+                    >
+                      <p className="truncate text-[10px] font-700 leading-[1.4] md:text-[14px] md:leading-[1.28]">
                         {task.title}
                       </p>
-                    </div>
+                    </button>
+
+                    {activeTaskId === task._id && (
+                      <Modal isOpen onClose={() => setActiveTaskId(null)}>
+                        <TaskForm
+                          selectedDate={task.date}
+                          category={task.category}
+                          initialData={task}
+                          onClose={() => setActiveTaskId(null)}
+                        />
+                      </Modal>
+                    )}
                   </li>
                 ))}
               </ul>

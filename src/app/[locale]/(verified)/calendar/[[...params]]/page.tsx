@@ -33,7 +33,7 @@ export default function CalendarPage() {
   }, [periodType, selectedDate, locale, router]);
 
   return (
-    <section className="bg-grayBg dark:bg-blackPageBg">
+    <section className="min-h-screen bg-grayBg dark:bg-blackPageBg">
       <div className="container pt-[40px]">
         <CalendarToolbar
           currentDate={selectedDate}
@@ -41,9 +41,7 @@ export default function CalendarPage() {
           onDateChange={setSelectedDate}
           onPeriodChange={setPeriodType}
         />
-        <div>
-          Контент календаря для {selectedDate} ({periodType})
-        </div>
+
         <div>
           {periodType === 'day' ? (
             <ChoosedDay
