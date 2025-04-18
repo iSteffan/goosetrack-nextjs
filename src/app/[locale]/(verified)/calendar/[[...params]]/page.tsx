@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+
 import { CalendarToolbar } from '@/components/common/CalendarToolbar/CalendarToolbar';
 import { ChoosedDay } from '@/components/common/ChoosedDay/ChoosedDay';
 import { ChoosedMonth } from '@/components/common/ChoosedMonth/ChoosedMonth';
@@ -33,7 +34,7 @@ export default function CalendarPage() {
   }, [periodType, selectedDate, locale, router]);
 
   return (
-    <section className="min-h-screen bg-grayBg dark:bg-blackPageBg">
+    <section>
       <div className="container pt-[40px]">
         <CalendarToolbar
           currentDate={selectedDate}

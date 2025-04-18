@@ -35,7 +35,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
 
   return (
     <>
-      <header className="bg-grayBg dark:bg-blackPageBg">
+      <header>
         <div className="flex items-center justify-between px-[20px] py-[24px] md:px-[32px] xl:pb-[] xl:pt-[32px]">
           <p className="hidden text-[32px] font-700 capitalize dark:text-white xl:block">
             {pageName}
