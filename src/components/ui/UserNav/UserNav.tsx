@@ -9,7 +9,11 @@ import StatIcon from '@/public/icon/sidebarStatistics.svg';
 import UserIcon from '@/public/icon/sidebarUser.svg';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 
-export const UserNav = () => {
+interface IUserNav {
+  onClose?: () => void;
+}
+
+export const UserNav = ({ onClose }: IUserNav) => {
   const pathname = usePathname();
   const locale = useLocale();
 
@@ -40,6 +44,7 @@ export const UserNav = () => {
           <Link
             href={getLink('/account')}
             className={getLinkClasses(getLink('/account'))}
+            onClick={onClose}
           >
             <UserIcon className={getIconClasses(getLink('/account'))} />
             My account
@@ -49,6 +54,7 @@ export const UserNav = () => {
           <Link
             href={getLink('/calendar')}
             className={getLinkClasses(getLink('/calendar'))}
+            onClick={onClose}
           >
             <CalendarIcon className={getIconClasses(getLink('/calendar'))} />
             Calendar
@@ -58,6 +64,7 @@ export const UserNav = () => {
           <Link
             href={getLink('/statistics')}
             className={getLinkClasses(getLink('/statistics'))}
+            onClick={onClose}
           >
             <StatIcon className={getIconClasses(getLink('/statistics'))} />
             Statistics

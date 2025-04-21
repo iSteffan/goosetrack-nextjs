@@ -30,7 +30,7 @@ export const SideBar = ({ onClose, isBurgerMenu }: ISideBar) => {
           </button>
         </div>
 
-        <UserNav />
+        <UserNav onClose={onClose} />
 
         <LogoutBtn />
       </div>
