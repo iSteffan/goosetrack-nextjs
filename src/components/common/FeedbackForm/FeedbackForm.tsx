@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ReactStars from 'react-stars';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
 
 import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
 import EditIcon from '@/public/icon/pencil.svg';
@@ -16,10 +17,13 @@ interface IFeedbackForm {
 
 export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
   const queryClient = useQueryClient();
+
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [showComponents, setShowComponents] = useState(false);
+
+  const t = useTranslations('FeedbackForm');
 
   const {
     data: review,
@@ -52,10 +56,10 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
     mutationFn: () => saveReview(rating, comment, !!review?.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['review'] });
-      toast.success('Review saved successfully!');
+      toast.success(t('reviewSaved'));
     },
     onError: () => {
-      toast.error('Failed to save review. Please try again.');
+      toast.error(t('reviewNotSaved'));
     },
   });
 
@@ -65,21 +69,21 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
       setRating(0);
       setComment('');
       queryClient.invalidateQueries({ queryKey: ['review'] });
-      toast.success('Review deleted successfully!');
+      toast.success(t('reviewDeleted'));
     },
     onError: () => {
-      toast.error('Failed to delete review. Please try again.');
+      toast.error(t('reviewNotDeleted'));
     },
   });
 
   const handleSave = () => {
     if (rating === 0) {
-      toast.error('Please provide a rating before submitting.');
+      toast.error(t('noRating'));
       return;
     }
 
     if (comment.trim() === '') {
-      toast.error('Review text cannot be empty.');
+      toast.error(t('noText'));
       return;
     }
 
@@ -98,7 +102,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
     <div className="w-[295px] md:w-[404px]">
       <div className="mb-[20px] md:mb-[24px]">
         <p className="text-[12px] leading-[1.16] text-blackText dark:text-grayTheme">
-          Rating
+          {t('rating')}
         </p>
         <ReactStars
           count={5}
@@ -114,7 +118,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
       <div>
         <div className="mb-[8px] flex h-[30px] items-center justify-between">
           <p className="text-[12px] leading-[1.16] text-blackText dark:text-grayTheme">
-            Review
+            {t('review')}
           </p>
 
           {review?.data && (
@@ -140,7 +144,7 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
 
         <textarea
           className="min-h-[130px] w-full resize-none rounded-[8px] border bg-grayBg px-[14px] py-[12px] text-[14px] leading-[1.28] dark:bg-blackLightBg dark:text-white"
-          placeholder="Write your review..."
+          placeholder={t('noReview')}
           value={comment}
           onChange={e => setComment(e.target.value)}
         ></textarea>
@@ -153,13 +157,13 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
             onClick={handleSave}
             disabled={saveMutation.isPending || isLoading}
           >
-            {review?.data ? 'Edit' : 'Save'}
+            {review?.data ? t('edit') : t('save')}
           </button>
           <button
             className="w-full rounded-[8px] bg-[#E5EDFA] py-[12px] text-[14px] font-600 text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white"
             onClick={onClose}
           >
-            Cancel
+            {t('cancel')}
           </button>
         </div>
       )}

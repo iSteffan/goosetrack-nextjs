@@ -11,5 +11,22 @@
 
   "ChoosedDay": {
     "content": "Content for"
+  },
+
+  "AddFeedbackBtn": { "feedback": "Feedback" },
+
+  "FeedbackForm": {
+    "reviewSaved": "Review saved successfully!",
+    "reviewNotSaved": "Failed to save review. Please try again.",
+    "reviewDeleted": "Review deleted successfully!",
+    "reviewNotDeleted": "Failed to delete review. Please try again.",
+    "noRating": "Please provide a rating before submitting.",
+    "noText": "Review text cannot be empty.",
+    "rating": "Rating",
+    "review": "Review",
+    "noReview": "Write your review...",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }
