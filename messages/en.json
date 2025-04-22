@@ -4,6 +4,12 @@
     "account": "Go to the account page"
   },
 
+  "VerifiedUserLayout": {
+    "calendar": "Calendar",
+    "account": "User Profile",
+    "statistics": "Statistics"
+  },
+
   "AccountPage": {
     "title": "Hello AccountPage!",
     "home": "Go to the home page"
@@ -14,6 +20,19 @@
   },
 
   "AddFeedbackBtn": { "feedback": "Feedback" },
+
+  "UserNav": {
+    "panel": "User Panel",
+    "account": "My account",
+    "calendar": "Calendar",
+    "statistics": "Statistics"
+  },
+
+  "LogoutBtn": {
+    "logout": "Log out",
+    "logoutSuccess": "You have successfully logged out.",
+    "logoutError": "Error logging out."
+  },
 
   "FeedbackForm": {
     "reviewSaved": "Review saved successfully!",

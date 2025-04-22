@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
+
 // import SimpleBar from 'simplebar-react';
 // import 'simplebar-react/dist/simplebar.min.css';
 
@@ -21,12 +23,20 @@ export default function VerifiedUserLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations('VerifiedUserLayout');
+
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
   const pathParts = pathname.split('/').filter(Boolean);
   let pageName = pathParts.length > 1 ? pathParts[1] : pathParts[0];
-  if (pageName === 'account') pageName = 'User Profile';
+  if (pageName === 'account') {
+    pageName = t('account');
+  } else if (pageName === 'calendar') {
+    pageName = t('calendar');
+  } else {
+    pageName = t('statistics');
+  }
 
   // --------------------------------------------tasks---------------------------------------
 

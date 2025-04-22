@@ -4,6 +4,12 @@
     "account": "Перехід на сторінку аккаунту"
   },
 
+  "VerifiedUserLayout": {
+    "calendar": "Календар",
+    "account": "Профіль користувача",
+    "statistics": "Статистика"
+  },
+
   "AccountPage": {
     "title": "Привіт сторінка аккаунту!",
     "home": "Перехід на сторінку домашню"
@@ -14,6 +20,19 @@
   },
 
   "AddFeedbackBtn": { "feedback": "Відгук" },
+
+  "UserNav": {
+    "panel": "Панель",
+    "account": "Мій профіль",
+    "calendar": "Календар",
+    "statistics": "Статистика"
+  },
+
+  "LogoutBtn": {
+    "logout": "Вихід",
+    "logoutSuccess": "Ви успішно вийшли з аккаунту.",
+    "logoutError": "Виникла помилка при виході з аккаунту."
+  },
 
   "FeedbackForm": {
     "reviewSaved": "Відгук успішно збережено!",

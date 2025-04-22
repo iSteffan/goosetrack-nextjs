@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import CalendarIcon from '@/public/icon/sidebarCalendar.svg';
 import StatIcon from '@/public/icon/sidebarStatistics.svg';
@@ -16,6 +16,8 @@ interface IUserNav {
 export const UserNav = ({ onClose }: IUserNav) => {
   const pathname = usePathname();
   const locale = useLocale();
+
+  const t = useTranslations('UserNav');
 
   const getLink = (path: string) => `/${locale}${path}`;
 
@@ -34,7 +36,7 @@ export const UserNav = ({ onClose }: IUserNav) => {
     <nav>
       <div className="mb-[24px] flex items-center justify-between">
         <p className="dark:text-#FAFAFA4D text-[12px] font-600 dark:text-grayTheme md:text-[14px] md:text-grayCustom">
-          User Panel
+          {t('panel')}
         </p>
         <LocaleSwitcher />
       </div>
@@ -47,7 +49,7 @@ export const UserNav = ({ onClose }: IUserNav) => {
             onClick={onClose}
           >
             <UserIcon className={getIconClasses(getLink('/account'))} />
-            My account
+            {t('account')}
           </Link>
         </li>
         <li>
@@ -57,7 +59,7 @@ export const UserNav = ({ onClose }: IUserNav) => {
             onClick={onClose}
           >
             <CalendarIcon className={getIconClasses(getLink('/calendar'))} />
-            Calendar
+            {t('calendar')}
           </Link>
         </li>
         <li>
@@ -67,7 +69,7 @@ export const UserNav = ({ onClose }: IUserNav) => {
             onClick={onClose}
           >
             <StatIcon className={getIconClasses(getLink('/statistics'))} />
-            Statistics
+            {t('statistics')}
           </Link>
         </li>
       </ul>
