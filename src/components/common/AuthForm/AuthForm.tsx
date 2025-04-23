@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
 
 import LogInIcon from '@/public/icon/logIn.svg';
 import CorrectIcon from '@/public/icon/inputCorrect.svg';
@@ -11,7 +12,6 @@ import ErrorIcon from '@/public/icon/inputError.svg';
 import HideIcon from '@/public/icon/password-hide.svg';
 import ShowIcon from '@/public/icon/password-show.svg';
 
-import data from '@/data/common.json';
 import { loginUser, registerUser } from '@/utils/getAuth';
 
 type FormType = 'signUp' | 'logIn';
@@ -27,12 +27,12 @@ type FormData = {
 };
 
 export const AuthForm = ({ type }: AuthFormProps) => {
+  const t = useTranslations('AuthForm');
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-
-  const { logIn, signUp } = data;
 
   const {
     register,
@@ -49,13 +49,12 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         email: formData.email,
         password: formData.password,
       });
-      toast.success('Registration successful! Please log in.');
+      toast.success(t('registerSuccess'));
       router.push('/en/login');
     } catch (error) {
       console.log('error', error);
 
-      const errorMessage =
-        (error as Error).message || 'Registration failed. Try again.';
+      const errorMessage = (error as Error).message || t('registerError');
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -69,13 +68,12 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         email: formData.email,
         password: formData.password,
       });
-      toast.success('Login successful! Redirecting...');
+      toast.success(t('loginSuccess'));
       router.push('/en/calendar');
     } catch (error) {
       console.log('error', error);
 
-      const errorMessage =
-        (error as Error).message || 'Login failed. Check your credentials.';
+      const errorMessage = (error as Error).message || t('loginError');
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -85,7 +83,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
   return (
     <div className="mx-auto w-[] rounded-[8px] bg-white px-[24px] py-[40px] md:w-[480px]">
       <h2 className="mb-[32px] text-[28px] font-600 leading-[1.33] text-blueMain md:mb-[40px]">
-        {type === 'logIn' ? logIn : signUp}
+        {type === 'logIn' ? t('logIn') : t('signUp')}
       </h2>
 
       <form
@@ -106,11 +104,11 @@ export const AuthForm = ({ type }: AuthFormProps) => {
                     : ''
               }`}
             >
-              Name
+              {t('nameLabel')}
             </label>
             <input
               id="name"
-              {...register('name', { required: 'Name is required' })}
+              {...register('name', { required: t('nameError') })}
               className={`inputStyles ${
                 errors.name
                   ? 'border-error'
@@ -118,7 +116,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
                     ? 'border-greenCorrect'
                     : ''
               }`}
-              placeholder="Enter your name"
+              placeholder={t('namePlaceholder')}
             />
             {errors.name ? (
               <ErrorIcon className="formIcon" />
@@ -144,14 +142,17 @@ export const AuthForm = ({ type }: AuthFormProps) => {
                   : ''
             }`}
           >
-            Email
+            {t('emailLabel')}
           </label>
           <input
             id="email"
             type="email"
             {...register('email', {
-              required: 'Email is required',
-              pattern: { value: /^\S+@\S+$/, message: 'Invalid email' },
+              required: t('emailError'),
+              pattern: {
+                value: /^\S+@\S+$/,
+                message: t('emailPatternError'),
+              },
             })}
             className={`inputStyles ${
               errors.email
@@ -160,7 +161,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
                   ? 'border-greenCorrect'
                   : ''
             }`}
-            placeholder="Enter email"
+            placeholder={t('emailPlaceholder')}
           />
           {errors.email ? (
             <ErrorIcon className="formIcon" />
@@ -185,14 +186,14 @@ export const AuthForm = ({ type }: AuthFormProps) => {
                   : ''
             }`}
           >
-            Password
+            {t('passLabel')}
           </label>
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
             {...register('password', {
-              required: 'Password is required',
-              minLength: { value: 6, message: 'Min 6 characters' },
+              required: t('passError'),
+              minLength: { value: 6, message: t('passPatternError') },
             })}
             className={`inputStyles ${
               errors.password
@@ -201,7 +202,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
                   ? 'border-greenCorrect'
                   : ''
             }`}
-            placeholder="Enter password"
+            placeholder={t('passPlaceholder')}
           />
           <button
             type="button"
@@ -228,7 +229,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
             isLoading ? 'cursor-not-allowed' : ''
           }`}
         >
-          {type === 'logIn' ? 'Log In' : 'Sign Up'}
+          {type === 'logIn' ? t('logInBtn') : t('signUpBtn')}
           {isLoading ? (
             <div className="h-[18px] w-[18px] animate-spin rounded-full border-[2px] border-white border-t-transparent" />
           ) : (

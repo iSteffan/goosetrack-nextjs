@@ -1,12 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 import { AuthForm } from '@/components/common/AuthForm/AuthForm';
 
-import data from '@/data/common.json';
-
 export default function Page() {
-  const { signUp } = data;
+  const t = useTranslations('AuthForm');
+
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
 
   return (
     <section className="min-h-screen bg-blueLight py-[155px]">
@@ -15,10 +20,10 @@ export default function Page() {
 
         <div className="mt-[18px] text-center md:mt-[24px]">
           <Link
-            href="/en/register"
+            href={`/${locale}/register`}
             className="scale inline-block text-[12px] font-600 leading-[1.16] text-blueMain underline md:text-[18px] md:leading-[1.33]"
           >
-            {signUp}
+            {t('signUpBtn')}
           </Link>
         </div>
 

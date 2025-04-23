@@ -47,5 +47,31 @@
     "edit": "Редагувати",
     "save": "Зберегти",
     "cancel": "Відмінити"
+  },
+
+  "AuthForm": {
+    "registerSuccess": "Реєстрація успішна! Увійдіть в систему.",
+    "registerError": "Помилка при реєстрації. Спробуй ще раз.",
+    "loginSuccess": "Авторизація успішна! Перенаправлення...",
+    "loginError": "Помилка при авторизації. Перевірте свої дані.",
+    "signUp": "Реєстрація",
+    "logIn": "Авторизація",
+
+    "nameLabel": "Ім'я",
+    "namePlaceholder": "Введіть ім'я",
+    "nameError": "Ім'я обов'язкове",
+
+    "emailLabel": "Пошта",
+    "emailPlaceholder": "Введіть пошту",
+    "emailError": "Пошта обов'язкова",
+    "emailPatternError": "Невірний формат пошти",
+
+    "passLabel": "Пароль",
+    "passPlaceholder": "Введіть пароль",
+    "passError": "Пароль обов'язковий",
+    "passPatternError": "Мін. 6 символів",
+
+    "signUpBtn": "Зареєструватись",
+    "logInBtn": "Увійти"
   }
 }

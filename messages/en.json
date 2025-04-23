@@ -47,5 +47,31 @@
     "edit": "Edit",
     "save": "Save",
     "cancel": "Cancel"
+  },
+
+  "AuthForm": {
+    "registerSuccess": "Registration successful! Please log in.",
+    "registerError": "Registration failed. Try again.",
+    "loginSuccess": "Login successful! Redirecting...",
+    "loginError": "Login failed. Check your credentials.",
+    "signUp": "Sign Up",
+    "logIn": "Log In",
+
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter your name",
+    "nameError": "Name is required",
+
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter email",
+    "emailError": "Email is required",
+    "emailPatternError": "Invalid email",
+
+    "passLabel": "Password",
+    "passPlaceholder": "Enter password",
+    "passError": "Password is required",
+    "passPatternError": "Min 6 characters",
+
+    "signUpBtn": "Sign up",
+    "logInBtn": "Log in"
   }
 }
