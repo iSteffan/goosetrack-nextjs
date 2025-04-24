@@ -93,5 +93,10 @@
     "telegramPlaceholder": "Додайте телеграм",
 
     "save": "Зберегти зміни"
+  },
+
+  "PeriodTypeSelect": {
+    "month": "Місяць",
+    "day": "День"
   }
 }

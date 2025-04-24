@@ -93,5 +93,10 @@
     "telegramPlaceholder": "Add Telegram username",
 
     "save": "Save changes"
+  },
+
+  "PeriodTypeSelect": {
+    "month": "Month",
+    "day": "Day"
   }
 }

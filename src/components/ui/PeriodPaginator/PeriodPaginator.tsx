@@ -1,6 +1,8 @@
 'use client';
 
 import { addMonths, addDays, format, parse, isValid } from 'date-fns';
+import { useLocale } from 'next-intl';
+import { enUS, uk } from 'date-fns/locale';
 
 import ArrowLeftIcon from '@/public/icon/chevron-left.svg';
 import ArrowRightIcon from '@/public/icon/chevron-right.svg';
@@ -11,11 +13,29 @@ interface PeriodPaginatorProps {
   onDateChange: (newDate: string) => void;
 }
 
+const nominativeMonths = [
+  'січень',
+  'лютий',
+  'березень',
+  'квітень',
+  'травень',
+  'червень',
+  'липень',
+  'серпень',
+  'вересень',
+  'жовтень',
+  'листопад',
+  'грудень',
+];
+
 export const PeriodPaginator = ({
   periodType,
   selectedDate,
   onDateChange,
 }: PeriodPaginatorProps) => {
+  const locale = useLocale();
+  const dateFnsLocale = locale === 'uk' ? uk : enUS;
+
   let dateToParse = selectedDate;
   if (periodType === 'month' && selectedDate.length === 7) {
     dateToParse = `${selectedDate}-01`;
@@ -41,10 +61,22 @@ export const PeriodPaginator = ({
     onDateChange(formattedNewDate);
   };
 
-  const formattedDate =
-    periodType === 'month'
-      ? format(parsedDate, 'MMMM yyyy')
-      : format(parsedDate, 'dd MMMM yyyy');
+  let formattedDate: string;
+  if (periodType === 'month') {
+    if (locale === 'uk') {
+      const monthIndex = parsedDate.getMonth();
+      const year = parsedDate.getFullYear();
+      formattedDate = `${nominativeMonths[monthIndex]} ${year}`;
+    } else {
+      formattedDate = format(parsedDate, 'MMMM yyyy', {
+        locale: dateFnsLocale,
+      });
+    }
+  } else {
+    formattedDate = format(parsedDate, 'dd MMMM yyyy', {
+      locale: dateFnsLocale,
+    });
+  }
 
   return (
     <div className="flex items-center justify-between md:w-[270px]">
