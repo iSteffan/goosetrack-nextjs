@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, useWatch, Controller } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
+import { useTranslations } from 'next-intl';
 
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
@@ -17,6 +18,8 @@ import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkele
 import { IUser } from '@/store/userStore';
 
 export const UserForm = () => {
+  const t = useTranslations('UserForm');
+
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<{ user: IUser }>(['user']);
   const isFetching = useIsFetching({ queryKey: ['user'] });
@@ -157,7 +160,7 @@ export const UserForm = () => {
           {data?.user?.name}
         </p>
         <p className="mb-[40px] block text-center text-[12px] font-600 leading-[1.28] text-blackText dark:text-grayTheme md:text-[14px] xl:mb-[44px]">
-          User
+          {t('user')}
         </p>
 
         <div className="mb-[40px] flex flex-col gap-[18px] md:gap-[24px] xl:mb-[88px] xl:grid xl:grid-cols-2 xl:gap-x-[50px]">
@@ -167,19 +170,19 @@ export const UserForm = () => {
                 htmlFor="name"
                 className="mb-[8px] block text-[12px] font-400 leading-[1.16] text-blackCustom dark:text-grayTheme md:text-[14px] md:leading-[1.28]"
               >
-                User Name
+                {t('userName')}
               </label>
-              {/* <input id="name" {...register('name')} className="inputAccount" /> */}
               <input
                 id="name"
                 {...register('name', {
-                  required: 'Name is required',
+                  required: t('userNameError'),
                   maxLength: {
                     value: 16,
-                    message: 'Name cannot be longer than 16 characters',
+                    message: t('userNamePatternError'),
                   },
                 })}
                 className="inputAccount"
+                placeholder={t('userNamePlaceholder')}
               />
               {errors.name && (
                 <p className="inputError">{errors.name.message}</p>
@@ -191,13 +194,14 @@ export const UserForm = () => {
                 htmlFor="birthday"
                 className="mb-[8px] block text-[12px] font-400 leading-[1.16] text-blackCustom dark:text-grayTheme md:text-[14px] md:leading-[1.28]"
               >
-                Birthday
+                {t('birthday')}
               </label>
               <input
                 type="date"
                 id="birthday"
                 {...register('birthday')}
                 className="inputAccount"
+                placeholder={t('birthdayPlaceholder')}
               />
             </div>
 
@@ -206,13 +210,16 @@ export const UserForm = () => {
                 htmlFor="email"
                 className="mb-[8px] block text-[12px] font-400 leading-[1.16] text-blackCustom dark:text-grayTheme md:text-[14px] md:leading-[1.28]"
               >
-                Email
+                {t('email')}
               </label>
               <input
                 id="email"
+                type="email"
                 {...register('email')}
-                className="inputAccount"
+                readOnly
+                className="inputAccount bg-grayBg"
               />
+  
             </div>
           </div>
 
@@ -222,7 +229,7 @@ export const UserForm = () => {
                 htmlFor="phone"
                 className="mb-[8px] block text-[12px] font-400 leading-[1.16] text-blackCustom dark:text-grayTheme md:text-[14px] md:leading-[1.28]"
               >
-                Phone
+                {t('phone')}
               </label>
 
               <Controller
@@ -251,13 +258,13 @@ export const UserForm = () => {
                 htmlFor="telegram"
                 className="mb-[8px] block text-[12px] font-400 leading-[1.16] text-blackCustom dark:text-grayTheme md:text-[14px] md:leading-[1.28]"
               >
-                Telegram
+                {t('telegram')}
               </label>
               <input
                 id="telegram"
                 {...register('telegram')}
                 className="inputAccount"
-                placeholder="Add Telegram username"
+                placeholder={t('telegramPlaceholder')}
               />
             </div>
           </div>
@@ -272,7 +279,7 @@ export const UserForm = () => {
           }`}
           disabled={!isFormChanged}
         >
-          Save changes
+          {t('save')}
         </button>
       </div>
     </form>

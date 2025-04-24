@@ -73,5 +73,25 @@
 
     "signUpBtn": "Зареєструватись",
     "logInBtn": "Увійти"
+  },
+
+  "UserForm": {
+    "user": "Користувач",
+    "userName": "Ім'я",
+    "userNameError": "Ім'я обов'язкове",
+    "userNamePatternError": "Ім'я не може бути довшим за 16 символів",
+    "userNamePlaceholder": "Введіть ім'я",
+
+    "birthday": "Дата народження",
+    "birthdayPlaceholder": "Введіть дату народження",
+
+    "email": "Пошта",
+
+    "phone": "Телефон",
+
+    "telegram": "Телеграм",
+    "telegramPlaceholder": "Додайте телеграм",
+
+    "save": "Зберегти зміни"
   }
 }

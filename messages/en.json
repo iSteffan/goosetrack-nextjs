@@ -73,5 +73,25 @@
 
     "signUpBtn": "Sign up",
     "logInBtn": "Log in"
+  },
+
+  "UserForm": {
+    "user": "User",
+    "userName": "User Name",
+    "userNameError": "Name is required",
+    "userNamePatternError": "Name cannot be longer than 16 characters",
+    "userNamePlaceholder": "Enter user name",
+
+    "birthday": "Birthday",
+    "birthdayPlaceholder": "Enter birthday",
+
+    "email": "Email",
+
+    "phone": "Phone",
+
+    "telegram": "Telegram",
+    "telegramPlaceholder": "Add Telegram username",
+
+    "save": "Save changes"
   }
 }
