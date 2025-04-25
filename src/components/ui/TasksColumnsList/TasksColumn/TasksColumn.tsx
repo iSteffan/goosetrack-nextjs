@@ -42,7 +42,6 @@ export const TasksColumn = ({
         <TaskForm
           selectedDate={selectedDate}
           category={title}
-          // initialData={''}
           onClose={handleToggleModal}
         />
       </Modal>

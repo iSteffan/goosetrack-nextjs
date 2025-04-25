@@ -4,6 +4,8 @@ import { useForm, useWatch, Controller } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames';
+import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 
 import EditIcon from '@/public/icon/pencil.svg';
 import PlusIcon from '@/public/icon/plus.svg';
@@ -72,6 +74,8 @@ export const TaskForm = ({
     },
   });
 
+  const t = useTranslations('TaskForm');
+
   const queryClient = useQueryClient();
   const { addTask, updateTask: updateStoreTask } = useTasksStore();
 
@@ -92,9 +96,12 @@ export const TaskForm = ({
     onSuccess: newTask => {
       addTask(newTask);
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      toast.success(t('createSuccess'));
+
       onClose();
     },
     onError: error => {
+      toast.error(t('createError'));
       console.error('Failed to create task', error);
     },
   });
@@ -105,9 +112,11 @@ export const TaskForm = ({
     onSuccess: updatedTask => {
       updateStoreTask(updatedTask._id, updatedTask);
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      toast.success(t('updateSuccess'));
       onClose();
     },
     onError: error => {
+      toast.error(t('updateError'));
       console.error('Failed to update task', error);
     },
   });
@@ -140,7 +149,7 @@ export const TaskForm = ({
   };
 
   const submitBtnStyles = classNames(
-    'flex items-center gap-[8px] rounded-[8px] bg-blueMain px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-white disabled:cursor-not-allowed  md:px-[64px] md:py-[15px]',
+    'flex items-center justify-center gap-[8px] rounded-[8px] bg-blueMain w-[calc((100%-14px)/2)] py-[12px] text-[14px] font-600 leading-[1.28] text-white disabled:cursor-not-allowed md:py-[15px]',
     {
       'disabled:bg-[#EFEFEF] disabled:text-blackText': !isFormChanged,
       btnEffect: isFormChanged || !isPending || !isUpdating,
@@ -160,16 +169,15 @@ export const TaskForm = ({
             htmlFor="title"
             className="mb-[8px] inline-block text-[12px] leading-[1.16] text-blackText dark:text-grayTheme"
           >
-            Title
+            {t('title')}
           </label>
           <input
             id="title"
             {...register('title', { required: true, maxLength: 250 })}
             className="h-[42px] w-full rounded-[8px] border-[1px] border-transparent bg-[#F6F6F6] px-[18px] py-[14px] text-[14px] font-600 leading-[1.28] text-blackText dark:border-darkThemeBorder dark:bg-transparent dark:text-white md:h-[46px]"
+            placeholder={t('titlePlaceholder')}
           />
-          {errors.title && (
-            <p className="inputError">Title is required (max 250 characters)</p>
-          )}
+          {errors.title && <p className="inputError">{t('titleError')}</p>}
         </div>
 
         <div className="mb-[16px] flex gap-[14px] md:mb-[28px]">
@@ -178,7 +186,7 @@ export const TaskForm = ({
               htmlFor="start"
               className="mb-[8px] inline-block text-[12px] leading-[1.16] text-blackText dark:text-grayTheme"
             >
-              Start
+              {t('start')}
             </label>
             <input
               id="start"
@@ -186,9 +194,7 @@ export const TaskForm = ({
               {...register('start', { required: true })}
               className="h-[42px] w-full rounded-[8px] border-[1px] border-transparent bg-[#F6F6F6] px-[18px] py-[14px] text-[14px] font-600 leading-[1.28] text-blackText dark:border-darkThemeBorder dark:bg-transparent dark:text-white md:h-[46px]"
             />
-            {errors.start && (
-              <p className="inputError">Start time is required</p>
-            )}
+            {errors.start && <p className="inputError">{t('startError')}</p>}
           </div>
 
           <div className="relative w-full">
@@ -196,7 +202,7 @@ export const TaskForm = ({
               htmlFor="end"
               className="mb-[8px] inline-block text-[12px] leading-[1.16] text-blackText dark:text-grayTheme"
             >
-              End
+              {t('end')}
             </label>
             <input
               id="end"
@@ -208,7 +214,7 @@ export const TaskForm = ({
               })}
               className="h-[42px] w-full rounded-[8px] border-[1px] border-transparent bg-[#F6F6F6] px-[18px] py-[14px] text-[14px] font-600 leading-[1.28] text-blackText dark:border-darkThemeBorder dark:bg-transparent dark:text-white md:h-[46px]"
             />
-            {errors.end && <p className="inputError">End &gt; Start time</p>}
+            {errors.end && <p className="inputError">{t('endError')}</p>}
           </div>
         </div>
 
@@ -239,7 +245,7 @@ export const TaskForm = ({
                   </div>
                 )}
               />
-              {label}
+              {t(`priority.${label}`)}
             </label>
           ))}
         </div>
@@ -258,7 +264,7 @@ export const TaskForm = ({
               ) : (
                 <PlusIcon className={iconStyles} />
               )}
-              <p>{initialData ? 'Edit' : 'Add'}</p>
+              <p>{initialData ? t('edit') : t('add')}</p>
             </>
           </button>
 
@@ -266,9 +272,9 @@ export const TaskForm = ({
             type="button"
             onClick={onClose}
             disabled={isPending || isUpdating}
-            className="rounded-[8px] bg-[#EFEFEF] px-[42px] py-[12px] text-[14px] font-600 leading-[1.28] text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white md:px-[48px] md:py-[15px]"
+            className="w-[calc((100%-14px)/2)] rounded-[8px] bg-[#EFEFEF] py-[12px] text-[14px] font-600 leading-[1.28] text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white md:px-[48px] md:py-[15px]"
           >
-            Cancel
+            {t('cancel')}
           </button>
         </div>
       </form>

@@ -98,5 +98,34 @@
   "PeriodTypeSelect": {
     "month": "Month",
     "day": "Day"
+  },
+
+  "TaskForm": {
+    "createSuccess": "Task created!",
+    "createError": "Task creation failed. Try again.",
+
+    "updateSuccess": "Task updated!",
+    "updateeError": "Failed to update the task. Try again.",
+
+    "title": "Title",
+    "titleError": "Title is required (max 250 characters)",
+    "titlePlaceholder": "Enter text",
+
+    "start": "Start",
+    "startError": "Start time is required",
+
+    "end": "End",
+    "endError": "End > Start time",
+
+    "priority": {
+      "Low": "Low",
+      "Medium": "Medium",
+      "High": "High"
+    },
+
+    "edit": "Edit",
+    "add": "Add",
+
+    "cancel": "Cancel"
   }
 }
