@@ -1,10 +1,13 @@
 import PlusIcon from '@/public/icon/plus.svg';
+import { useTranslations } from 'next-intl';
 
 interface AddTaskBtnProps {
   onOpen: () => void;
 }
 
 export const AddTaskBtn = ({ onOpen }: AddTaskBtnProps) => {
+  const t = useTranslations('AddTaskBtn');
+
   return (
     <button
       type="button"
@@ -13,7 +16,7 @@ export const AddTaskBtn = ({ onOpen }: AddTaskBtnProps) => {
     >
       <PlusIcon className="h-[24px] w-[24px] stroke-blackCustom group-hover:stroke-white group-focus:stroke-white dark:stroke-white" />
       <span className="text-[14px] font-600 leading-[1.28] text-blackCustom group-hover:text-white group-focus:text-white dark:text-white">
-        Add task
+        {t('add')}
       </span>
     </button>
   );

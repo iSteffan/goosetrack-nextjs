@@ -127,5 +127,21 @@
     "add": "Додати",
 
     "cancel": "Відмінити"
+  },
+
+  "AddTaskBtn": {
+    "add": "Додати завдання"
+  },
+
+  "ColumnHeadBar": {
+    "toDo": "До виконання",
+    "inProgress": "В процесі",
+    "done": "Виконано"
+  },
+
+  "TaskColumnCard": {
+    "low": "Низька",
+    "medium": "Середня",
+    "high": "Висока"
   }
 }

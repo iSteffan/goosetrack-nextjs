@@ -1,6 +1,8 @@
 'use client';
 
 import { format, isSameDay } from 'date-fns';
+import { enUS, uk } from 'date-fns/locale';
+import { useLocale } from 'next-intl';
 
 interface DayCalendarHeadProps {
   weekDays: Date[];
@@ -13,6 +15,9 @@ export const DayCalendarHead = ({
   selectedDate,
   onDateChange,
 }: DayCalendarHeadProps) => {
+  const localeCode = useLocale();
+  const dateFnsLocale = localeCode === 'uk' ? uk : enUS;
+
   return (
     <ul className="cardBorder mb-[14px] flex justify-between rounded-[8px] border-[1px] bg-white px-[18px] py-[14px] dark:bg-blackAccentBg md:mb-[16px] md:px-[32px] md:py-[10px] xl:px-[46px]">
       {weekDays.map((day, id) => {
@@ -22,11 +27,11 @@ export const DayCalendarHead = ({
         return (
           <li key={id} className="w-[28px] text-center md:w-[50px]">
             <p className="mb-[6px] block text-center text-[16px] font-600 uppercase leading-[1.12] text-blackText dark:text-grayTheme md:mb-[4px] md:hidden md:text-[14px] md:leading-[1.28]">
-              {format(day, 'EEEEE')}
+              {format(day, 'EEEEE', { locale: dateFnsLocale })}
             </p>
 
             <p className="mb-[6px] hidden text-center text-[16px] font-600 uppercase leading-[1.12] text-blackText dark:text-grayTheme md:mb-[4px] md:block md:text-[14px] md:leading-[1.28]">
-              {format(day, 'E')}
+              {format(day, 'E', { locale: dateFnsLocale })}
             </p>
 
             <button

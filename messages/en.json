@@ -127,5 +127,21 @@
     "add": "Add",
 
     "cancel": "Cancel"
+  },
+
+  "AddTaskBtn": {
+    "add": "Add task"
+  },
+
+  "ColumnHeadBar": {
+    "toDo": "To Do",
+    "inProgress": "In Progress",
+    "done": "Done"
+  },
+
+  "TaskColumnCard": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
   }
 }

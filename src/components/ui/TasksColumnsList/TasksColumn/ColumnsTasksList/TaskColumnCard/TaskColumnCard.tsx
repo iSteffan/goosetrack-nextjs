@@ -6,6 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import classNames from 'classnames';
+import { useTranslations } from 'next-intl';
 
 import { TaskToolbar } from './TaskToolbar/TaskToolbar';
 import { Modal } from '@/components/ui/Modal/Modal';
@@ -17,6 +18,8 @@ interface TaskColumnCardProps {
 }
 
 export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
+  const t = useTranslations('TaskColumnCard');
+
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<{ user: IUser }>(['user']);
 
@@ -32,6 +35,16 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
   const firstLetter = data?.user?.name.charAt(0).toUpperCase();
 
   // console.log('task', task);
+
+  let taskPriority: string;
+
+  if (task.priority === 'Low') {
+    taskPriority = t('low');
+  } else if (task.priority === 'Medium') {
+    taskPriority = t('medium');
+  } else {
+    taskPriority = t('high');
+  }
 
   const priorityStyles = classNames(
     'inline-block h-[20px] rounded-[4px] px-[12px] py-[4px] text-[10px] font-600 leading-[1.2] text-white',
@@ -68,7 +81,7 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
             )}
           </div>
 
-          <p className={priorityStyles}>{task?.priority}</p>
+          <p className={priorityStyles}>{taskPriority}</p>
         </div>
 
         <TaskToolbar
