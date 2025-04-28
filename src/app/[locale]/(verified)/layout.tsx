@@ -93,8 +93,9 @@ export default function VerifiedUserLayout({
   const onOpenMenu = () => setIsBurgerOpen(true);
 
   return (
-    <div className="min-h-screen bg-grayBg dark:bg-blackPageBg xl:pl-[289px]">
+    <div className="bg-grayBg dark:bg-blackPageBg min-h-screen xl:pl-[289px]">
       <SideBar />
+
       <div className="flex w-full flex-col">
         {/* <SimpleBar
           style={{ maxHeight: '100vh', overflow: 'auto' }}
