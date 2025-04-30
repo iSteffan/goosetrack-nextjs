@@ -74,8 +74,11 @@
 //   );
 // };
 
-import { useState, useEffect, useRef } from 'react';
-import { useInView } from 'react-intersection-observer';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import ResizeObserver from 'resize-observer-polyfill';
+
 import { AddTaskBtn } from './AddTaskBtn/AddTaskBtn';
 import { ColumnHeadBar } from './ColumnHeadBar/ColumnHeadBar';
 import { ColumnsTasksList } from './ColumnsTasksList/ColumnsTasksList';
@@ -95,52 +98,41 @@ export const TasksColumn = ({
   tasks,
 }: TasksColumnProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { ref, inView } = useInView({
-    triggerOnce: false,
-    threshold: 0,
-  });
-
-  const columnRef = useRef<HTMLDivElement | null>(null);
-
-  const [columnHeight, setColumnHeight] = useState<number>(0);
   const [tasksListMaxHeight, setTasksListMaxHeight] = useState<string>('auto');
-
-  const mergedRef = (node: HTMLDivElement | null) => {
-    ref(node);
-    columnRef.current = node;
-  };
-
-  const updateHeight = () => {
-    if (columnRef.current) {
-      setColumnHeight(columnRef.current.getBoundingClientRect().height);
-    }
-  };
-
-  useEffect(() => {
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-
-    return () => {
-      window.removeEventListener('resize', updateHeight);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!inView) {
-      const availableHeight = window.innerHeight - columnHeight;
-      setTasksListMaxHeight(`${availableHeight - 50}px`);
-    } else {
-      setTasksListMaxHeight('auto');
-    }
-  }, [inView, columnHeight]);
+  const columnRef = useRef<HTMLDivElement | null>(null);
 
   const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  useEffect(() => {
+    const columnEl = columnRef.current;
+
+    const handleResize = () => {
+      if (!columnEl) return;
+
+      const rect = columnEl.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.top;
+      const reserve = 150;
+      const maxHeight = Math.max(spaceBelow - reserve, 150);
+      setTasksListMaxHeight(`${maxHeight}px`);
+    };
+
+    const observer = new ResizeObserver(handleResize);
+    if (columnEl) observer.observe(columnEl);
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      if (columnEl) observer.unobserve(columnEl);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div
-      ref={mergedRef}
+      ref={columnRef}
       className="cardBorder rounded-[8px] border-[1px] bg-white p-[18px] dark:bg-blackAccentBg md:p-[20px]"
     >
       <ColumnHeadBar

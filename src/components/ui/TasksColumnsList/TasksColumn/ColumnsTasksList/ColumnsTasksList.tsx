@@ -10,11 +10,10 @@ export const ColumnsTasksList = ({
   tasks,
   maxHeight,
 }: ColumnsTasksListProps) => {
-  // console.log('ColumnsTasksList tasks', tasks);
   return (
     <ul
       className="flex flex-col gap-[14px]"
-      style={{ maxHeight: maxHeight, overflowY: 'auto' }}
+      style={{ maxHeight, overflowY: 'auto' }}
     >
       {tasks.map(task => {
         return (
