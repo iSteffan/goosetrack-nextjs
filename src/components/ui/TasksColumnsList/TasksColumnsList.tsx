@@ -10,6 +10,7 @@ import { TasksColumn } from './TasksColumn/TasksColumn';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { TaskSkeleton } from '../TaskSkeleton/TaskSkeleton';
 
 interface TasksColumnsListProps {
   selectedDate: string;
@@ -73,6 +74,22 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
     );
   });
 
+  if (isInitialLoad || isLoading) {
+    return (
+      <div className="flex w-full gap-[16px] xl:gap-[20px]">
+        <div className="w-full md:w-1/2 xl:w-1/3">
+          <TaskSkeleton />
+        </div>
+        <div className="hidden w-full md:block md:w-1/2 xl:w-1/3">
+          <TaskSkeleton />
+        </div>
+        <div className="hidden w-full xl:block xl:w-1/3">
+          <TaskSkeleton />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Swiper
       onSwiper={swiper => (swiperRef.current = swiper)}
@@ -80,7 +97,7 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
       {...swiperParams}
       className="w-full"
     >
-      {isInitialLoad || isLoading ? <p>loading</p> : <>{columns}</>}
+      {columns}
     </Swiper>
   );
 };
