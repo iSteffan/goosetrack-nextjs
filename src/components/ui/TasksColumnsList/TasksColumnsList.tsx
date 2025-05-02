@@ -1,9 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { Swiper as SwiperType } from 'swiper';
+import { useIsFetching } from '@tanstack/react-query';
 
 import { useTasksStore } from '@/store/tasksStore';
 import { TasksColumn } from './TasksColumn/TasksColumn';
@@ -20,7 +21,7 @@ const categories = ['To Do', 'In Progress', 'Done'] as const;
 
 export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   const { tasks, isLoading } = useTasksStore(state => state);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const isFetching = useIsFetching({ queryKey: ['tasks'] });
 
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -31,12 +32,6 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
       localStorage.setItem('activeSlide', index.toString());
     }
   };
-
-  useEffect(() => {
-    if (!isLoading) {
-      setIsInitialLoad(false);
-    }
-  }, [isLoading]);
 
   // Повертаємося до збереженого індексу після зміни selectedDate
   useEffect(() => {
@@ -74,7 +69,7 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
     );
   });
 
-  if (isInitialLoad || isLoading) {
+  if (isFetching || isLoading) {
     return (
       <div className="flex w-full gap-[16px] xl:gap-[20px]">
         <div className="w-full md:w-1/2 xl:w-1/3">

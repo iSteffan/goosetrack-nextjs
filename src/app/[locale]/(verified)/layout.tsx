@@ -5,9 +5,6 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-// import SimpleBar from 'simplebar-react';
-// import 'simplebar-react/dist/simplebar.min.css';
-
 import { useTasksStore } from '@/store/tasksStore';
 import { useUserStore } from '@/store/userStore';
 
@@ -93,19 +90,14 @@ export default function VerifiedUserLayout({
   const onOpenMenu = () => setIsBurgerOpen(true);
 
   return (
-    <div className="bg-grayBg dark:bg-blackPageBg min-h-screen xl:pl-[289px]">
+    <div className="min-h-screen bg-grayBg dark:bg-blackPageBg xl:pl-[289px]">
       <SideBar />
 
       <div className="flex w-full flex-col">
-        {/* <SimpleBar
-          style={{ maxHeight: '100vh', overflow: 'auto' }}
-          className="flex-1"
-        > */}
         <Header pageName={pageName} onOpen={onOpenMenu} />
         <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
 
         {children}
-        {/* </SimpleBar> */}
       </div>
     </div>
   );
