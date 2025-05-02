@@ -1,5 +1,9 @@
+'use client';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 
 import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/deleteTask.svg';
@@ -14,6 +18,8 @@ interface TaskToolbarProps {
 }
 
 export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
+  const t = useTranslations('TaskToolbar');
+
   const { tasks, setTasks, deleteTask } = useTasksStore();
   const queryClient = useQueryClient();
 
@@ -22,14 +28,16 @@ export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
     onSuccess: () => {
       deleteTask(taskId);
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      toast.success(t('taskDeleted'));
     },
     onError: error => {
       console.error('Failed to delete task', error);
+      toast.error(t('deleteError'));
     },
   });
 
   const handleDelete = () => {
-    if (confirm('Are you sure you want to delete this task?')) {
+    if (confirm(t('confirm'))) {
       deleteTaskMutation(taskId);
     }
   };
@@ -60,7 +68,11 @@ export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
         <li>
           <Menu>
             <MenuButton className="group">
-              <MoveIcon className="h-[14px] w-[14px] stroke-blackCustom transition-colors group-hover:stroke-blueMain dark:stroke-white md:h-[16px] md:w-[16px]" />
+              {isMoving ? (
+                <div className="h-[14px] w-[14px] animate-spin rounded-full border-[2px] border-blueMain border-t-transparent" />
+              ) : (
+                <MoveIcon className="h-[14px] w-[14px] stroke-blackCustom transition-colors group-hover:stroke-blueMain dark:stroke-white md:h-[16px] md:w-[16px]" />
+              )}
             </MenuButton>
 
             <MenuItems
@@ -76,7 +88,8 @@ export const TaskToolbar = ({ onOpen, taskId, category }: TaskToolbarProps) => {
                     disabled={isMoving}
                     className="group flex w-full items-center justify-between gap-[8px] transition-colors data-[focus]:text-blueMain"
                   >
-                    {cat}
+                    {t(`categories.${cat}`)}
+
                     <MoveIcon className="h-[14px] w-[14px] stroke-blackCustom transition-colors group-hover:stroke-blueMain dark:stroke-white md:h-[16px] md:w-[16px]" />
                   </button>
                 </MenuItem>
