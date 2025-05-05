@@ -36,27 +36,32 @@ export const UserForm = () => {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<IUser>({
-    defaultValues: {
-      name: '',
-      email: '',
-      birthday: new Date().toISOString().split('T')[0],
-      phone: '',
-      telegram: '',
-      avatarURL: '',
-    },
-  });
+  } = useForm<IUser>();
+
+  // useEffect(() => {
+  //   if (data?.user) {
+  //     (
+  //       ['name', 'email', 'birthday', 'phone', 'telegram', 'avatarURL'] as const
+  //     ).forEach(key => {
+  //       setValue(key, data.user[key] || '');
+  //     });
+  //   }
+  // }, [data, setValue]);
 
   useEffect(() => {
     if (data?.user) {
-      (
-        ['name', 'email', 'birthday', 'phone', 'telegram', 'avatarURL'] as const
-      ).forEach(key => {
-        setValue(key, data.user[key] || '');
+      reset({
+        name: data.user.name || '',
+        email: data.user.email || '',
+        birthday: data.user.birthday || new Date().toISOString().split('T')[0],
+        phone: data.user.phone || '',
+        telegram: data.user.telegram || '',
+        avatarURL: data.user.avatarURL || '',
       });
     }
-  }, [data, setValue]);
+  }, [data, reset]);
 
   const mutation = useMutation({
     mutationFn: updateUser,
@@ -219,7 +224,6 @@ export const UserForm = () => {
                 readOnly
                 className="inputAccount bg-grayBg"
               />
-  
             </div>
           </div>
 
