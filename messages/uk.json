@@ -149,7 +149,7 @@
     "taskDeleted": "Завдання видалено!",
     "deleteError": "Виникла помилка. Спробуй ще раз.",
 
-    "confirm": "Are you sure you want to delete this taskВи дійсно хочете видалити це завдання?",
+    "confirm": "Ви дійсно хочете видалити це завдання?",
 
     "categories": {
       "To Do": "До виконання",

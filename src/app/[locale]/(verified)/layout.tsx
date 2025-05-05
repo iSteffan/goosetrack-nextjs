@@ -35,25 +35,6 @@ export default function VerifiedUserLayout({
     pageName = t('statistics');
   }
 
-  // --------------------------------------------tasks---------------------------------------
-
-  const { setTasks, setLoading } = useTasksStore(state => state);
-
-  const { data: tasks, isLoading } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: fetchTasks,
-    enabled: true,
-    staleTime: 1000 * 60 * 5, // 5 хвилин кешу
-    notifyOnChangeProps: ['data'],
-  });
-
-  useEffect(() => {
-    setLoading(isLoading);
-    if (tasks) {
-      setTasks(tasks);
-    }
-  }, [tasks, isLoading, setTasks, setLoading]);
-
   // --------------------------------------------user---------------------------------------
 
   const { setUser, setUserLoading } = useUserStore();
@@ -72,6 +53,25 @@ export default function VerifiedUserLayout({
       setUser(userData.user);
     }
   }, [userData, isUserLoading, setUser, setUserLoading]);
+
+  // --------------------------------------------tasks---------------------------------------
+
+  const { setTasks, setLoading } = useTasksStore(state => state);
+
+  const { data: tasks, isLoading } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: fetchTasks,
+    enabled: true,
+    staleTime: 1000 * 60 * 5, // 5 хвилин кешу
+    notifyOnChangeProps: ['data'],
+  });
+
+  useEffect(() => {
+    setLoading(isLoading);
+    if (tasks) {
+      setTasks(tasks);
+    }
+  }, [tasks, isLoading, setTasks, setLoading]);
 
   // ------------------------------------------------------------------------------------------
 

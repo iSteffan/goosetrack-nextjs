@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useLayoutEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { Swiper as SwiperType } from 'swiper';
@@ -24,6 +24,7 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   const isFetching = useIsFetching({ queryKey: ['tasks'] });
 
   const swiperRef = useRef<SwiperType | null>(null);
+  const [isSwiperInitialized, setIsSwiperInitialized] = useState(false);
 
   // Зберігаємо індекс при зміні слайда
   const handleSlideChange = () => {
@@ -69,6 +70,12 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
     );
   });
 
+  useLayoutEffect(() => {
+    if (!isFetching && !isLoading && !isSwiperInitialized) {
+      setIsSwiperInitialized(true);
+    }
+  }, [isFetching, isLoading, isSwiperInitialized]);
+
   if (isFetching || isLoading) {
     return (
       <div className="flex w-full gap-[16px] xl:gap-[20px]">
@@ -86,13 +93,15 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   }
 
   return (
-    <Swiper
-      onSwiper={swiper => (swiperRef.current = swiper)}
-      onSlideChange={handleSlideChange}
-      {...swiperParams}
-      className="w-full"
-    >
-      {columns}
-    </Swiper>
+    isSwiperInitialized && (
+      <Swiper
+        onSwiper={swiper => (swiperRef.current = swiper)}
+        onSlideChange={handleSlideChange}
+        {...swiperParams}
+        className="w-full"
+      >
+        {columns}
+      </Swiper>
+    )
   );
 };
