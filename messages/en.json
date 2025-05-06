@@ -1,7 +1,7 @@
 {
-  "HomePage": {
-    "title": "Hello world!",
-    "account": "Go to the account page"
+  "AuthSection": {
+    "login": "Log in",
+    "signup": "Sign up"
   },
 
   "VerifiedUserLayout": {
