@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 import LogInIcon from '@/public/icon/logIn.svg';
 import CorrectIcon from '@/public/icon/inputCorrect.svg';
@@ -28,6 +28,7 @@ type FormData = {
 
 export const AuthForm = ({ type }: AuthFormProps) => {
   const t = useTranslations('AuthForm');
+  const locale = useLocale();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +51,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         password: formData.password,
       });
       toast.success(t('registerSuccess'));
-      router.push('/en/login');
+      router.push(`/${locale}/login`);
     } catch (error) {
       console.log('error', error);
 
@@ -69,7 +70,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         password: formData.password,
       });
       toast.success(t('loginSuccess'));
-      router.push('/en/calendar');
+      router.push(`/${locale}/calendar`);
     } catch (error) {
       console.log('error', error);
 

@@ -38,11 +38,11 @@ export const DescriptionSection = () => {
                   </p>
                 )}
 
-                <p className="mb-[24px] text-[40px] font-700 leading-[1.1]">
+                <p className="mb-[24px] text-[40px] font-700 leading-[1.1] dark:text-white">
                   {item.subtitle}
                 </p>
 
-                <p className="mb-[40px] text-[14px] leading-[1.28] md:mb-[48px]">
+                <p className="mb-[40px] text-[14px] leading-[1.28] dark:text-white md:mb-[48px]">
                   {item.text}
                 </p>
               </div>
