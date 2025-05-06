@@ -1,9 +1,20 @@
 import Image from 'next/image';
+import { useMessages } from 'next-intl';
 
-import data from '@/data/common.json';
+type DescriptionItem = {
+  number: string;
+  title: string;
+  subtitle: string;
+  text: string;
+  image: string;
+  alt: string;
+};
 
 export const DescriptionSection = () => {
-  const { descriptionData } = data;
+  const messages = useMessages();
+
+  const descriptionData =
+    messages.DescriptionSection as unknown as DescriptionItem[];
 
   return (
     <section className="pb-[32px] pt-[64px]">
@@ -13,10 +24,8 @@ export const DescriptionSection = () => {
             <li
               key={index}
               className={`flex flex-col items-center ${index === 1 ? 'xl:flex-row-reverse' : 'xl:flex-row'}`}
-              // className="flex flex-col items-center xl:flex-row"
             >
               <div
-                // className="md:w-[275px]"
                 className={`md:w-[275px] ${index === 1 ? 'ml-auto' : 'mr-auto'}`}
               >
                 <p className="mb-[14px] text-[80px] font-700 leading-[1] tracking-[-4px] text-blueMain md:text-[104px]">
