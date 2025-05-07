@@ -1,38 +1,27 @@
-import Image from 'next/image';
 import { useState } from 'react';
-import {
-  // useIsFetching,
-  // useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
 import classNames from 'classnames';
 import { useTranslations } from 'next-intl';
 
 import { TaskToolbar } from './TaskToolbar/TaskToolbar';
 import { Modal } from '@/components/ui/Modal/Modal';
 import { TaskForm } from '@/components/common/TaskForm/TaskForm';
-import { IUser } from '@/store/userStore';
+import { useUserStore } from '@/store/userStore';
 import { ITask } from '@/store/tasksStore';
+import { Avatar } from '@/components/ui/Avatar/Avatar';
+
 interface TaskColumnCardProps {
   task: ITask;
 }
 
 export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
   const t = useTranslations('TaskColumnCard');
-
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<{ user: IUser }>(['user']);
+  const { user } = useUserStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-  // const isFetching = useIsFetching({ queryKey: ['user'] });
-
-  // const [showComponents, setShowComponents] = useState(false);
-
-  const firstLetter = data?.user?.name.charAt(0).toUpperCase();
 
   // console.log('task', task);
 
@@ -68,17 +57,7 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
       <div className="flex justify-between">
         <div className="flex items-end gap-[8px]">
           <div className="flex h-[32px] w-[32px] items-center justify-center rounded-[32px] border-[1.8px] border-blueMain text-[14px] font-700 leading-[1.28] text-blackCustom dark:text-white md:h-[44px] md:w-[44px] md:rounded-[44px] md:text-[18px]">
-            {data?.user?.avatarURL ? (
-              <Image
-                src={data?.user?.avatarURL}
-                alt="user avatar"
-                width={32}
-                height={32}
-                className="h-full w-full rounded-full object-cover"
-              />
-            ) : (
-              <p>{firstLetter}</p>
-            )}
+            <Avatar avatarURL={user?.avatarURL} name={user?.name} size={32} />
           </div>
 
           <p className={priorityStyles}>{taskPriority}</p>
