@@ -56,7 +56,7 @@ export default function VerifiedUserLayout({
 
   // --------------------------------------------tasks---------------------------------------
 
-  const { setTasks, setLoading } = useTasksStore(state => state);
+  const { setTasks, setTaskLoading } = useTasksStore(state => state);
 
   const { data: tasks, isLoading } = useQuery({
     queryKey: ['tasks'],
@@ -67,11 +67,11 @@ export default function VerifiedUserLayout({
   });
 
   useEffect(() => {
-    setLoading(isLoading);
+    setTaskLoading(isLoading);
     if (tasks) {
       setTasks(tasks);
     }
-  }, [tasks, isLoading, setTasks, setLoading]);
+  }, [tasks, isLoading, setTasks, setTaskLoading]);
 
   // ------------------------------------------------------------------------------------------
 

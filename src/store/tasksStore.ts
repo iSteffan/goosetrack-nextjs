@@ -13,9 +13,9 @@ export interface ITask {
 
 interface TasksState {
   tasks: ITask[];
-  isLoading: boolean;
+  isTaskLoading: boolean;
   setTasks: (tasks: ITask[]) => void;
-  setLoading: (isLoading: boolean) => void;
+  setTaskLoading: (isLoading: boolean) => void;
   addTask: (task: ITask) => void;
   updateTask: (taskId: string, updatedTask: ITask) => void;
   deleteTask: (taskId: string) => void;
@@ -25,9 +25,9 @@ export const useTasksStore = create<TasksState>()(
   devtools(
     set => ({
       tasks: [],
-      isLoading: false,
+      isTaskLoading: false,
       setTasks: tasks => set({ tasks }),
-      setLoading: isLoading => set({ isLoading }),
+      setTaskLoading: isLoading => set({ isTaskLoading: isLoading }),
       addTask: task => set(state => ({ tasks: [...state.tasks, task] })),
       updateTask: (taskId, updatedTask) =>
         set(state => ({

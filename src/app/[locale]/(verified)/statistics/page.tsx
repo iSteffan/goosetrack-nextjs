@@ -13,9 +13,9 @@ export default function Page() {
 
   const [selectedDate, setSelectedDate] = useState(initialDate);
 
-  const { tasks, isLoading } = useTasksStore(state => state);
+  const { tasks, isTaskLoading } = useTasksStore(state => state);
 
-  if (isLoading) {
+  if (isTaskLoading) {
     return <p>Loading...</p>;
   }
 

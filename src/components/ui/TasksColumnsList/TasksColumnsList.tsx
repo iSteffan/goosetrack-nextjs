@@ -1,6 +1,11 @@
 'use client';
 
-import { useRef, useEffect, useLayoutEffect, useState } from 'react';
+import {
+  useRef,
+  // useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { Swiper as SwiperType } from 'swiper';
@@ -20,7 +25,7 @@ interface TasksColumnsListProps {
 const categories = ['To Do', 'In Progress', 'Done'] as const;
 
 export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
-  const { tasks, isLoading } = useTasksStore(state => state);
+  const { tasks, isTaskLoading } = useTasksStore(state => state);
   const isFetching = useIsFetching({ queryKey: ['tasks'] });
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -35,12 +40,12 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   };
 
   // Повертаємося до збереженого індексу після зміни selectedDate
-  useEffect(() => {
-    const savedIndex = localStorage.getItem('activeSlide');
-    if (swiperRef.current && savedIndex !== null) {
-      swiperRef.current.slideTo(Number(savedIndex), 0);
-    }
-  }, [selectedDate]);
+  // useEffect(() => {
+  //   const savedIndex = localStorage.getItem('activeSlide');
+  //   if (swiperRef.current && savedIndex !== null) {
+  //     swiperRef.current.slideTo(Number(savedIndex), 0);
+  //   }
+  // }, [selectedDate]);
 
   const swiperParams = {
     centeredSlides: false,
@@ -71,12 +76,12 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   });
 
   useLayoutEffect(() => {
-    if (!isFetching && !isLoading && !isSwiperInitialized) {
+    if (!isFetching && !isTaskLoading && !isSwiperInitialized) {
       setIsSwiperInitialized(true);
     }
-  }, [isFetching, isLoading, isSwiperInitialized]);
+  }, [isFetching, isTaskLoading, isSwiperInitialized]);
 
-  if (isFetching || isLoading) {
+  if (isFetching || isTaskLoading) {
     return (
       <div className="flex w-full gap-[16px] xl:gap-[20px]">
         <div className="w-full md:w-1/2 xl:w-1/3">
@@ -95,13 +100,29 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
   return (
     isSwiperInitialized && (
       <Swiper
-        onSwiper={swiper => (swiperRef.current = swiper)}
+        onSwiper={swiper => {
+          swiperRef.current = swiper;
+
+          // Встановлюємо слайд після ініціалізації
+          const savedIndex = localStorage.getItem('activeSlide');
+          if (savedIndex !== null) {
+            swiper.slideTo(Number(savedIndex), 0);
+          }
+        }}
         onSlideChange={handleSlideChange}
         {...swiperParams}
         className="w-full"
       >
         {columns}
       </Swiper>
+      // <Swiper
+      //   onSwiper={swiper => (swiperRef.current = swiper)}
+      //   onSlideChange={handleSlideChange}
+      //   {...swiperParams}
+      //   className="w-full"
+      // >
+      //   {columns}
+      // </Swiper>
     )
   );
 };
