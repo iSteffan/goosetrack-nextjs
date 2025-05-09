@@ -2,20 +2,36 @@
 
 import { useEffect, useState } from 'react';
 import ReactStars from 'react-stars';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  // useQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
 
-import { fetchReview, saveReview, deleteReview } from '@/utils/getReviews';
+import {
+  // fetchReview,
+  saveReview,
+  deleteReview,
+} from '@/utils/getReviews';
 import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/feedbackDelete.svg';
 import { FeedbackFormSkeleton } from '@/components/ui/FeedbackFormSkeleton/FeedbackFormSkeleton';
 
 interface IFeedbackForm {
   onClose: () => void;
+  review:
+    | Awaited<ReturnType<typeof import('@/utils/getReviews').fetchReview>>
+    | undefined;
+  isReviewLoading: boolean;
 }
 
-export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
+export const FeedbackForm = ({
+  onClose,
+  review,
+  isReviewLoading,
+}: IFeedbackForm) => {
   const queryClient = useQueryClient();
 
   const [rating, setRating] = useState(0);
@@ -25,25 +41,34 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
 
   const t = useTranslations('FeedbackForm');
 
-  const {
-    data: review,
-    isLoading,
-    isFetching,
-  } = useQuery({
-    queryKey: ['review'],
-    queryFn: fetchReview,
-  });
+  // const {
+  //   data: review,
+  //   isLoading,
+  //   isFetching,
+  // } = useQuery({
+  //   queryKey: ['review'],
+  //   queryFn: fetchReview,
+  // });
+
+  // useEffect(() => {
+  //   if (isFetching) {
+  //     setShowComponents(false);
+  //   } else {
+  //     const timer = setTimeout(() => {
+  //       setShowComponents(true);
+  //     }, 400);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isFetching]);
 
   useEffect(() => {
-    if (isFetching) {
-      setShowComponents(false);
-    } else {
+    if (!isReviewLoading) {
       const timer = setTimeout(() => {
         setShowComponents(true);
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [isFetching]);
+  }, [isReviewLoading]);
 
   useEffect(() => {
     if (review?.success && review.data) {
@@ -94,7 +119,11 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
     setIsEditOpen(!isEditOpen);
   };
 
-  if (isFetching || !showComponents) {
+  // if (isFetching || !showComponents) {
+  //   return <FeedbackFormSkeleton />;
+  // }
+
+  if (isReviewLoading || !showComponents) {
     return <FeedbackFormSkeleton />;
   }
 
@@ -155,7 +184,8 @@ export const FeedbackForm = ({ onClose }: IFeedbackForm) => {
           <button
             className="btnEffect w-full rounded-[8px] bg-blueMain py-[12px] text-[14px] font-600 text-white"
             onClick={handleSave}
-            disabled={saveMutation.isPending || isLoading}
+            // disabled={saveMutation.isPending || isLoading}
+            disabled={saveMutation.isPending}
           >
             {review?.data ? t('edit') : t('save')}
           </button>

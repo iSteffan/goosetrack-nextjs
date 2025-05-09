@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
@@ -11,6 +12,7 @@ import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
 import MenuIcon from '@/public/icon/menu.svg';
 import { useUserStore } from '@/store/userStore';
+import { fetchReview } from '@/utils/getReviews';
 
 interface IHeader {
   pageName: string;
@@ -22,6 +24,12 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const { isUserLoading } = useUserStore();
+
+  const { data: review, isLoading: isReviewLoading } = useQuery({
+    queryKey: ['review'],
+    queryFn: fetchReview,
+    staleTime: 1000 * 60 * 5, // 5 хв кешу
+  });
 
   useEffect(() => {
     if (!isUserLoading) {
@@ -64,7 +72,13 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
       </header>
 
       <Modal isOpen={isModalOpen} onClose={handleToggleModal} isFeedback>
-        <FeedbackForm onClose={handleToggleModal} />
+        {/* <FeedbackForm onClose={handleToggleModal} /> */}
+
+        <FeedbackForm
+          onClose={handleToggleModal}
+          review={review}
+          isReviewLoading={isReviewLoading}
+        />
       </Modal>
     </>
   );
