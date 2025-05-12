@@ -2,19 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import ReactStars from 'react-stars';
-import {
-  // useQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
 
-import {
-  // fetchReview,
-  saveReview,
-  deleteReview,
-} from '@/utils/getReviews';
+import { saveReview, deleteReview } from '@/utils/getReviews';
 import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/feedbackDelete.svg';
 import { FeedbackFormSkeleton } from '@/components/ui/FeedbackFormSkeleton/FeedbackFormSkeleton';
@@ -40,26 +32,6 @@ export const FeedbackForm = ({
   const [showComponents, setShowComponents] = useState(false);
 
   const t = useTranslations('FeedbackForm');
-
-  // const {
-  //   data: review,
-  //   isLoading,
-  //   isFetching,
-  // } = useQuery({
-  //   queryKey: ['review'],
-  //   queryFn: fetchReview,
-  // });
-
-  // useEffect(() => {
-  //   if (isFetching) {
-  //     setShowComponents(false);
-  //   } else {
-  //     const timer = setTimeout(() => {
-  //       setShowComponents(true);
-  //     }, 400);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isFetching]);
 
   useEffect(() => {
     if (!isReviewLoading) {
@@ -118,10 +90,6 @@ export const FeedbackForm = ({
   const handleEdit = () => {
     setIsEditOpen(!isEditOpen);
   };
-
-  // if (isFetching || !showComponents) {
-  //   return <FeedbackFormSkeleton />;
-  // }
 
   if (isReviewLoading || !showComponents) {
     return <FeedbackFormSkeleton />;
@@ -184,7 +152,6 @@ export const FeedbackForm = ({
           <button
             className="btnEffect w-full rounded-[8px] bg-blueMain py-[12px] text-[14px] font-600 text-white"
             onClick={handleSave}
-            // disabled={saveMutation.isPending || isLoading}
             disabled={saveMutation.isPending}
           >
             {review?.data ? t('edit') : t('save')}

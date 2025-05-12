@@ -115,14 +115,6 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
       >
         {columns}
       </Swiper>
-      // <Swiper
-      //   onSwiper={swiper => (swiperRef.current = swiper)}
-      //   onSlideChange={handleSlideChange}
-      //   {...swiperParams}
-      //   className="w-full"
-      // >
-      //   {columns}
-      // </Swiper>
     )
   );
 };
