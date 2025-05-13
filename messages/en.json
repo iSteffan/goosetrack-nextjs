@@ -188,5 +188,9 @@
   "404": {
     "text": "We’re sorry, the page you requested could not be found. Please go back to the homepage.",
     "btn": "Back to home"
+  },
+
+  "ReviewsSection": {
+    "title": "Reviews"
   }
 }
