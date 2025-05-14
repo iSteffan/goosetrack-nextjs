@@ -70,7 +70,7 @@
   }
 
   .cardBorder {
-    @apply dark:border-darkThemeBorder border-inputBorder;
+    @apply border-inputBorder dark:border-darkThemeBorder;
   }
 }
 
@@ -92,4 +92,12 @@
   color: black !important;
   -webkit-text-fill-color: black !important;
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
