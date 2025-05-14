@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import axios from 'axios';
 
 import { ReviewSlider } from '@/components/common/ReviewSlider/ReviewSlider';
+import { ReviewSliderLoader } from '@/components/ui/ReviewSliderLoader/ReviewSliderLoader';
 
 export interface IReview {
   _id: string;
@@ -42,13 +43,11 @@ export const ReviewsSection = () => {
         <h2 className="mb-[40px] text-center text-[28px] font-700 leading-[1.14] text-blueMain">
           {t('title')}
         </h2>
-
-        {/* {isLoading && (
-          <p className="text-center text-gray-500">{t('loading')}</p>
-        )} */}
-
-        {!isLoading && <ReviewSlider reviews={reviews} />}
-        {/* <ReviewSlider reviews={reviews} /> */}
+        {isLoading ? (
+          <ReviewSliderLoader />
+        ) : (
+          <ReviewSlider reviews={reviews} />
+        )}
       </div>
     </section>
   );
