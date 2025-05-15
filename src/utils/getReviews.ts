@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { IReview } from '@/sections/MainPageSection/ReviewsSection/ReviewsSection';
+
 export interface ReviewData {
   rating: number;
   comment: string;
@@ -12,6 +14,11 @@ const api = axios.create({
 });
 
 // -------------------------------------------------------------All comments are left for educational purposes----------------------------------------------------------
+
+export const getAllReviews = async (): Promise<IReview[]> => {
+  const { data } = await axios.get('/api/reviews/all');
+  return data;
+};
 
 // export const fetchReview = async (): Promise<{
 //   success: boolean;

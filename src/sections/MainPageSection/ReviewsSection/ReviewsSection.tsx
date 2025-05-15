@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import axios from 'axios';
 
 import { ReviewSlider } from '@/components/common/ReviewSlider/ReviewSlider';
 import { ReviewSliderLoader } from '@/components/ui/ReviewSliderLoader/ReviewSliderLoader';
+import { getAllReviews } from '@/utils/getReviews';
 
 export interface IReview {
   _id: string;
@@ -23,10 +23,10 @@ export const ReviewsSection = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAllReviews = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await axios.get('/api/reviews/all');
-        setReviews(data);
+        const reviews = await getAllReviews();
+        setReviews(reviews);
       } catch (error) {
         console.error('Error fetching all reviews:', error);
       } finally {
@@ -34,7 +34,7 @@ export const ReviewsSection = () => {
       }
     };
 
-    fetchAllReviews();
+    fetchData();
   }, []);
 
   return (
