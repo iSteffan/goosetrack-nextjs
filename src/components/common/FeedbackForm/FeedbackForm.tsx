@@ -91,6 +91,11 @@ export const FeedbackForm = ({
     setIsEditOpen(!isEditOpen);
   };
 
+  const isUnchanged =
+    review?.data &&
+    rating === review.data.rating &&
+    comment.trim() === review.data.comment.trim();
+
   if (isReviewLoading || !showComponents) {
     return <FeedbackFormSkeleton />;
   }
@@ -150,11 +155,21 @@ export const FeedbackForm = ({
       {(!review?.data || isEditOpen) && (
         <div className="mt-[14px] flex justify-between gap-[8px]">
           <button
-            className="btnEffect w-full rounded-[8px] bg-blueMain py-[12px] text-[14px] font-600 text-white"
+            className={`w-full rounded-[8px] py-[12px] text-[14px] font-600 text-white ${
+              saveMutation.isPending || isUnchanged
+                ? 'cursor-not-allowed bg-gray-400'
+                : 'btnEffect bg-blueMain'
+            } `}
             onClick={handleSave}
-            disabled={saveMutation.isPending}
+            disabled={saveMutation.isPending || isUnchanged}
           >
-            {review?.data ? t('edit') : t('save')}
+            {saveMutation.isPending ? (
+              <div className="mx-auto h-[16px] w-[16px] animate-spin rounded-full border-[2px] border-white border-t-transparent" />
+            ) : review?.data ? (
+              t('edit')
+            ) : (
+              t('save')
+            )}
           </button>
           <button
             className="w-full rounded-[8px] bg-[#E5EDFA] py-[12px] text-[14px] font-600 text-blackText transition-colors hover:bg-gray-300 dark:bg-[#21222C] dark:text-white"
