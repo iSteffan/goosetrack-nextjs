@@ -15,7 +15,7 @@ import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import PlusIcon from '@/public/icon/plus.svg';
 import { updateUser } from '@/utils/getAuth';
 import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkeleton';
-import { IUser } from '@/store/userStore';
+import { IUser, useUserStore } from '@/store/userStore';
 
 export const UserForm = () => {
   const t = useTranslations('UserForm');
@@ -23,6 +23,7 @@ export const UserForm = () => {
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<{ user: IUser }>(['user']);
   const isFetching = useIsFetching({ queryKey: ['user'] });
+  const setUser = useUserStore(state => state.setUser);
 
   const [showComponents, setShowComponents] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -39,16 +40,6 @@ export const UserForm = () => {
     reset,
     formState: { errors },
   } = useForm<IUser>();
-
-  // useEffect(() => {
-  //   if (data?.user) {
-  //     (
-  //       ['name', 'email', 'birthday', 'phone', 'telegram', 'avatarURL'] as const
-  //     ).forEach(key => {
-  //       setValue(key, data.user[key] || '');
-  //     });
-  //   }
-  // }, [data, setValue]);
 
   useEffect(() => {
     if (data?.user) {
@@ -114,6 +105,15 @@ export const UserForm = () => {
     if (Object.keys(updatedFields).length > 0) {
       await mutation.mutateAsync(updatedFields);
       setAvatarFile(null);
+
+      const prevUser = useUserStore.getState().user;
+
+      if (prevUser) {
+        setUser({
+          ...prevUser,
+          ...updatedFields,
+        });
+      }
     }
   };
 
