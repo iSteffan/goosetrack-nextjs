@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware'; // імпортуємо devtools
 
 export interface IUser {
   name: string;
@@ -16,9 +17,14 @@ interface UserState {
   setUserLoading: (isLoading: boolean) => void;
 }
 
-export const useUserStore = create<UserState>()(set => ({
-  user: null,
-  isUserLoading: false,
-  setUser: user => set({ user }),
-  setUserLoading: isLoading => set({ isUserLoading: isLoading }),
-}));
+export const useUserStore = create<UserState>()(
+  devtools(
+    set => ({
+      user: null,
+      isUserLoading: false,
+      setUser: user => set({ user }),
+      setUserLoading: isLoading => set({ isUserLoading: isLoading }),
+    }),
+    { name: 'user-store' },
+  ),
+);
