@@ -37,7 +37,7 @@ export default function VerifiedUserLayout({
 
   // --------------------------------------------user---------------------------------------
 
-  const { setUser, setUserLoading } = useUserStore();
+  const { setUser, setIsUserLoading } = useUserStore();
 
   const { data: userData, isLoading: isUserLoading } = useQuery({
     queryKey: ['user'],
@@ -48,11 +48,11 @@ export default function VerifiedUserLayout({
   });
 
   useEffect(() => {
-    setUserLoading(isUserLoading);
+    setIsUserLoading(isUserLoading);
     if (userData?.user) {
       setUser(userData.user);
     }
-  }, [userData, isUserLoading, setUser, setUserLoading]);
+  }, [userData, isUserLoading, setUser, setIsUserLoading]);
 
   // --------------------------------------------tasks---------------------------------------
 

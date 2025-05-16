@@ -14,7 +14,7 @@ interface UserState {
   user: IUser | null;
   isUserLoading: boolean;
   setUser: (user: IUser | null) => void;
-  setUserLoading: (isLoading: boolean) => void;
+  setIsUserLoading: (isLoading: boolean) => void;
 }
 
 export const useUserStore = create<UserState>()(
@@ -23,7 +23,7 @@ export const useUserStore = create<UserState>()(
       user: null,
       isUserLoading: false,
       setUser: user => set({ user }),
-      setUserLoading: isLoading => set({ isUserLoading: isLoading }),
+      setIsUserLoading: isLoading => set({ isUserLoading: isLoading }),
     }),
     { name: 'user-store' },
   ),
