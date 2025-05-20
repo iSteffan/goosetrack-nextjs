@@ -2,7 +2,7 @@
 
 **[LIVE PAGE](https://goosetrack-nextjs.vercel.app/en)**
 
-<img width="100%" src="./public/images/readme/readme-title.jpg" alt="main page"/>
+<img width="100%" src="./public/image/readme/readme-title.jpg" alt="main page"/>
 
 <p align="center">
   <a href="#introduction">Introduction</a> •
@@ -14,7 +14,9 @@
 
 ## Components API
 
-Here you may find a list with the most common components:
+<details>
+  <summary><strong>Here you may find a list with the most common components:
+</strong></summary>
 
 - #### AuthForm
 
@@ -214,6 +216,8 @@ Here you may find a list with the most common components:
 | --------- | ---------- | --------------------------- |
 | `onClose` | `function` | optional, close burger menu |
 
+</details>
+
 ## Credits
 
 This software uses the following open source packages:
@@ -241,6 +245,9 @@ This software uses the following open source packages:
 
 ## Getting Started
 
+<details>
+  <summary><strong>Let's start:</strong></summary>
+
 - **Clone the repository to local machine**
 
 ```bash
@@ -260,3 +267,5 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+</details>
