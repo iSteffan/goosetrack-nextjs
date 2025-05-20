@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { addMonths, addDays, format, parse, isValid } from 'date-fns';
 import { useLocale } from 'next-intl';
-import { enUS, uk } from 'date-fns/locale';
+import { enGB, uk } from 'date-fns/locale';
+
+import DatePicker from 'react-datepicker';
 
 import ArrowLeftIcon from '@/public/icon/chevron-left.svg';
 import ArrowRightIcon from '@/public/icon/chevron-right.svg';
@@ -34,7 +37,9 @@ export const PeriodPaginator = ({
   onDateChange,
 }: PeriodPaginatorProps) => {
   const locale = useLocale();
-  const dateFnsLocale = locale === 'uk' ? uk : enUS;
+  const dateFnsLocale = locale === 'uk' ? uk : enGB;
+
+  const [isOpen, setIsOpen] = useState(false);
 
   let dateToParse = selectedDate;
   if (periodType === 'month' && selectedDate.length === 7) {
@@ -49,40 +54,50 @@ export const PeriodPaginator = ({
   }
 
   const handleChange = (step: number) => {
-    let newDate;
+    const newDate =
+      periodType === 'month'
+        ? addMonths(parsedDate, step)
+        : addDays(parsedDate, step);
 
-    if (periodType === 'month') {
-      newDate = addMonths(parsedDate, step);
-    } else {
-      newDate = addDays(parsedDate, step);
-    }
-
-    const formattedNewDate = format(newDate, 'yyyy-MM-dd');
-    onDateChange(formattedNewDate);
+    onDateChange(format(newDate, 'yyyy-MM-dd'));
   };
 
-  let formattedDate: string;
-  if (periodType === 'month') {
-    if (locale === 'uk') {
-      const monthIndex = parsedDate.getMonth();
-      const year = parsedDate.getFullYear();
-      formattedDate = `${nominativeMonths[monthIndex]} ${year}`;
-    } else {
-      formattedDate = format(parsedDate, 'MMMM yyyy', {
-        locale: dateFnsLocale,
-      });
+  const handleDateSelect = (date: Date | null) => {
+    if (date) {
+      onDateChange(format(date, 'yyyy-MM-dd'));
+      setIsOpen(false);
     }
-  } else {
-    formattedDate = format(parsedDate, 'dd MMMM yyyy', {
-      locale: dateFnsLocale,
-    });
-  }
+  };
+
+  const formattedDate =
+    periodType === 'month'
+      ? locale === 'uk'
+        ? `${nominativeMonths[parsedDate.getMonth()]} ${parsedDate.getFullYear()}`
+        : format(parsedDate, 'MMMM yyyy', { locale: dateFnsLocale })
+      : format(parsedDate, 'dd MMMM yyyy', { locale: dateFnsLocale });
 
   return (
-    <div className="flex items-center justify-between md:w-[270px]">
-      <p className="inline-block rounded-[8px] bg-blueMain px-[12px] py-[6px] text-[14px] font-700 uppercase leading-[1.28] text-white">
+    <div className="relative flex items-center justify-between md:w-[270px]">
+      <button
+        type="button"
+        onClick={() => setIsOpen(prev => !prev)}
+        className="inline-block rounded-[8px] bg-blueMain px-[12px] py-[6px] text-[14px] font-700 uppercase leading-[1.28] text-white"
+      >
         {formattedDate}
-      </p>
+      </button>
+
+      {isOpen && (
+        <div className="absolute left-0 top-[100%] z-10 mt-2">
+          <DatePicker
+            selected={parsedDate}
+            onChange={handleDateSelect}
+            inline
+            locale={dateFnsLocale}
+            dateFormat={periodType === 'month' ? 'MM/yyyy' : 'dd/MM/yyyy'}
+            showMonthYearPicker={periodType === 'month'}
+          />
+        </div>
+      )}
 
       <div>
         <button
