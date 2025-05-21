@@ -220,7 +220,9 @@
 
 ## Credits
 
-This software uses the following open source packages:
+<details>
+  <summary><strong>This software uses the following open source packages:
+</strong></summary>
 
 | 🧩 General                                    | 🎨 Frontend                                                                          | 🛠️ Backend                                                                    |
 | --------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
@@ -243,6 +245,7 @@ This software uses the following open source packages:
 |                                               | [tanstack/react-query](https://tanstack.com/query/latest)                            |                                                                               |
 |                                               | [classnames](https://www.npmjs.com/package/classnames)                               |                                                                               |
 
+</details>
 ## Getting Started
 
 <details>
