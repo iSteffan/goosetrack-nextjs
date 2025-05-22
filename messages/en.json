@@ -37,6 +37,11 @@
     "statistics": "Statistics"
   },
 
+  "Header": {
+    "firstText": "Let go",
+    "secondText": " of the past and focus on the present!"
+  },
+
   "AccountPage": {
     "title": "Hello AccountPage!",
     "home": "Go to the home page"

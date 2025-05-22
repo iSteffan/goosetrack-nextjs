@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  useRef,
-  // useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import { useRef, useLayoutEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { Swiper as SwiperType } from 'swiper';
@@ -38,14 +33,6 @@ export const TasksColumnsList = ({ selectedDate }: TasksColumnsListProps) => {
       localStorage.setItem('activeSlide', index.toString());
     }
   };
-
-  // Повертаємося до збереженого індексу після зміни selectedDate
-  // useEffect(() => {
-  //   const savedIndex = localStorage.getItem('activeSlide');
-  //   if (swiperRef.current && savedIndex !== null) {
-  //     swiperRef.current.slideTo(Number(savedIndex), 0);
-  //   }
-  // }, [selectedDate]);
 
   const swiperParams = {
     centeredSlides: false,

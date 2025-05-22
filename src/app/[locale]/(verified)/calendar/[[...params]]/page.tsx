@@ -34,8 +34,8 @@ export default function CalendarPage() {
   }, [periodType, selectedDate, locale, router]);
 
   return (
-    <section>
-      <div className="container pt-[40px]">
+    <section className="pt-[40px] xl:pt-[16px]">
+      <div className="container">
         <CalendarToolbar
           currentDate={selectedDate}
           periodType={periodType}

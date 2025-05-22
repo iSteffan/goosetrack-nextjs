@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { format } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { AddFeedbackBtn } from '@/components/ui/AddFeedbackBtn/AddFeedbackBtn';
@@ -11,7 +14,11 @@ import { HeaderLoader } from '@/components/ui/HeaderLoader/HeaderLoader';
 import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
 import MenuIcon from '@/public/icon/menu.svg';
+import GooseIcon from '@/public/icon/hasToDoTaskGoose.svg';
+
 import { useUserStore } from '@/store/userStore';
+import { useTasksStore } from '@/store/tasksStore';
+
 import { fetchReview } from '@/utils/getReviews';
 
 interface IHeader {
@@ -20,6 +27,13 @@ interface IHeader {
 }
 
 export const Header = ({ pageName, onOpen }: IHeader) => {
+  const t = useTranslations('Header');
+
+  const { params = [] } = useParams();
+  const { tasks } = useTasksStore(state => state);
+
+  const initialDate = params[1] || format(new Date(), 'yyyy-MM-dd');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -41,13 +55,28 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const hasToDoTaskForDate = tasks.some(
+    task => task.date === initialDate && task.category === 'To Do',
+  );
+
   return (
     <>
       <header>
-        <div className="flex items-center justify-between px-[20px] py-[24px] md:px-[32px] xl:pb-[] xl:pt-[32px]">
-          <p className="hidden text-[32px] font-700 capitalize dark:text-white xl:block">
-            {pageName}
-          </p>
+        <div className="container flex items-center justify-between py-[24px] xl:pb-[16px] xl:pt-[32px]">
+          <div className="relative hidden xl:block">
+            {hasToDoTaskForDate && (
+              <>
+                <GooseIcon className="absolute left-[-40px] top-[-5px] h-[60px] w-[64px]" />
+                <p className="absolute left-0 top-[40px] w-[350px] text-[14px] font-600 leading-[1.28] text-blackCustom">
+                  <span className="text-blueMain">{t('firstText')}</span>
+                  {t('secondText')}
+                </p>
+              </>
+            )}
+            <p className="relative z-10 hidden text-[32px] font-700 capitalize dark:text-white xl:block">
+              {pageName}
+            </p>
+          </div>
 
           <button
             type="button"
