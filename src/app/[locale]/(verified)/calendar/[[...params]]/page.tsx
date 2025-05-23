@@ -35,7 +35,7 @@ export default function CalendarPage() {
 
   return (
     <section className="pt-[40px] xl:pt-[16px]">
-      <div className="container">
+      <div className="container xl:px-[32px]">
         <CalendarToolbar
           currentDate={selectedDate}
           periodType={periodType}

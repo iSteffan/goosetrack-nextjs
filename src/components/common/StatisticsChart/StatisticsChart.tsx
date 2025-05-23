@@ -7,7 +7,9 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  LabelList,
+  CartesianGrid,
+  Label,
+  LabelProps,
 } from 'recharts';
 import { isSameDay, isSameMonth, parseISO } from 'date-fns';
 
@@ -26,59 +28,145 @@ export const StatisticsChart = ({
   tasks,
   selectedDate,
 }: StatisticsChartProps) => {
-  const selected = new Date(selectedDate);
+  const selected = parseISO(selectedDate);
 
-  const categories = ['To Do', 'In Progress', 'Done'];
-  //   console.log('selectedDate', selectedDate);
+  const byDay = tasks.filter(task => isSameDay(parseISO(task.date), selected));
+  const byMonth = tasks.filter(task =>
+    isSameMonth(parseISO(task.date), selected),
+  );
 
-  const filterTasks = (range: 'day' | 'month') =>
-    tasks.filter(task => {
-      const taskDate = parseISO(task.date);
-      return range === 'day'
-        ? isSameDay(taskDate, selected)
-        : isSameMonth(taskDate, selected);
-    });
+  const count = (list: Task[], category: Task['category']) =>
+    list.filter(task => task.category === category).length;
 
-  const countByCategory = (filteredTasks: Task[]) =>
-    categories.map(cat => filteredTasks.filter(t => t.category === cat).length);
+  const dayTotal = byDay.length || 1;
+  const monthTotal = byMonth.length || 1;
 
-  const dayTasks = filterTasks('day');
-  const monthTasks = filterTasks('month');
+  const data = ['To Do', 'In Progress', 'Done'].map(name => {
+    const dayCount = count(byDay, name as Task['category']);
+    const monthCount = count(byMonth, name as Task['category']);
 
-  const dayCounts = countByCategory(dayTasks);
-  const monthCounts = countByCategory(monthTasks);
+    return {
+      name,
+      byDay: Math.round((dayCount / dayTotal) * 100),
+      byMonth: Math.round((monthCount / monthTotal) * 100),
+    };
+  });
 
-  const maxCount = Math.max(...dayCounts, ...monthCounts, 1);
+  const CustomLabel = ({ x, y, width, value }: LabelProps) => {
+    if (!value || value === 0) return null;
 
-  const data = categories.map((cat, index) => ({
-    category: cat,
-    day: Math.round((dayCounts[index] / maxCount) * 100),
-    month: Math.round((monthCounts[index] / maxCount) * 100),
-    dayCount: dayCounts[index],
-    monthCount: monthCounts[index],
-  }));
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    const numX = typeof x === 'string' ? parseFloat(x) : (x ?? 0);
+    const numY = typeof y === 'string' ? parseFloat(y) : (y ?? 0);
+    const numWidth =
+      typeof width === 'string' ? parseFloat(width) : (width ?? 0);
+
+    const adjustedY = numValue >= 95 ? numY + 20 : numY - 6;
+
+    return (
+      <text
+        x={numX + numWidth / 2}
+        y={adjustedY}
+        fill="#000"
+        fontSize={12}
+        textAnchor="middle"
+        fontWeight={500}
+      >
+        {numValue}%
+      </text>
+    );
+  };
 
   return (
-    <div className="rounded-[29px] border-[0.8px] border-bluePale px-[14px] py-[40px] dark:border-darkThemeBorder">
-      <p className="mb-[20px] text-[14px] font-600 leading-[1.5] text-blackText">
-        Tasks
-      </p>
-      <ResponsiveContainer width="100%" height={260}>
-        <BarChart data={data} barSize={30}>
-          <XAxis dataKey="category" />
-          <YAxis />
-          <Tooltip
-            formatter={(value, name) => [
-              `${value}%`,
-              name === 'day' ? 'By Day' : 'By Month',
-            ]}
+    <div className="rounded-[20px] border-[0.8px] border-bluePale px-[14px] py-[40px] md:p-[32px]">
+      <ResponsiveContainer height={300}>
+        <BarChart
+          data={data}
+          margin={{ top: 45, right: 10, left: 10, bottom: 10 }}
+          barCategoryGap={75}
+          barGap={10}
+          barSize={27}
+        >
+          <defs>
+            <linearGradient id="colorDay" x1="0" y1="0" x2="0" y2="1">
+              <stop
+                offset="0%"
+                stopColor="rgb(255, 210, 221)"
+                stopOpacity={0}
+              />
+              <stop
+                offset="100%"
+                stopColor="rgb(255, 210, 221)"
+                stopOpacity={1}
+              />
+            </linearGradient>
+            <linearGradient id="colorMonth" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgb(62, 133, 243)" stopOpacity={0} />
+              <stop
+                offset="100%"
+                stopColor="rgb(62, 133, 243)"
+                stopOpacity={1}
+              />
+            </linearGradient>
+          </defs>
+
+          <CartesianGrid stroke="#E3F3FF" vertical={false} />
+
+          <XAxis
+            dataKey="name"
+            tickSize={0}
+            tickMargin={16}
+            axisLine={false}
+            fontSize={14}
+            stroke="#343434"
           />
-          <Bar dataKey="day" fill="#FFD2DD">
-            <LabelList dataKey="dayCount" position="top" />
-          </Bar>
-          <Bar dataKey="month" fill="#3E85F3">
-            <LabelList dataKey="monthCount" position="top" />
-          </Bar>
+
+          {/* <YAxis
+          ticks={[0, 20, 40, 60, 80, 100]}
+          domain={[0, 100]}
+          axisLine={false}
+          tickLine={false}
+          tickMargin={20}
+          fontSize={14}
+          stroke="#343434"
+        /> */}
+          <YAxis
+            ticks={[0, 20, 40, 60, 80, 100]}
+            orientation="left"
+            axisLine={false}
+            tickLine={false}
+            tickCount={6}
+            tickMargin={20}
+            fontFamily="InterNormal, sans-serif"
+            fontSize={'14'}
+            stroke="#343434"
+          >
+            <Label
+              position="top"
+              dy={-28}
+              fontFamily="InterNormal, sans-serif"
+              fontSize={'14'}
+              fill="#343434"
+            >
+              Tasks
+            </Label>
+          </YAxis>
+          <Tooltip formatter={value => `${value}%`} />
+
+          <Bar
+            dataKey="byDay"
+            fill="url(#colorDay)"
+            radius={10}
+            minPointSize={10}
+            label={<CustomLabel />}
+          />
+          <Bar
+            dataKey="byMonth"
+            fill="url(#colorMonth)"
+            radius={10}
+            minPointSize={10}
+            label={<CustomLabel />}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

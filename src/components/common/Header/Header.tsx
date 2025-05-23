@@ -62,7 +62,7 @@ export const Header = ({ pageName, onOpen }: IHeader) => {
   return (
     <>
       <header>
-        <div className="container flex items-center justify-between py-[24px] xl:pb-[16px] xl:pt-[32px]">
+        <div className="container flex items-center justify-between py-[24px] xl:px-[32px] xl:pb-[16px] xl:pt-[32px]">
           <div className="relative hidden xl:block">
             {hasToDoTaskForDate && (
               <>

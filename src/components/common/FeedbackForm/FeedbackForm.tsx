@@ -128,7 +128,7 @@ export const FeedbackForm = ({
               <button
                 type="button"
                 onClick={handleEdit}
-                className="group flex h-[30px] w-[30px] items-center justify-center rounded-[50%] bg-[#E3F3FF] transition-colors hover:bg-blueMain dark:bg-[#353647] dark:hover:bg-blueMain"
+                className="group flex h-[30px] w-[30px] items-center justify-center rounded-[50%] bg-bluePale transition-colors hover:bg-blueMain dark:bg-[#353647] dark:hover:bg-blueMain"
               >
                 <EditIcon className="h-[16px] w-[16px] stroke-blueMain transition-colors group-hover:stroke-white" />
               </button>
