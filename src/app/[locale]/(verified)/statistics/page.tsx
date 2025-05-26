@@ -18,10 +18,6 @@ export default function Page() {
 
   const { tasks, isTaskLoading } = useTasksStore(state => state);
 
-  if (isTaskLoading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <section>
       <div className="container pt-[40px] xl:px-[32px]">
@@ -49,7 +45,11 @@ export default function Page() {
             </div>
           </div>
 
-          <StatisticsChart selectedDate={selectedDate} tasks={tasks} />
+          <StatisticsChart
+            selectedDate={selectedDate}
+            tasks={tasks}
+            isTaskLoading={isTaskLoading}
+          />
         </div>
       </div>
     </section>

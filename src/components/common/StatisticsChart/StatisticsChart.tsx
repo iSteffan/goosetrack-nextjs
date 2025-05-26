@@ -24,11 +24,13 @@ interface Task {
 interface StatisticsChartProps {
   tasks: Task[];
   selectedDate: string;
+  isTaskLoading: boolean;
 }
 
 export const StatisticsChart = ({
   tasks,
   selectedDate,
+  isTaskLoading,
 }: StatisticsChartProps) => {
   const t = useTranslations('StatisticsChart');
 
@@ -80,7 +82,6 @@ export const StatisticsChart = ({
       <text
         x={numX + numWidth / 2}
         y={adjustedY}
-        // fill="#000"
         fill={isDarkMode ? '#fff' : '#343434'}
         fontSize={12}
         textAnchor="middle"
@@ -92,7 +93,7 @@ export const StatisticsChart = ({
   };
 
   return (
-    <div className="rounded-[20px] border-[0.8px] border-bluePale px-[14px] py-[40px] dark:border-[#E3F3FF26] md:p-[32px]">
+    <div className="relative rounded-[20px] border-[0.8px] border-bluePale px-[14px] py-[40px] dark:border-[#E3F3FF26] md:p-[32px]">
       <ResponsiveContainer height={300}>
         <BarChart
           data={data}
@@ -177,6 +178,12 @@ export const StatisticsChart = ({
           />
         </BarChart>
       </ResponsiveContainer>
+
+      {isTaskLoading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-[8px] bg-white/80 backdrop-blur-sm dark:bg-black/70">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blueMain border-t-transparent" />
+        </div>
+      )}
     </div>
   );
 };
