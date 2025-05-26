@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { isSameDay, isSameMonth, parseISO } from 'date-fns';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 
 interface Task {
   _id: string;
@@ -30,6 +31,9 @@ export const StatisticsChart = ({
   selectedDate,
 }: StatisticsChartProps) => {
   const t = useTranslations('StatisticsChart');
+
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === 'dark';
 
   const selected = parseISO(selectedDate);
 
@@ -76,7 +80,8 @@ export const StatisticsChart = ({
       <text
         x={numX + numWidth / 2}
         y={adjustedY}
-        fill="#000"
+        // fill="#000"
+        fill={isDarkMode ? '#fff' : '#343434'}
         fontSize={12}
         textAnchor="middle"
         fontWeight={500}
@@ -87,7 +92,7 @@ export const StatisticsChart = ({
   };
 
   return (
-    <div className="rounded-[20px] border-[0.8px] border-bluePale px-[14px] py-[40px] md:p-[32px]">
+    <div className="rounded-[20px] border-[0.8px] border-bluePale px-[14px] py-[40px] dark:border-[#E3F3FF26] md:p-[32px]">
       <ResponsiveContainer height={300}>
         <BarChart
           data={data}
@@ -119,7 +124,10 @@ export const StatisticsChart = ({
             </linearGradient>
           </defs>
 
-          <CartesianGrid stroke="#E3F3FF" vertical={false} />
+          <CartesianGrid
+            stroke={isDarkMode ? '#E3F3FF26' : '#E3F3FF'}
+            vertical={false}
+          />
 
           <XAxis
             dataKey="name"
@@ -127,7 +135,7 @@ export const StatisticsChart = ({
             tickMargin={16}
             axisLine={false}
             fontSize={14}
-            stroke="#343434"
+            stroke={isDarkMode ? '#fff' : '#343434'}
           />
           <YAxis
             ticks={[0, 20, 40, 60, 80, 100]}
@@ -138,7 +146,7 @@ export const StatisticsChart = ({
             tickMargin={20}
             fontFamily="InterNormal, sans-serif"
             fontSize={'14'}
-            stroke="#343434"
+            stroke={isDarkMode ? '#fff' : '#343434'}
           >
             <Label
               position="top"
@@ -146,7 +154,7 @@ export const StatisticsChart = ({
               fontFamily="InterNormal, sans-serif"
               fontSize={'14'}
               fontWeight={600}
-              fill="#343434"
+              fill={isDarkMode ? '#fff' : '#343434'}
             >
               {t('tasks')}
             </Label>
