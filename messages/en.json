@@ -47,6 +47,18 @@
     "home": "Go to the home page"
   },
 
+  "StatisticsPage": {
+    "ByDay": "By Day",
+    "ByMonth": "By Month"
+  },
+
+  "StatisticsChart": {
+    "tasks": "Tasks",
+    "todo": "To Do",
+    "inProgress": "In Progress",
+    "done": "Done"
+  },
+
   "ChoosedDay": {
     "content": "Content for"
   },

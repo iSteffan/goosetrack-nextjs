@@ -2,12 +2,15 @@
 
 import { format } from 'date-fns';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { PeriodPaginator } from '@/components/ui/PeriodPaginator/PeriodPaginator';
 import { StatisticsChart } from '@/components/common/StatisticsChart/StatisticsChart';
 import { useTasksStore } from '@/store/tasksStore';
 
 export default function Page() {
+  const t = useTranslations('StatisticsPage');
+
   const periodType = 'day';
   const initialDate = format(new Date(), 'yyyy-MM-dd');
 
@@ -34,13 +37,13 @@ export default function Page() {
               <div className="flex items-center gap-[6px]">
                 <span className="h-[10px] w-[10px] rounded-full bg-[#FFD2DD]" />
                 <p className="text-[14px] font-400 leading-[1.28] md:text-[16px] md:leading-[1.12]">
-                  By Day
+                  {t('ByDay')}
                 </p>
               </div>
               <div className="flex items-center gap-[6px]">
                 <span className="h-[10px] w-[10px] rounded-full bg-blueMain" />
                 <p className="text-[14px] font-400 leading-[1.28] md:text-[16px] md:leading-[1.12]">
-                  By Month
+                  {t('ByMonth')}
                 </p>
               </div>
             </div>

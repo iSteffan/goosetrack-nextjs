@@ -12,6 +12,7 @@ import {
   LabelProps,
 } from 'recharts';
 import { isSameDay, isSameMonth, parseISO } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 interface Task {
   _id: string;
@@ -28,6 +29,8 @@ export const StatisticsChart = ({
   tasks,
   selectedDate,
 }: StatisticsChartProps) => {
+  const t = useTranslations('StatisticsChart');
+
   const selected = parseISO(selectedDate);
 
   const byDay = tasks.filter(task => isSameDay(parseISO(task.date), selected));
@@ -41,12 +44,18 @@ export const StatisticsChart = ({
   const dayTotal = byDay.length || 1;
   const monthTotal = byMonth.length || 1;
 
+  const categoryMap: Record<Task['category'], string> = {
+    'To Do': t('todo'),
+    'In Progress': t('inProgress'),
+    Done: t('done'),
+  };
+
   const data = ['To Do', 'In Progress', 'Done'].map(name => {
     const dayCount = count(byDay, name as Task['category']);
     const monthCount = count(byMonth, name as Task['category']);
 
     return {
-      name,
+      name: categoryMap[name as Task['category']],
       byDay: Math.round((dayCount / dayTotal) * 100),
       byMonth: Math.round((monthCount / monthTotal) * 100),
     };
@@ -120,16 +129,6 @@ export const StatisticsChart = ({
             fontSize={14}
             stroke="#343434"
           />
-
-          {/* <YAxis
-          ticks={[0, 20, 40, 60, 80, 100]}
-          domain={[0, 100]}
-          axisLine={false}
-          tickLine={false}
-          tickMargin={20}
-          fontSize={14}
-          stroke="#343434"
-        /> */}
           <YAxis
             ticks={[0, 20, 40, 60, 80, 100]}
             orientation="left"
@@ -146,9 +145,10 @@ export const StatisticsChart = ({
               dy={-28}
               fontFamily="InterNormal, sans-serif"
               fontSize={'14'}
+              fontWeight={600}
               fill="#343434"
             >
-              Tasks
+              {t('tasks')}
             </Label>
           </YAxis>
           <Tooltip formatter={value => `${value}%`} />

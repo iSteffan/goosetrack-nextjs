@@ -47,6 +47,18 @@
     "home": "Перехід на сторінку домашню"
   },
 
+  "StatisticsPage": {
+    "ByDay": "За День",
+    "ByMonth": "За Місяць"
+  },
+
+  "StatisticsChart": {
+    "tasks": "Завдання",
+    "todo": "До виконання",
+    "inProgress": "В процесі",
+    "done": "Виконано"
+  },
+
   "ChoosedDay": {
     "content": "Контент календаря для"
   },
