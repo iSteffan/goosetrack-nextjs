@@ -81,7 +81,7 @@ export const PeriodPaginator = ({
       <button
         type="button"
         onClick={() => setIsOpen(prev => !prev)}
-        className="inline-block rounded-[8px] bg-blueMain px-[12px] py-[6px] text-[14px] font-700 uppercase leading-[1.28] text-white"
+        className="btnEffect inline-block rounded-[8px] bg-blueMain px-[12px] py-[6px] text-[14px] font-700 uppercase leading-[1.28] text-white"
       >
         {formattedDate}
       </button>
@@ -103,16 +103,16 @@ export const PeriodPaginator = ({
         <button
           type="button"
           onClick={() => handleChange(-1)}
-          className="cardBorder rounded-l-[8px] border-[1px] bg-white px-[10px] py-[7px] dark:bg-blackAccentBg"
+          className="cardBorder group rounded-l-[8px] border-[1px] bg-white px-[10px] py-[7px] transition-colors hover:border-blueMain dark:bg-blackAccentBg"
         >
-          <ArrowLeftIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
+          <ArrowLeftIcon className="h-[16px] w-[16px] stroke-black transition-colors group-hover:stroke-blueMain dark:stroke-white" />
         </button>
         <button
           type="button"
           onClick={() => handleChange(1)}
-          className="cardBorder rounded-r-[8px] border-[1px] bg-white px-[10px] py-[7px] dark:bg-blackAccentBg"
+          className="cardBorder group rounded-r-[8px] border-[1px] bg-white px-[10px] py-[7px] transition-colors hover:border-blueMain dark:bg-blackAccentBg"
         >
-          <ArrowRightIcon className="h-[16px] w-[16px] stroke-black dark:stroke-white" />
+          <ArrowRightIcon className="h-[16px] w-[16px] stroke-black transition-colors group-hover:stroke-blueMain dark:stroke-white" />
         </button>
       </div>
     </div>

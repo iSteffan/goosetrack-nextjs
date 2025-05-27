@@ -12,6 +12,112 @@
   <a href="#getting-started">Getting started</a>
 </p>
 
+<!-- ## Features
+- Створено наступні маршрути:
+  - загальнодоступні /en, /en/register, /en/login, /en/not-found
+  - захищені маршрути /en/calendar, /en/statistics, /en/account
+- Реалізовано інтернаціоналізацію веб додатку для двох мов - англійська та українська
+- Реалізовано функціонал світлої/темної теми.
+
+- Головна сторінка представлена статичними секціями і тут є можливість перейти до авторизації, почитати відомості про додаток а також подивитись відгуки зареєстрованих користувачів. Відгуки реалізовані слейдером і поки підтягуються дані з бази даних то видно лоадер.
+
+- При реєстрації перевіряється наявність користувача з вказаною поштою в базі даних. При успішній реєстрації, дані записуються в базу даних, користувач бачить повідомлення про успіх реєстрації і його перенаправляють на сторінку для авторизації
+- При авторизації (логіні), якщо користувача з вказаними поштою і паролем знайдено, то його перенаправляють на захищений маршрут /en/calendar/month/:currentDate. Також відразу генерується унікальний токен і записується в кукі.
+- Для неавторизованого користувача заблоковано доступ на захищені маршрути шляхом перевірки наявності токена в кукі.
+
+Захищені маршрути /en/calendar, /en/statistics, /en/account мають спільний лейаут.
+  - Присутній сайдбар на якому можна переходити між сторінками, змінити мову в додатку і вийти з аккаунту. Для малих екранів реалізовано як бургер меню, для великих екранів - сайдбар статичний.
+  - Присутній хедер який відображає імя користувача, його аватар, кнопку зміни теми оформлення, кнопку відкриття модалки для створення/редагування відгуку.
+    - В хедері на сторінці /en/calendar/day/:currentDate при наявності завдань в розділі to do - присутній мотиваційний гусак із закликом до дій.
+- Вихід з аккаунта автоматично перенаправляє на головну сторінку -->
+
+## ✨ Features
+
+### 🌐 Routes & Internationalization
+
+- **Public Routes**:  
+  `/en`, `/en/register`, `/en/login`, `/en/not-found`
+
+- **Protected Routes**:  
+  `/en/calendar`, `/en/statistics`, `/en/account`
+
+- **Internationalization (i18n)**:  
+  Fully implemented for two languages — **English** and **Ukrainian**
+
+- **Light/Dark Theme Support**:  
+  Full support for switching between themes
+
+---
+
+### 🏠 Landing Page
+
+- Built with static sections
+- Allows users to:
+  - **Sign in / Register**
+  - **Read app information**
+  - **View user feedback**
+- Reviews section includes a **slider**
+- Displays a **loader** while fetching data from the database
+
+---
+
+### 🔐 Authentication Flow
+
+#### ✅ Registration
+
+- Checks if the user already exists by email
+- On success:
+  - Saves user data to the database
+  - Shows success notification
+  - Redirects to the login page
+
+#### 🔑 Login
+
+- Verifies credentials (email and password)
+- On success:
+  - Redirects to `/en/calendar/month/:currentDate`
+  - Generates a unique **token** stored in **cookies**
+
+#### 🛡️ Route Protection
+
+- Protected routes are accessible only if a valid token is found in cookies
+- Unauthorized users are blocked from access
+
+---
+
+### 🧭 Protected Layout Structure
+
+All protected routes share a unified layout:
+
+#### 📚 Sidebar Navigation
+
+- Links to:
+  - `/calendar`
+  - `/statistics`
+  - `/account`
+- Includes:
+  - **Language switcher**
+  - **Logout button**
+- Responsive behavior:
+  - **Sidebar** for large screens
+  - **Burger menu** for small screens
+
+#### 🧑‍💼 Header
+
+- Displays:
+  - User’s **name**
+  - User **avatar**
+  - **Theme toggle**
+  - Button to open modal for feedback creation/editing
+- On route `/en/calendar/day/:currentDate`:
+  - If `to do` tasks are present, a **motivational goose** is shown
+
+---
+
+### 🚪 Logout Behavior
+
+- Logging out automatically **redirects** the user to the landing page
+
 ## Components API
 
 <details>
