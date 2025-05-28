@@ -29,12 +29,29 @@
   - Присутній сайдбар на якому можна переходити між сторінками, змінити мову в додатку і вийти з аккаунту. Для малих екранів реалізовано як бургер меню, для великих екранів - сайдбар статичний.
   - Присутній хедер який відображає імя користувача, його аватар, кнопку зміни теми оформлення, кнопку відкриття модалки для створення/редагування відгуку.
     - В хедері на сторінці /en/calendar/day/:currentDate при наявності завдань в розділі to do - присутній мотиваційний гусак із закликом до дій.
-- Вихід з аккаунта автоматично перенаправляє на головну сторінку -->
+- Вихід з аккаунта автоматично перенаправляє на головну сторінку
+
+- Сторінка /account: представлена формою де підтягуються дані з бази даних і в доповнення до даних що були введені при реєстрації можна також додати номер телефон, дату народження, телеграм нікнейм та змінити аватар. Кнопка сабміту неактивна у разі відсутності будь яких змін у даних користувача.
+
+- Сторінка календаря /calendar є динамічним маршрутом і в залежності від обраного типу відображення день/місяць може показувати два маршрути /calendar/month/:currentDate та /calendar/day/:currentDate
+  - /calendar/month/:currentDate є початковою сторінкою і відображає повний календар поточного місяця. в кожній клітинця певного дня за наявності підтягуються завдання. При виборі будь якої дати можна перейти на сторінку обрангого дня і подивитись завдання.
+  - /calendar/day/:currentDate являє собою тижневий календар з переліком завдань розбитих на 3 колонки. На мобільній і планшетній версії колонки з завданнями реалізовані через слайдер. Тут можна створити/редагувати/видалити завдання. Також можливо змінювати категорію завдань.
+
+  - Сторінка статистики /statistics представляє собою діаграму де можна побачити співвідношення між категоріями завдань за певний місяць.
+-->
 
 ## ✨ Features
 
-### 🌐 Routes & Internationalization
+<details>
+  <summary><strong>Explore the list of key features below:
+</strong></summary>
 
+---
+
+<details>
+  <summary><strong>🌐 Routes & Internationalization
+</strong></summary>
+  
 - **Public Routes**:  
   `/en`, `/en/register`, `/en/login`, `/en/not-found`
 
@@ -45,23 +62,29 @@
   Fully implemented for two languages — **English** and **Ukrainian**
 
 - **Light/Dark Theme Support**:  
-  Full support for switching between themes
+ Full support for switching between themes
+</details>
 
 ---
 
-### 🏠 Landing Page
+<details>
+  <summary><strong>🏠 Landing Page
+</strong></summary>
 
 - Built with static sections
 - Allows users to:
   - **Sign in / Register**
   - **Read app information**
-  - **View user feedback**
+  - **View users feedback**
 - Reviews section includes a **slider**
 - Displays a **loader** while fetching data from the database
+</details>
 
 ---
 
-### 🔐 Authentication Flow
+<details>
+  <summary><strong> 🔐 Authentication Flow
+</strong></summary>
 
 #### ✅ Registration
 
@@ -77,15 +100,18 @@
 - On success:
   - Redirects to `/en/calendar/month/:currentDate`
   - Generates a unique **token** stored in **cookies**
+  </details>
+
+---
+
+<details>
+  <summary><strong>🧭 Protected Layout Structure
+</strong></summary>
 
 #### 🛡️ Route Protection
 
 - Protected routes are accessible only if a valid token is found in cookies
 - Unauthorized users are blocked from access
-
----
-
-### 🧭 Protected Layout Structure
 
 All protected routes share a unified layout:
 
@@ -112,11 +138,69 @@ All protected routes share a unified layout:
 - On route `/en/calendar/day/:currentDate`:
   - If `to do` tasks are present, a **motivational goose** is shown
 
----
-
 ### 🚪 Logout Behavior
 
 - Logging out automatically **redirects** the user to the landing page
+
+</details>
+
+---
+
+<details>
+  <summary><strong>👤 Account Page
+</strong></summary>
+
+- Includes a form with data fetched from the database
+- Extends registration data with optional fields:
+  - Phone number
+  - Date of birth
+  - Telegram username
+  - Avatar change
+- **Submit button is disabled** unless there are changes in the form
+
+</details>
+
+---
+
+<details>
+  <summary><strong>🗓 Calendar Page
+</strong></summary>
+
+#### `/calendar/month/:currentDate`
+
+- Default starting view
+- Displays a full month view
+- Each day cell shows tasks if available
+- Clickable dates navigate to their corresponding **day view**
+
+#### `/calendar/day/:currentDate`
+
+- Weekly task view with 3 columns:
+  - **To do**
+  - **In progress**
+  - **Done**
+- On mobile/tablet:
+  - Columns are swipeable via **slider**
+- Users can:
+  - Create, edit, delete tasks
+  - Change task categories
+
+</details>
+
+---
+
+<details>
+  <summary><strong>📊 Statistics Page
+</strong></summary>
+
+- Displays a **diagram** visualizing task distribution across categories
+- Filtered by **selected month**
+
+</details>
+
+---
+
+</details>
 
 ## Components API
 
