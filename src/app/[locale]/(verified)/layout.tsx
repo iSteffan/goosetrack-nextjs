@@ -24,6 +24,7 @@ export default function VerifiedUserLayout({
 
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const pathParts = pathname.split('/').filter(Boolean);
   let pageName = pathParts.length > 1 ? pathParts[1] : pathParts[0];
@@ -89,6 +90,18 @@ export default function VerifiedUserLayout({
   const onCloseMenu = () => setIsBurgerOpen(false);
   const onOpenMenu = () => setIsBurgerOpen(true);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    html.style.scrollbarGutter = 'stable';
+    html.classList.add('bg-grayBg', 'dark:bg-blackPageBg');
+    setReady(true);
+
+    return () => {
+      html.style.scrollbarGutter = '';
+      html.classList.remove('bg-grayBg', 'dark:bg-blackPageBg');
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-grayBg dark:bg-blackPageBg xl:pl-[289px]">
       <SideBar />
@@ -97,7 +110,13 @@ export default function VerifiedUserLayout({
         <Header pageName={pageName} onOpen={onOpenMenu} />
         <BurgerMenu isOpen={isBurgerOpen} onClose={onCloseMenu} />
 
-        {children}
+        {!ready ? (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-black/70">
+            <div className="h-20 w-20 animate-spin rounded-full border-4 border-blueMain border-t-transparent" />
+          </div>
+        ) : (
+          children
+        )}
       </div>
     </div>
   );

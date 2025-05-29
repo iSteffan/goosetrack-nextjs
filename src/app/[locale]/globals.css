@@ -28,6 +28,10 @@
   --loader-base: #22232d;
 }
 
+/* html {
+  scrollbar-gutter: stable;
+} */
+
 @layer base {
   body {
     font-weight: 500;
