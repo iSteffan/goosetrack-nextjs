@@ -15,7 +15,7 @@ export const ReviewSliderCard = ({ data }: ReviewSliderCardProps) => {
         </div>
 
         <div>
-          <p className="fonr-700 text-[18px] text-blackCustom">
+          <p className="fonr-700 text-[18px] text-blackCustom dark:text-white">
             {data.username}
           </p>
 
@@ -31,7 +31,7 @@ export const ReviewSliderCard = ({ data }: ReviewSliderCardProps) => {
         </div>
       </div>
 
-      <p className="truncate-text h-[72px] text-[14px] leading-[1.28] text-blackCustom opacity-[0.7]">
+      <p className="truncate-text h-[72px] text-[14px] leading-[1.28] text-blackCustom opacity-[0.7] dark:text-white">
         {data.comment}
       </p>
     </div>

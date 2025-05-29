@@ -1,8 +1,12 @@
-.icon path {
-  fill: #111111;
-  transition: fill 300ms ease-out;
+.icon {
+  color: #111;
+  transition: color 300ms ease-out;
 }
 
-.button:hover .icon path {
-  fill: #3e85f3;
+.button:hover .icon {
+  color: #3e85f3;
+}
+
+:global(html.dark) .icon {
+  color: #fff;
 }
