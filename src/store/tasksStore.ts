@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware'; // імпортуємо devtools
+import { devtools } from 'zustand/middleware';
 
 export interface ITask {
   _id: string;
