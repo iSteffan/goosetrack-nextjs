@@ -23,8 +23,6 @@ export const TaskColumnCard = ({ task }: TaskColumnCardProps) => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // console.log('task', task);
-
   let taskPriority: string;
 
   if (task.priority === 'Low') {

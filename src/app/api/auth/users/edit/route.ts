@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+
 import { dbConnect } from '@/utils/dbConnect';
+
 import User from '@/models/User';
 
 interface DecodedToken {

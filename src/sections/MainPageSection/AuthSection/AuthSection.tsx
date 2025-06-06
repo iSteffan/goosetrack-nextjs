@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 
+import LocaleSwitcher from '@/components/ui/LocaleSwitcher/LocaleSwitcher';
+
 import LogInIcon from '@/public/icon/logIn.svg';
 import GooseIcon from '@/public/icon/gooseAuth.svg';
-import LocaleSwitcher from '@/components/ui/LocaleSwitcher/LocaleSwitcher';
 
 export const AuthSection = () => {
   const t = useTranslations('AuthSection');

@@ -3,6 +3,7 @@ import { Navigation } from 'swiper/modules';
 
 import { ReviewSliderCard } from '@/components/ui/ReviewSliderCard/ReviewSliderCard';
 import { IReview } from '@/sections/MainPageSection/ReviewsSection/ReviewsSection';
+
 import ArrowIcon from '@/public/icon/sliderArrow.svg';
 
 import 'swiper/css';

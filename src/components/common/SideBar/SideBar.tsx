@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { LogoutBtn } from '@/components/ui/LogoutBtn/LogoutBtn';
 import { UserNav } from '@/components/ui/UserNav/UserNav';
+
 import CloseIcon from '@/public/icon/x-close.svg';
 
 interface ISideBar {
@@ -15,7 +16,7 @@ export const SideBar = ({ onClose, isBurgerMenu }: ISideBar) => {
       className={`flex ${
         isBurgerMenu
           ? ''
-          : 'dark:bg-blackSidebarBg fixed left-0 top-0 z-50 hidden h-screen flex-col bg-white xl:block'
+          : 'fixed left-0 top-0 z-50 hidden h-screen flex-col bg-white dark:bg-blackSidebarBg xl:block'
       }`}
     >
       <div className="relavite w-[225px] px-[20px] py-[24px] md:w-[289px] md:px-[24px] md:py-[32px]">

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { JwtPayload } from 'jsonwebtoken';
 
 import { dbConnect } from '@/utils/dbConnect';
-import Review from '@/models/Review';
 import { authMiddleware } from '@/middleware/auth';
-import { JwtPayload } from 'jsonwebtoken';
+
+import Review from '@/models/Review';
 
 export async function PATCH(req: NextRequest) {
   const user = authMiddleware(req);

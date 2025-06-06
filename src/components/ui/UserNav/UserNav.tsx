@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
+import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
+
 import CalendarIcon from '@/public/icon/sidebarCalendar.svg';
 import StatIcon from '@/public/icon/sidebarStatistics.svg';
 import UserIcon from '@/public/icon/sidebarUser.svg';
-import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 
 interface IUserNav {
   onClose?: () => void;

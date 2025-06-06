@@ -17,21 +17,3 @@ export default function QueryProvider({ children }: Props) {
     </QueryClientProvider>
   );
 }
-
-// 'use client';
-
-// import {
-//   QueryClient,
-//   QueryClientProvider as ReactQueryClientProvider,
-// } from '@tanstack/react-query';
-// import { ReactNode } from 'react';
-
-// const queryClient = new QueryClient();
-
-// export default function QueryProvider({ children }: { children: ReactNode }) {
-//   return (
-//     <ReactQueryClientProvider client={queryClient}>
-//       {children}
-//     </ReactQueryClientProvider>
-//   );
-// }

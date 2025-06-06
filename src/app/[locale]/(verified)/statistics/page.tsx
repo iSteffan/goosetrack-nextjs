@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { PeriodPaginator } from '@/components/ui/PeriodPaginator/PeriodPaginator';
 import { StatisticsChart } from '@/components/common/StatisticsChart/StatisticsChart';
+
 import { useTasksStore } from '@/store/tasksStore';
 
 export default function Page() {

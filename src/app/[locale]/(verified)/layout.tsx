@@ -23,6 +23,7 @@ export default function VerifiedUserLayout({
   const t = useTranslations('VerifiedUserLayout');
 
   const pathname = usePathname();
+
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [ready, setReady] = useState(false);
 

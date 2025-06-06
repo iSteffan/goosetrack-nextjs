@@ -7,10 +7,11 @@ import classNames from 'classnames';
 import { useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 
-import EditIcon from '@/public/icon/pencil.svg';
-import PlusIcon from '@/public/icon/plus.svg';
 import { createTask, updateTask } from '@/utils/getTask';
 import { useTasksStore } from '@/store/tasksStore';
+
+import EditIcon from '@/public/icon/pencil.svg';
+import PlusIcon from '@/public/icon/plus.svg';
 
 const priorityArr = [
   {

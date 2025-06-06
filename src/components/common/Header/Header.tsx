@@ -13,13 +13,13 @@ import { Modal } from '@/components/ui/Modal/Modal';
 import { HeaderLoader } from '@/components/ui/HeaderLoader/HeaderLoader';
 import { FeedbackForm } from '../FeedbackForm/FeedbackForm';
 
-import MenuIcon from '@/public/icon/menu.svg';
-import GooseIcon from '@/public/icon/hasToDoTaskGoose.svg';
-
 import { useUserStore } from '@/store/userStore';
 import { useTasksStore } from '@/store/tasksStore';
 
 import { fetchReview } from '@/utils/getReviews';
+
+import MenuIcon from '@/public/icon/menu.svg';
+import GooseIcon from '@/public/icon/hasToDoTaskGoose.svg';
 
 interface IHeader {
   pageName: string;

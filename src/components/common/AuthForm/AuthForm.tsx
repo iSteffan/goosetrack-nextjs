@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useTranslations, useLocale } from 'next-intl';
 
+import { loginUser, registerUser } from '@/utils/getAuth';
+
 import LogInIcon from '@/public/icon/logIn.svg';
 import CorrectIcon from '@/public/icon/inputCorrect.svg';
 import ErrorIcon from '@/public/icon/inputError.svg';
 import HideIcon from '@/public/icon/password-hide.svg';
 import ShowIcon from '@/public/icon/password-show.svg';
-
-import { loginUser, registerUser } from '@/utils/getAuth';
 
 type FormType = 'signUp' | 'logIn';
 

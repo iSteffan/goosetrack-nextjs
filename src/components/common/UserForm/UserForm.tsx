@@ -8,10 +8,11 @@ import { PatternFormat } from 'react-number-format';
 import { useTranslations } from 'next-intl';
 
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
-import PlusIcon from '@/public/icon/plus.svg';
 import { updateUser } from '@/utils/getAuth';
 import { UserFormSkeleton } from '@/components/ui/UserFormSkeleton/UserFormSkeleton';
 import { IUser, useUserStore } from '@/store/userStore';
+
+import PlusIcon from '@/public/icon/plus.svg';
 
 export const UserForm = () => {
   const t = useTranslations('UserForm');

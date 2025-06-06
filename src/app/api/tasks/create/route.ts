@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { dbConnect } from '@/utils/dbConnect';
 
 import Task from '@/models/Task';
 
+import { dbConnect } from '@/utils/dbConnect';
 import { authMiddleware } from '@/middleware/auth';
 
 export async function POST(req: NextRequest) {

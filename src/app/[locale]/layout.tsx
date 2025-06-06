@@ -5,11 +5,10 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ToastContainer } from 'react-toastify';
 
-import QueryProvider from '@/components/ui/QueryProvider/QueryProvider';
-
 import { Inter } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/ui/ThemeProvider/ThemeProvider';
+import QueryProvider from '@/components/ui/QueryProvider/QueryProvider';
 
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';

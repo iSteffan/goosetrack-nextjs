@@ -1,5 +1,6 @@
-import PlusIcon from '@/public/icon/plus-circle.svg';
 import { useTranslations } from 'next-intl';
+
+import PlusIcon from '@/public/icon/plus-circle.svg';
 
 interface ColumnHeadBarProps {
   title: string;

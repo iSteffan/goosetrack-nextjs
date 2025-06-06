@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { dbConnect } from '@/utils/dbConnect';
+
 import User from '@/models/User';
 
 export async function POST(req: Request) {

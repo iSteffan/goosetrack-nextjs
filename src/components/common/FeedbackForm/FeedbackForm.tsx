@@ -7,9 +7,10 @@ import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
 
 import { saveReview, deleteReview } from '@/utils/getReviews';
+import { FeedbackFormSkeleton } from '@/components/ui/FeedbackFormSkeleton/FeedbackFormSkeleton';
+
 import EditIcon from '@/public/icon/pencil.svg';
 import DeleteIcon from '@/public/icon/feedbackDelete.svg';
-import { FeedbackFormSkeleton } from '@/components/ui/FeedbackFormSkeleton/FeedbackFormSkeleton';
 
 interface IFeedbackForm {
   onClose: () => void;

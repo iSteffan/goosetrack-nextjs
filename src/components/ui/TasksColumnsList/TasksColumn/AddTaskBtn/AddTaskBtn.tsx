@@ -1,5 +1,6 @@
-import PlusIcon from '@/public/icon/plus.svg';
 import { useTranslations } from 'next-intl';
+
+import PlusIcon from '@/public/icon/plus.svg';
 
 interface AddTaskBtnProps {
   onOpen: () => void;

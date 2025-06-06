@@ -9,9 +9,10 @@ import { useIsFetching } from '@tanstack/react-query';
 import { useTasksStore } from '@/store/tasksStore';
 import { TasksColumn } from './TasksColumn/TasksColumn';
 
+import { TaskSkeleton } from '../TaskSkeleton/TaskSkeleton';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { TaskSkeleton } from '../TaskSkeleton/TaskSkeleton';
 
 interface TasksColumnsListProps {
   selectedDate: string;

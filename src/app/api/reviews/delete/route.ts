@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { dbConnect } from '@/utils/dbConnect';
-import Review from '@/models/Review';
-import { authMiddleware } from '@/middleware/auth';
 import { JwtPayload } from 'jsonwebtoken';
+
+import { dbConnect } from '@/utils/dbConnect';
+import { authMiddleware } from '@/middleware/auth';
+
+import Review from '@/models/Review';
 
 export async function DELETE(req: NextRequest) {
   const user = authMiddleware(req);

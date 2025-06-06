@@ -1,7 +1,9 @@
+import { NextResponse } from 'next/server';
+
 import { dbConnect } from '@/utils/dbConnect';
+
 import Review from '@/models/Review';
 import User from '@/models/User';
-import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
