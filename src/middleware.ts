@@ -4,34 +4,38 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const intlMiddleware = createMiddleware(routing);
 
-// Список шляхів, які потребують авторизації
+// Захищені маршрути (потрібен токен)
 const protectedRoutes = ['/account', '/calendar', '/statistics'];
 
-export default function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
+// Публічні маршрути (тільки для неавторизованих)
+const publicRoutes = ['/', '/login', '/register'];
 
-  // Перевіряємо чи шлях належить до захищених маршрутів
+export default function middleware(req: NextRequest) {
+  const { pathname, origin } = req.nextUrl;
+  const token = req.cookies.get('token');
+  const locale = pathname.split('/')[1]; // "uk" або "en"
+
   const isProtectedRoute = protectedRoutes.some(route =>
     new RegExp(`^/(uk|en)${route}(/.*)?$`).test(pathname),
   );
 
-  if (isProtectedRoute) {
-    // Перевіряємо наявність токена в куках
-    const token = req.cookies.get('token');
-
-    if (!token) {
-      // Якщо токена немає - редіректимо на сторінку логіна
-      const locale = pathname.split('/')[1]; // отримуємо поточну локаль (uk або en)
-      const loginUrl = new URL(`/${locale}/login`, req.url);
-      return NextResponse.redirect(loginUrl);
-    }
+  if (isProtectedRoute && !token) {
+    const loginUrl = new URL(`/${locale}/login`, req.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  // Якщо маршрут не захищений або токен є, продовжуємо обробку за допомогою next-intl middleware
+  const isPublicRoute = publicRoutes.some(route =>
+    new RegExp(`^/(uk|en)?${route === '/' ? '' : route}$`).test(pathname),
+  );
+
+  if (isPublicRoute && token) {
+    const calendarUrl = new URL(`/${locale}/calendar`, origin);
+    return NextResponse.redirect(calendarUrl);
+  }
+
   return intlMiddleware(req);
 }
 
-// Вказуємо шляхи, на які повинна діяти middleware
 export const config = {
   matcher: ['/', '/(uk|en)/:path*'],
 };

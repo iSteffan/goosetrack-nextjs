@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 import { logout } from '@/utils/getAuth';
 
@@ -11,6 +11,7 @@ import LogoutIcon from '@/public/icon/logout.svg';
 
 export const LogoutBtn = () => {
   const router = useRouter();
+  const locale = useLocale();
 
   const t = useTranslations('LogoutBtn');
 
@@ -22,7 +23,7 @@ export const LogoutBtn = () => {
     try {
       await logout();
       toast.success(t('logoutSuccess'));
-      router.push('/en');
+      router.push(`/${locale}`);
     } catch (error) {
       console.error('Error logging out:', error);
       toast.error(t('logoutError'));
