@@ -419,8 +419,8 @@ All protected routes share a unified layout:
 | [Next.js](https://nextjs.org/)                | [date-fns](https://www.npmjs.com/package/date-fns)                                   | [bcrypt](https://www.npmjs.com/package/bcrypt)                                |
 | [TypeScript](https://www.typescriptlang.org/) | [Tailwindcss](https://tailwindcss.com/)                                              | [cloudinary](https://cloudinary.com/documentation/solution_overview#security) |
 | [axios](https://www.npmjs.com/package/axios)  | [HeadlessUI](https://headlessui.com/)                                                | [mongoose](https://www.npmjs.com/package/mongoose)                            |
-|                                               | [Swiper](https://swiperjs.com/)                                                      | [next-auth](https://www.npmjs.com/package/next-auth)                          |
-|                                               | [next-intl](https://next-intl.dev/)                                                  | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)                    |
+|                                               | [Swiper](https://swiperjs.com/)                                                      | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)                    |
+|                                               | [next-intl](https://next-intl.dev/)                                                  |                                                                               |
 |                                               | [next-themes](https://www.npmjs.com/package/next-themes)                             |                                                                               |
 |                                               | [react-hook-form](https://react-hook-form.com/)                                      |
 |                                               | [resize-observer-polyfills](https://www.npmjs.com/package/resize-observer-polyfills) |
