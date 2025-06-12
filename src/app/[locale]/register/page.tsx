@@ -14,8 +14,8 @@ export default function Page() {
   const locale = pathname.split('/')[1];
 
   return (
-    <section className="min-h-screen bg-blueLight py-[155px]">
-      <div className="container">
+    <section className="relative flex min-h-screen items-center justify-center bg-blueLight">
+      <div className="container relative z-10 flex flex-col items-center">
         <AuthForm type="signUp" />
 
         <div className="mt-[18px] text-center md:mt-[24px]">
@@ -26,15 +26,15 @@ export default function Page() {
             {t('logInBtn')}
           </Link>
         </div>
+      </div>
 
-        <div className="absolute bottom-0 left-[49px] hidden xl:block">
-          <Image
-            src="/image/signUpGoose.png"
-            alt="goose"
-            width={400}
-            height={416}
-          />
-        </div>
+      <div className="absolute bottom-0 left-[49px] hidden xl:block">
+        <Image
+          src="/image/signUpGoose.png"
+          alt="goose"
+          width={400}
+          height={416}
+        />
       </div>
     </section>
   );
