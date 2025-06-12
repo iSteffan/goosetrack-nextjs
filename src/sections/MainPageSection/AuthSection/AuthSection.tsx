@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 
@@ -11,9 +13,9 @@ export const AuthSection = () => {
   const locale = useLocale();
 
   return (
-    <section className="bg-blueMain py-[256px]">
-      <div className="container">
-        <GooseIcon className="mx-auto h-[142px] w-[142px] pb-[2px]" />
+    <section className="flex min-h-screen items-center justify-center bg-blueMain">
+      <div className="container flex flex-col items-center">
+        <GooseIcon className="h-[142px] w-[142px] pb-[2px]" />
 
         <h1 className="mainPageTitle mb-[32px] md:mb-[40px]">
           <span className="italic">Goose</span>Track
